@@ -15,7 +15,7 @@ class MentorController extends Controller
     }
 
     public function myBookings(){
-        # mentor bookings
+        # mentor bookings bang
     }
 
     public function setAvailability(Request $request){
