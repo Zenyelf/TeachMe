@@ -187,7 +187,7 @@
 </div>
 </div>
 </div>
-<button class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2">
+<button onclick="window.location.href='/registerrole=Mentor'" class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2">
                             Apply to Mentor
                             <span class="material-symbols-outlined">arrow_forward</span>
 </button>
