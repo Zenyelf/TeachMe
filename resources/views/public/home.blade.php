@@ -187,7 +187,7 @@
 </div>
 </div>
 </div>
-<button onclick="window.location.href='/registerrole=Mentor'" class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2">
+<button onclick="window.location.href='/register?role=Mentor'" class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2">
                             Apply to Mentor
                             <span class="material-symbols-outlined">arrow_forward</span>
 </button>
@@ -205,7 +205,9 @@
 <h2 class="text-3xl lg:text-5xl font-black mb-6">Ready to expand your horizons?</h2>
 <p class="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">Join thousands of others on the world's most versatile learning platform. Whether you want to teach or learn, your journey starts here.</p>
 <div class="flex flex-col sm:flex-row justify-center gap-4">
-<button class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 transition-colors">Join as Student</button>
+<button onclick="window.location.href='{{ url('/register') }}'" class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 transition-colors">
+    Join as Student
+</button>
 <button class="bg-blue-600 text-white border border-blue-400/50 px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-700 transition-colors">Join as Mentor</button>
 </div>
 </div>
