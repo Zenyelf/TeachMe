@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class BookingController extends Controller
 {
     public function bookCourse($course_id){
-        # student books a course
+        # student books a course test
     }
 
     public function store(Request $request){
