@@ -129,7 +129,7 @@
 <div class="mt-8 text-center">
 <p class="text-slate-500 dark:text-slate-400 text-sm">
                                 Already have an account? 
-                                <a class="text-primary font-bold hover:underline ml-1" href="#">Log in</a>
+                                <a href="/login" class="text-primary font-bold hover:underline ml-1" href="#">Log in</a>
 </p>
 </div>
 </div>

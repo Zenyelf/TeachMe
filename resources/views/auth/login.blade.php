@@ -109,7 +109,7 @@
 
 <p class="mt-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
                         Don't have an account? 
-                        <a class="text-primary hover:underline" href="/registerTemp">Sign up for free</a>
+                        <a href="/register" class="text-primary hover:underline" >Sign up for free</a>
 </p>
 </div>
 <!-- Right Side: Decorative/Branding -->
