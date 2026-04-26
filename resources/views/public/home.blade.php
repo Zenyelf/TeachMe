@@ -37,10 +37,10 @@
 <h2 class="text-xl font-extrabold tracking-tight">TeachMe</h2>
 </div>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Mentors</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Pricing</a>
-<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Blog</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="{{ url('/courses') }}">Courses</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="{{ url('/register') }}">Mentors</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="{{ url('/pricing') }}">Pricing</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="{{ url('/blog') }}">Blog</a>
 </nav>
 <div class="flex flex-1 justify-end items-center gap-4">
 <div class="hidden lg:flex relative max-w-xs w-full">
@@ -112,21 +112,21 @@
 <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Unlock your potential with our easy-to-use platform designed for modern learners seeking mastery in any field.</p>
 </div>
 <div class="grid md:grid-cols-3 gap-8">
-<div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
+<div onclick="window.location.href='{{ url('/register') }}'" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
 <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
 <span class="material-symbols-outlined text-3xl">travel_explore</span>
 </div>
 <h4 class="text-xl font-bold mb-3">Discover</h4>
 <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Find thousands of courses tailored to your goals in academics, competitive sports, and traditional arts.</p>
 </div>
-<div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
+<div onclick="window.location.href='{{ url('/register') }}'" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
 <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
 <span class="material-symbols-outlined text-3xl">event_available</span>
 </div>
 <h4 class="text-xl font-bold mb-3">Book</h4>
 <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Instantly schedule sessions that fit your busy lifestyle. Manage all your learning in one integrated dashboard.</p>
 </div>
-<div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
+<div onclick="window.location.href='{{ url('/register') }}'" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 hover:border-primary/50 transition-all group">
 <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
 <span class="material-symbols-outlined text-3xl">model_training</span>
 </div>
@@ -205,10 +205,10 @@
 <h2 class="text-3xl lg:text-5xl font-black mb-6">Ready to expand your horizons?</h2>
 <p class="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">Join thousands of others on the world's most versatile learning platform. Whether you want to teach or learn, your journey starts here.</p>
 <div class="flex flex-col sm:flex-row justify-center gap-4">
-<button onclick="window.location.href='{{ url('/register') }}'" class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 transition-colors">
+<button onclick="window.location.href='/register?role=Stduent'" class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 transition-colors">
     Join as Student
 </button>
-<button class="bg-blue-600 text-white border border-blue-400/50 px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-700 transition-colors">Join as Mentor</button>
+<button onclick="window.location.href='/register?role=Mentor'" class="bg-blue-600 text-white border border-blue-400/50 px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-700 transition-colors">Join as Mentor</button>
 </div>
 </div>
 </div>
