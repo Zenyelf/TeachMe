@@ -18,6 +18,18 @@ Route::post('/login', [AuthController::class, 'login']);
 // Logout
 Route::get('/logout', [AuthController::class, 'logout']);
 
+// Home Buttons (Top)
+Route::get('/courses', function () {
+    return view('public.courses'); 
+});
+Route::get('/pricing', function () {
+    return view('public.pricing'); 
+});
+Route::get('/blog', function () {
+    return view('public.blog'); 
+});
+
+
 //GANTI
 Route::get('/student/dashboard', function () { 
     return view('student.dashboard');
