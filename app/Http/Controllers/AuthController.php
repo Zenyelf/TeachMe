@@ -115,4 +115,17 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
+    public function profile()
+{
+    $user = auth()->user();
+
+    // Matching the capital 'S' from your database
+    if ($user->role === 'Student') {
+        return view('student.profile'); 
+    } elseif ($user->role === 'Mentor') {
+        return view('mentor.profile'); 
+    }
+
+    return redirect('/')->with('error', 'Unauthorized access.');
+}
 }
