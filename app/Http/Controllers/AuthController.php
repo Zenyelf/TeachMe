@@ -18,6 +18,10 @@ class AuthController extends Controller
     #
     public function register(Request $request){ # create new user
          
+        if (strcmp($request->password, $request->password2) != 0) {
+            return back()->with('error', 'Passwords do not match!');
+        }
+
         if (strlen($request->password) < 6) {
             return back()->with('error', 'Password must be at least 6 characters');
         }
@@ -31,7 +35,7 @@ class AuthController extends Controller
         'email' => 'required|email|unique:users',
         'password' => 'required|min:6',
         'role' => 'required'
-    ]);
+        ]);
 
         $userId = $this->generateUserId($request->role);
 
@@ -45,8 +49,15 @@ class AuthController extends Controller
             'updated_at' => now()
         ]);
 
-        return redirect('/login')->with('success', 'Account created!');   #ganti kembali
+        Auth::loginUsingId($userId);
+
+        if ($request->role === 'Mentor') {
+            return redirect()->route('mentor.dashboard')->with('success', 'Welcome to the Mentor Dashboard!');
+        }
+
+        return redirect()->route('student.dashboard')->with('success', 'Welcome to the Student Dashboard!');
     }
+    
 
     #
     private function generateUserId($role){
