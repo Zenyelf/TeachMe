@@ -29,6 +29,29 @@ Route::get('/blog', function () {
     return view('public.blog'); 
 });
 
+// Student Dashboard Buttons
+Route::get('/my-course', function () {
+    return view('student.mycourse'); 
+});
+Route::get('/settings', function () {
+    return view('student.settings'); 
+});
+Route::get('/std-profile', function () {
+    return view('student.studentprofile'); 
+});
+Route::get('/std-settings', function () {
+    return view('student.settings'); 
+});
+
+// Feedback
+Route::get('/feedback', function () {
+    return view('feedback'); 
+});
+
+// Chat
+Route::get('/chat', function () {
+    return view('chat'); 
+});
 
 //GANTI
 Route::get('/student/dashboard', function () { 
