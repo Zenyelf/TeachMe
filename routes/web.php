@@ -32,9 +32,15 @@ Route::get('/blog', function () {
 
 //GANTI
 Route::get('/student/dashboard', function () { 
+    if (auth()->user()->role !== 'Student') {
+        return redirect('/')->with('error', 'Access denied.');
+    }
     return view('student.dashboard');
 })->name('student.dashboard')->middleware('auth');
 
 Route::get('/mentor/dashboard', function () { 
+    if (auth()->user()->role !== 'Mentor') {
+        return redirect('/')->with('error', 'Access denied.');
+    }
     return view('mentor.dashboard');
 })->name('mentor.dashboard')->middleware('auth');
