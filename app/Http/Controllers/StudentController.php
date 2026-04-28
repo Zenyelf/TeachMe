@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // <-- Added this import
 
 class StudentController extends Controller
 {
     public function dashboard(){
-        # student dashboard
+        return view('student.dashboard');
     }
 
     public function browseCourses(){
@@ -19,6 +20,8 @@ class StudentController extends Controller
     }
 
     public function profile(){
-        # student profile
-    }
+    $user = Auth::user();
+
+    return view('student.profile', compact('user'));
+}
 }

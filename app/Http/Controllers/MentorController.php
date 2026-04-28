@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class MentorController extends Controller
 {
     public function dashboard(){
-        # mentor dashboard
+        return view('mentor.dashboard');
     }
 
     public function myCourses(){
@@ -23,6 +23,22 @@ class MentorController extends Controller
     }
 
     public function profile(){
-        # mentor profile
+        return view('mentor.profile');
+    }
+
+    public function earnings(){
+        return view('mentor.earnings');
+    }
+
+    public function schedule(){
+        return view('mentor.schedule');
+    }
+
+    public function live(){
+        return view('mentor.live');
+    }
+
+    public function createCourse(){
+        return view('mentor.newcourse');
     }
 }

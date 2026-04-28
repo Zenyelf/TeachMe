@@ -348,7 +348,7 @@
 </div>
 </div>
 <div class="max-w-[1280px] mx-auto px-8 mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-gray-400 text-xs font-lexend">
-            © 2024 TeachMe Mastery. All rights reserved.
+            © 2024 TeachMe. All rights reserved.
         </div>
 </footer>
 </body></html>

@@ -410,7 +410,7 @@
 </div>
 </div>
 <div class="max-w-[1280px] mx-auto px-8 mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
-<p class="font-lexend text-sm text-gray-500 dark:text-gray-400">© 2024 TeachMe Mastery. All rights reserved.</p>
+<p class="font-lexend text-sm text-gray-500 dark:text-gray-400">© 2024 TeachMe. All rights reserved.</p>
 </div>
 </footer>
 </body></html>
