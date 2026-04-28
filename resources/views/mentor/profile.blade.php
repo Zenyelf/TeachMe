@@ -3,7 +3,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>EduFlex - Mentor Profile Settings</title>
+<title>TeachMe - Mentor Profile Settings</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -43,7 +43,7 @@
 <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
 <span class="material-symbols-outlined text-primary">school</span>
 </div>
-<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">EduFlex</h2>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">TeachMe</h2>
 </div>
 <div class="flex flex-1 justify-end gap-6 items-center">
 <nav class="hidden md:flex items-center gap-8">
@@ -262,9 +262,9 @@
 <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
 <div class="flex items-center gap-2 opacity-60">
 <span class="material-symbols-outlined text-primary">school</span>
-<span class="font-bold">EduFlex Mentor Network</span>
+<span class="font-bold">TeachMe Mentor Network</span>
 </div>
-<p class="text-sm text-slate-500">© 2024 EduFlex Technologies Inc. All rights reserved.</p>
+<p class="text-sm text-slate-500">© 2024 TeachMe Technologies Inc. All rights reserved.</p>
 <div class="flex gap-6">
 <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
 <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="#">Help Center</a>
