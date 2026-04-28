@@ -61,3 +61,11 @@ Route::get('/chat', function () {
 Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('auth');
 
 Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard')->middleware('auth');
+
+/////////////////////////////////////////////////////
+use App\Http\Controllers\CourseController;
+
+// Grouping them for clarity
+Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
+Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');

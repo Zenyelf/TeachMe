@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
     public function index(){
         # show all courses
+        // 1. Fetch all courses from the database
+        $courses = \App\Models\Course::all();
+
+        // 2. Pass them to a view
+        return view('courses.index', compact('courses'));
     }
 
     public function show($id){
@@ -16,11 +21,41 @@ class CourseController extends Controller
 
     public function create(){
         # show create course page
+        return view('courses.create');
     }
 
     public function store(Request $request){
-        # save course to database
-    }
+               
+        // Check if the logged-in user is actually a Mentor
+        if (auth()->user()->role !== 'Mentor') {
+            return redirect()->route('courses.index')->with('error', 'Only mentors can create courses!');
+        }
+
+        // 1. Validate the input
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        // 2. Generate a unique ID (Consistent with your Auth style)
+        $courseId = 'C' . date('Ymd') . rand(10, 99); 
+
+        // 3. Use INSERT instead of CREATE
+        DB::table('courses')->insert([
+            'id' => $courseId,
+            'mentor_id' => auth()->id(), // Gets the logged-in Mentor's ID (e.g., M202601)
+            'category_id' => '1',        // Hardcoded for now
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'created_at' => now(),       // Manual timestamp required for insert
+            'updated_at' => now(),       // Manual timestamp required for insert
+        ]);
+
+        // 4. Redirect
+        return redirect()->route('courses.index')->with('success', 'Course added successfully!');
+}
 
     public function edit($id){
         # show edit course page

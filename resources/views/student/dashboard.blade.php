@@ -71,7 +71,7 @@
 <a href="{{ route('student.profile') }}" class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
 <div class="size-10 rounded-full bg-primary/20 bg-center bg-cover" data-alt="Student profile picture smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4PkJXvnSo_C7vJEdHtGkhFOnOF-GbqweQO6v5fUbJgGMsGbUlJpJ8-2FJj2PZKnsUt-GPo9SFiwCmdBEwl836qeG8eKT-wVCKcs2_Ca7UvV6FgPF844iAdeOVgPt0bfDf4qzXv1u-8Yd8pMBvDQ8-k8dxqOap7e9AXp_ESrC-di22zGQ7DWhVrddLV2ittYJ7Lbcpux4ZIj8U34pLZ9g7Vxz9-Yy5CU7LdcjJdM2AplYsZSoE7ZFEZfBduH1wW25vA_5oQLCIc2A')"></div>
 <div class="overflow-hidden">
-    <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
+    <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p> //cpna hapus ini semua
     <p class="text-xs text-slate-500 truncate">{{ Auth::user()->role }}</p>
 </div>
 </a>
