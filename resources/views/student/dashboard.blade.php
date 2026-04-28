@@ -46,35 +46,35 @@
 <h1 class="text-xl font-bold tracking-tight text-primary">TeachMe</h1>
 </div>
 <nav class="flex-1 px-4 space-y-2 py-4">
-<a href="{{ url('/stduent/dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-medium" href="#">
+<a href="{{ route('student.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-medium">
 <span class="material-symbols-outlined">dashboard</span>
                     Dashboard
                 </a>
-<a href="{{ url('/chat') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/chat') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">chat</span>
                     Chat
                 </a>
-<a href="{{ url('/std-profile') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+ <a href="{{ route('student.profile') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">person</span>
                     Profile
                 </a>
-<a href="{{ url('/feedback') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/feedback') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">feedback</span>
                     Feedbacks
                 </a>
-<a href="{{ url('/settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">settings</span>
                     Settings
                 </a>
 </nav>
 <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-<div class="flex items-center gap-3 p-2">
+<a href="{{ route('student.profile') }}" class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
 <div class="size-10 rounded-full bg-primary/20 bg-center bg-cover" data-alt="Student profile picture smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4PkJXvnSo_C7vJEdHtGkhFOnOF-GbqweQO6v5fUbJgGMsGbUlJpJ8-2FJj2PZKnsUt-GPo9SFiwCmdBEwl836qeG8eKT-wVCKcs2_Ca7UvV6FgPF844iAdeOVgPt0bfDf4qzXv1u-8Yd8pMBvDQ8-k8dxqOap7e9AXp_ESrC-di22zGQ7DWhVrddLV2ittYJ7Lbcpux4ZIj8U34pLZ9g7Vxz9-Yy5CU7LdcjJdM2AplYsZSoE7ZFEZfBduH1wW25vA_5oQLCIc2A')"></div>
 <div class="overflow-hidden">
 <p class="text-sm font-semibold truncate">Alex Johnson</p>
 <p class="text-xs text-slate-500 truncate">Premium Member</p>
 </div>
-</div>
+</a>
 </div>
 </aside>
 <!-- Main Content -->

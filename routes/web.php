@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\MentorController;
 
 Route::get('/', function () {
     return view('public.home'); #nama page
@@ -33,14 +35,27 @@ Route::get('/blog', function () {
 Route::get('/my-course', function () {
     return view('student.mycourse'); 
 });
+Route::get('/student/profile', [StudentController::class, 'profile'])
+    ->name('student.profile')
+    ->middleware('auth');
+Route::get('/mentor/profile', [MentorController::class, 'profile'])
+    ->name('mentor.profile')
+    ->middleware('auth');
+Route::get('/mentor/earnings', [MentorController::class, 'earnings'])
+    ->name('mentor.earnings')
+    ->middleware('auth');
+Route::get('/mentor/schedule', [MentorController::class, 'schedule'])
+    ->name('mentor.schedule')
+    ->middleware('auth');
+Route::get('/mentor/live', [MentorController::class, 'live'])
+    ->name('mentor.live')
+    ->middleware('auth');
+Route::get('/mentor/create-course', [MentorController::class, 'createCourse'])
+    ->name('mentor.newcourse')
+    ->middleware('auth');
+
 Route::get('/settings', function () {
-    return view('student.settings'); 
-});
-Route::get('/std-profile', function () {
-    return view('student.studentprofile'); 
-});
-Route::get('/std-settings', function () {
-    return view('student.settings'); 
+    return view('settings'); 
 });
 
 // Feedback
@@ -53,11 +68,8 @@ Route::get('/chat', function () {
     return view('chat'); 
 });
 
-//GANTI
-Route::get('/student/dashboard', function () { 
-    return view('student.dashboard');
-})->name('student.dashboard')->middleware('auth');
 
-Route::get('/mentor/dashboard', function () { 
-    return view('mentor.dashboard');
-})->name('mentor.dashboard')->middleware('auth');
+//GANTI
+Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('auth');
+
+Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard')->middleware('auth');

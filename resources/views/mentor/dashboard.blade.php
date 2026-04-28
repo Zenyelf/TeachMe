@@ -43,26 +43,26 @@
 <h2 class="text-xl font-bold tracking-tight text-primary">TeachMe</h2>
 </div>
 <nav class="flex-1 px-4 space-y-2 mt-4">
-<div class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-medium">
+<a href="{{ route('mentor.dashboard') }}" class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-medium">
 <span class="material-symbols-outlined">dashboard</span>
 <span>Dashboard</span>
-</div>
-<div class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors">
+</a>
+<a href="{{ url('/chat') }}" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
 <span class="material-symbols-outlined">chat_bubble</span>
 <span>Chat</span>
-</div>
-<div class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors">
+</a>
+<a href="{{ route('mentor.profile') }}" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
 <span class="material-symbols-outlined">person</span>
 <span>Profile</span>
-</div>
-<div class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors">
+</a>
+<a href="{{ route('mentor.earnings') }}" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
 <span class="material-symbols-outlined">payments</span>
 <span>Earnings</span>
-</div>
-<div class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium transition-colors">
+</a>
+<a href="{{ route('mentor.schedule') }}" class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
 <span class="material-symbols-outlined">calendar_month</span>
 <span>Schedule</span>
-</div>
+</a>
 </nav>
 <div class="p-4 mt-auto">
 <div class="bg-primary/5 rounded-2xl p-4 border border-primary/10">
@@ -78,7 +78,7 @@
 </div>
 </div>
 </div>
-<button class="w-full py-2 text-xs font-bold text-slate-500 hover:text-primary transition-colors">Logout</button>
+<a href="{{ url('/logout') }}" class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary transition-colors">Logout</a>
 </div>
 </div>
 </aside>
@@ -95,10 +95,10 @@
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
 <input class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none w-64" placeholder="Search students, courses..." type="text"/>
 </div>
-<button class="accent-gradient text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+<a href="{{ route('mentor.newcourse') }}" class="accent-gradient text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
 <span class="material-symbols-outlined">add</span>
                         Create New Course
-                    </button>
+                    </a>
 </div>
 </header>
 <!-- Stats Grid -->
@@ -190,7 +190,7 @@
 <p class="font-bold text-slate-900">Q&amp;A Session: React Performance</p>
 <p class="text-xs text-slate-500">Starts in 45 minutes • 120 enrolled</p>
 </div>
-<button class="px-4 py-2 border-2 border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-colors">Join Class</button>
+<a href="{{ route('mentor.live') }}" class="px-4 py-2 border-2 border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-colors">Join Class</a>
 </div>
 <div class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer">
 <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-400 flex flex-col items-center justify-center font-bold">
