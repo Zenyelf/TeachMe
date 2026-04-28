@@ -46,35 +46,35 @@
 <h1 class="text-xl font-bold tracking-tight text-primary">TeachMe</h1>
 </div>
 <nav class="flex-1 px-4 space-y-2 py-4">
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-medium" href="#">
+<a href="{{ route('student.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-medium">
 <span class="material-symbols-outlined">dashboard</span>
                     Dashboard
                 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/chat') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">chat</span>
                     Chat
                 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="{{ route('profile') }}">
+ <a href="{{ route('student.profile') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">person</span>
                     Profile
                 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/feedback') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">feedback</span>
                     Feedbacks
                 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a href="{{ url('/settings') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined">settings</span>
                     Settings
                 </a>
 </nav>
 <div class="p-4 border-t border-slate-200 dark:border-slate-800">
-<div class="flex items-center gap-3 p-2">
+<a href="{{ route('student.profile') }}" class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
 <div class="size-10 rounded-full bg-primary/20 bg-center bg-cover" data-alt="Student profile picture smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4PkJXvnSo_C7vJEdHtGkhFOnOF-GbqweQO6v5fUbJgGMsGbUlJpJ8-2FJj2PZKnsUt-GPo9SFiwCmdBEwl836qeG8eKT-wVCKcs2_Ca7UvV6FgPF844iAdeOVgPt0bfDf4qzXv1u-8Yd8pMBvDQ8-k8dxqOap7e9AXp_ESrC-di22zGQ7DWhVrddLV2ittYJ7Lbcpux4ZIj8U34pLZ9g7Vxz9-Yy5CU7LdcjJdM2AplYsZSoE7ZFEZfBduH1wW25vA_5oQLCIc2A')"></div>
 <div class="overflow-hidden">
     <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
     <p class="text-xs text-slate-500 truncate">{{ Auth::user()->role }}</p>
 </div>
-</div>
+</a>
 </div>
 </aside>
 <!-- Main Content -->
@@ -91,7 +91,7 @@
 <span class="material-symbols-outlined">notifications</span>
 <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></span>
 </button>
-<button class="bg-primary text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+<button onclick="window.location.href='/courses'" class="bg-primary text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
 <span class="material-symbols-outlined text-[20px]">add</span>
                             Explore More
                         </button>
@@ -120,7 +120,7 @@
 <div class="relative z-10 max-w-lg">
 <h2 class="text-3xl font-bold mb-2">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}!</h2>
 <p class="text-blue-50/80 mb-6">You've completed 75% of your Weekly Calculus goal. Keep up the great work!</p>
-<button class="bg-white text-primary px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 transition-colors">Resume Lesson</button>
+<button onclick="window.location.href='/my-course'" class="bg-white text-primary px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 transition-colors">Resume Lesson</button>
 </div>
 <!-- Abstract Background Pattern -->
 <div class="absolute right-0 top-0 h-full w-1/3 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
@@ -130,7 +130,7 @@
 <section class="mb-12">
 <div class="flex items-center justify-between mb-6">
 <h3 class="text-xl font-bold">My Enrolled Courses</h3>
-<a class="text-primary font-semibold text-sm hover:underline" href="#">View All</a>
+<a href="{{ url('/my-course') }}" class="text-primary font-semibold text-sm hover:underline" href="#">View All</a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 <!-- Course Card 1 -->

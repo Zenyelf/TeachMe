@@ -318,7 +318,7 @@
 </div>
 </div>
 <div class="md:col-span-4 border-t border-gray-200 dark:border-gray-800 pt-12 flex justify-between items-center">
-<span class="font-lexend text-sm text-gray-500 dark:text-gray-400">© 2024 TeachMe Mastery. All rights reserved.</span>
+<span class="font-lexend text-sm text-gray-500 dark:text-gray-400">© 2024 TeachMe. All rights reserved.</span>
 <div class="flex gap-6">
 <span class="material-symbols-outlined text-gray-400 cursor-pointer hover:text-primary transition-colors">public</span>
 <span class="material-symbols-outlined text-gray-400 cursor-pointer hover:text-primary transition-colors">rss_feed</span>

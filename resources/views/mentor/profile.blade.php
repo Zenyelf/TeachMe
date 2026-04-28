@@ -77,11 +77,11 @@
 <span class="material-symbols-outlined text-[20px]">person</span>
 <span class="text-sm">Profile Settings</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="{{ route('mentor.schedule') }}">
 <span class="material-symbols-outlined text-[20px]">calendar_today</span>
 <span class="text-sm">Availability</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="{{ route('mentor.earnings') }}">
 <span class="material-symbols-outlined text-[20px]">payments</span>
 <span class="text-sm">Payouts</span>
 </a>

@@ -1,202 +1,370 @@
 <!DOCTYPE html>
 
-<html lang="en"><head>
+<html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TeachMe - Student Profile</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#135bec",
-                        "background-light": "#f6f6f8",
-                        "background-dark": "#101622",
-                    },
-                    fontFamily: {
-                        "display": ["Lexend"]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#c1c6d7",
+                      "tertiary": "#902e00",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#ededf9",
+                      "error-container": "#ffdad6",
+                      "on-primary-container": "#e2e6ff",
+                      "background": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#191b24",
+                      "on-tertiary-fixed-variant": "#812800",
+                      "tertiary-fixed-dim": "#ffb59b",
+                      "surface-container-low": "#f3f3ff",
+                      "secondary-container": "#dde2f4",
+                      "surface-container-highest": "#e1e1ee",
+                      "on-tertiary-fixed": "#380d00",
+                      "on-primary-fixed": "#00174c",
+                      "surface-container-high": "#e7e7f3",
+                      "outline": "#737687",
+                      "secondary-fixed": "#dde2f4",
+                      "on-tertiary-container": "#ffe1d7",
+                      "secondary": "#585e6d",
+                      "surface-variant": "#e1e1ee",
+                      "on-error-container": "#93000a",
+                      "tertiary-container": "#b93d00",
+                      "inverse-on-surface": "#f0f0fc",
+                      "primary-fixed": "#dbe1ff",
+                      "surface-tint": "#0052de",
+                      "primary-container": "#135bec",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#d9d9e5",
+                      "surface": "#faf8ff",
+                      "on-secondary-fixed-variant": "#414755",
+                      "outline-variant": "#c3c5d8",
+                      "on-secondary-fixed": "#161c28",
+                      "tertiary-fixed": "#ffdbcf",
+                      "primary": "#0045bd",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#faf8ff",
+                      "on-primary-fixed-variant": "#003daa",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-secondary-container": "#5e6473",
+                      "on-surface-variant": "#434655",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2e3039",
+                      "on-background": "#191b24",
+                      "inverse-primary": "#b4c5ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "80rem",
+                      "section-padding-y": "6rem",
+                      "stack-gap-sm": "0.5rem",
+                      "gutter": "2rem",
+                      "stack-gap-md": "1rem",
+                      "stack-gap-lg": "2rem"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Lexend"
+                      ],
+                      "headline-lg": [
+                              "Lexend"
+                      ],
+                      "display": [
+                              "Lexend"
+                      ],
+                      "caption-xs": [
+                              "Lexend"
+                      ],
+                      "label-bold": [
+                              "Lexend"
+                      ],
+                      "headline-xl": [
+                              "Lexend"
+                      ],
+                      "body-md": [
+                              "Lexend"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "1.125rem",
+                              {
+                                      "lineHeight": "1.75",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "1.875rem",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display": [
+                              "4.5rem",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "caption-xs": [
+                              "0.75rem",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "0.875rem",
+                              {
+                                      "lineHeight": "1.25",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-xl": [
+                              "3rem",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "body-md": [
+                              "1rem",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
             },
+          }
         }
     </script>
-<title>TeachMe - Profile Settings</title>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
-<div class="relative flex min-h-screen flex-col overflow-x-hidden">
-<div class="layout-container flex h-full grow flex-col">
-<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
-<div class="flex items-center gap-3 text-primary">
-<div class="size-8">
-<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill-rule="evenodd"></path>
-</svg>
+<body class="bg-background font-body-md text-on-background antialiased pt-20">
+<!-- TopNavBar -->
+<nav class="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md text-blue-600 dark:text-blue-400 font-['Lexend'] antialiased docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm fixed top-0 w-full flex justify-between items-center px-8 h-20 max-w-[1280px] mx-auto left-0 right-0">
+<div class="text-2xl font-black tracking-tight text-blue-600 dark:text-blue-500">
+            TeachMe
+        </div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 active:scale-95 duration-150" href="#">Dasbhoard</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 active:scale-95 duration-150" href="#">Courses</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 active:scale-95 duration-150" href="#">Mentors</a>
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 active:scale-95 duration-150" href="#">Settings</a>
+<!-- User is viewing a profile, so active state logic is suppressed for generic tabs. Profile itself isn't a top level nav item here, but acts as intent. We leave all inactive as requested in semantic rules when viewing a specific profile entity not in the main nav. -->
 </div>
-<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">TeachMe</h2>
-</div>
-<div class="flex flex-1 justify-end gap-6 items-center">
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
-<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Settings</a>
-</nav>
 <div class="flex items-center gap-4">
-<button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
+<button aria-label="notifications" class="text-slate-600 hover:text-blue-700 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
 </button>
-<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="User avatar placeholder circular image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBohjFi6K-498FIfv35vMz1T_cl2VrP3QZuH8m96YLmvvvkB1BSv6QCjVI7ijpDrJHxF4T7SQBk3XiYkc2sZNpZeyGW_xKxqqD6F7V4-DvC9IGRJmXZQsDTvmNGuElsC0AjHhqjfFDUlN3p5Jf4w6aoya7QyHHnDIKfhEFgb9nysYPKJfxLqrmoSqmMtuYinFBCxNu4VHhlzJdrbG-sn4nw3H4sVdDD8woPT800cD8WHFkWyuPPI5faXkAPLZBG9rSZhHWVpf6MCY8");'>
+<button aria-label="chat" class="text-slate-600 hover:text-blue-700 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden ml-2 cursor-pointer border-2 border-transparent hover:border-blue-600 transition-colors">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="professional portrait of young man in corporate environment with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7NgHMvPdI7uRokTsSGyzi-RFA2PrVdvK5u7j5cqlzPGX7r4QmjqnKOlaaoxU9FXt8TZMy5643o1akHh1IIPl2zO3zPPEfO43k0sUj4OPiTlZ3rSHG86_ltsIZKT3gK9HiAW2EmV_oF8aPg0i_eyy8sVfpfR81RoX1ix8wfcKMFSlZCoXG69fD4jISonwN6QsE76ntQZgdUxpXrBAhySfR4uRefxexfC2_bUVqWmOK3LSov15XWlFwZC21yXN5Gr-ElKxubVvH9uk"/>
 </div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="max-w-[1280px] mx-auto px-8 py-section-padding-y">
+<!-- Header / Identity Section -->
+<header class="flex flex-col md:flex-row items-start gap-gutter mb-16">
+<div class="w-40 h-40 rounded-full border-4 border-white shadow-xl bg-surface-container overflow-hidden shrink-0 relative">
+<img alt="Alex Johnson Profile" class="w-full h-full object-cover" data-alt="high quality portrait of a young male professional student looking confident with a slight smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEOG75YsguKsOPeC7qvcLR8pteUEH7Npe3KouHDh5t6ZwsBNS09WdNv02bIyMU2_QrR3O1RTGv1nyp3mnB820UgGSPbUmIZsD1NCb82PukCTm1qOvFWswl0SoIPYEMmyh_eR4HzDzgjMuQxszTANKSbcm31CW1GElk7csAq6T0szLZOSwE8UbxbYjSogPKADNktGworMhFvp5SiXBdu_W1gMpoDvAyrAYCuPqZqQYYGR7vMPJ5VgbE9PVfdBOJEoQNbYv3rlM6Vqk"/>
+</div>
+<div class="flex flex-col justify-center flex-grow pt-4">
+<div class="flex items-center gap-3 mb-2">
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Alex Johnson</h1>
+<div class="flex items-center gap-1 bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full font-label-bold text-label-bold">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        Verified Student
+                    </div>
+</div>
+<p class="font-body-lg text-body-lg text-secondary mb-6 max-w-2xl">
+                    Passionate about secure systems and clean user interfaces. Currently pursuing a specialization in ethical hacking while building responsive web applications.
+                </p>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary font-label-bold text-label-bold px-6 py-3 rounded-lg shadow-lg shadow-primary/20 hover:scale-105 transition-transform duration-200">
+                        Connect
+                    </button>
+<button class="bg-surface-container text-on-surface font-label-bold text-label-bold px-6 py-3 rounded-lg border border-outline-variant hover:bg-surface-container-high transition-colors duration-200">
+                        Message
+                    </button>
 </div>
 </div>
 </header>
-<main class="flex-1 flex justify-center py-8 px-4 md:px-10">
-<div class="max-w-[1000px] w-full space-y-8">
-<div class="flex flex-col gap-2">
-<h1 class="text-3xl font-bold text-slate-900 dark:text-white">Profile Settings</h1>
-<p class="text-slate-500 dark:text-slate-400">Manage your educational journey and account preferences.</p>
+<!-- Grid Layout for Dashboard -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Overview & Current Focus -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Learning Overview -->
+<section class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-stack-gap-md">Learning Overview</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-surface p-6 rounded-lg border border-surface-variant flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="school">school</span>
+<span class="font-display text-[2.5rem] leading-none text-on-surface mb-1">14</span>
+<span class="font-label-bold text-label-bold text-secondary">Courses Completed</span>
 </div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-<div class="lg:col-span-1 space-y-6">
-<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
-<div class="relative group">
-<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg" data-alt="Large profile picture for profile editing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhvODpTPPupe-CCw38b9oFP8uNl2Bw10FuYR0KfGX_abMHr2iciN4PstMuzcfMU13zl3EVMgUZXeHgBgHeGXqdgPqinlQf1Gh6Z4967d-vw2vmcJVKkRQTqCi_4pbJ6mxpZXmFDKXp5NFwMbNGvtwjh_T_z2m26g4jWz6jti12okAiLzKqdTnA6BUph5wKjFQhKe2RKMs6IuZrReKFjxuYO16yOcGsmL-En593ZCxltRSOqBsvw8a1uEh3V9eeGUDzbhMi3xt2Y70");'>
+<!-- Stat Card 2 -->
+<div class="bg-surface p-6 rounded-lg border border-surface-variant flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="workspace_premium">workspace_premium</span>
+<span class="font-display text-[2.5rem] leading-none text-on-surface mb-1">6</span>
+<span class="font-label-bold text-label-bold text-secondary">Certificates Earned</span>
 </div>
-<button class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors">
-<span class="material-symbols-outlined text-sm">photo_camera</span>
-</button>
-</div>
-<div class="mt-4 text-center">
-<h3 class="text-lg font-bold">Alex Johnson</h3>
-<p class="text-slate-500 text-sm">Student ID: #EF-2024-883</p>
-</div>
-<button class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
-                                    Upload New Photo
-                                </button>
-<p class="text-[10px] text-slate-400 mt-3 text-center">JPG, GIF or PNG. Max size 2MB.</p>
-</div>
-<div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 space-y-4">
-<h3 class="font-bold text-lg">Notification Preferences</h3>
-<div class="space-y-3">
-<label class="flex items-center justify-between cursor-pointer">
-<span class="text-sm">Course Updates</span>
-<input checked="" class="w-10 h-5 rounded-full appearance-none bg-slate-300 checked:bg-primary relative transition-all before:content-[''] before:absolute before:w-4 before:h-4 before:bg-white before:rounded-full before:top-0.5 before:left-0.5 checked:before:left-5 before:transition-all" type="checkbox"/>
-</label>
-<label class="flex items-center justify-between cursor-pointer">
-<span class="text-sm">New Announcements</span>
-<input checked="" class="w-10 h-5 rounded-full appearance-none bg-slate-300 checked:bg-primary relative transition-all before:content-[''] before:absolute before:w-4 before:h-4 before:bg-white before:rounded-full before:top-0.5 before:left-0.5 checked:before:left-5 before:transition-all" type="checkbox"/>
-</label>
-<label class="flex items-center justify-between cursor-pointer">
-<span class="text-sm">Email Digest</span>
-<input class="w-10 h-5 rounded-full appearance-none bg-slate-300 checked:bg-primary relative transition-all before:content-[''] before:absolute before:w-4 before:h-4 before:bg-white before:rounded-full before:top-0.5 before:left-0.5 checked:before:left-5 before:transition-all" type="checkbox"/>
-</label>
+<!-- Stat Card 3 -->
+<div class="bg-surface p-6 rounded-lg border border-surface-variant flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" data-icon="schedule">schedule</span>
+<span class="font-display text-[2.5rem] leading-none text-on-surface mb-1">284</span>
+<span class="font-label-bold text-label-bold text-secondary">Learning Hours</span>
 </div>
 </div>
+</section>
+<!-- Current Focus -->
+<section class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300">
+<div class="flex justify-between items-center mb-stack-gap-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Current Focus</h2>
+<button class="text-primary font-label-bold text-label-bold hover:underline">View All</button>
 </div>
-<div class="lg:col-span-2 space-y-6">
-<div class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">person</span> Personal Information
-                                </h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="flex flex-col gap-2">
-<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="text" value="Alex Johnson"/>
+<div class="flex flex-col gap-4">
+<!-- Course 1 -->
+<div class="flex items-center gap-6 p-4 rounded-lg bg-surface-container-low border border-transparent hover:border-outline-variant transition-colors group">
+<div class="w-16 h-16 rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" data-icon="security">security</span>
 </div>
-<div class="flex flex-col gap-2">
-<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="email" value="alex.j@teachme.edu"/>
-</div>
-<div class="flex flex-col gap-2 md:col-span-2">
-<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Current Studies / Major</label>
-<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
-<option>Computer Science</option>
-<option>Data Science</option>
-<option>UX Design</option>
-<option>Business Administration</option>
-</select>
+<div class="flex-grow">
+<h3 class="font-label-bold text-[1.125rem] text-on-surface group-hover:text-primary transition-colors">Cyber Security Fundamentals</h3>
+<p class="font-body-md text-body-md text-secondary">Module 4: Network Protocols</p>
+<div class="w-full bg-surface-variant h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
 </div>
 </div>
+<div class="font-label-bold text-label-bold text-primary shrink-0">
+                                65%
+                            </div>
 </div>
-<div class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">auto_stories</span> Learning Preferences
-                                </h3>
-<div class="space-y-6">
-<div>
-<p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Preferred Learning Mode</p>
-<div class="flex flex-wrap gap-4">
-<label class="flex items-center gap-2 cursor-pointer group">
-<input checked="" class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
-<span class="text-sm group-hover:text-primary">Fully Online</span>
-</label>
-<label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
-<span class="text-sm group-hover:text-primary">Hybrid / Blended</span>
-</label>
-<label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
-<span class="text-sm group-hover:text-primary">In-person</span>
-</label>
+<!-- Course 2 -->
+<div class="flex items-center gap-6 p-4 rounded-lg bg-surface-container-low border border-transparent hover:border-outline-variant transition-colors group">
+<div class="w-16 h-16 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" data-icon="code">code</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-bold text-[1.125rem] text-on-surface group-hover:text-primary transition-colors">Advanced React Patterns</h3>
+<p class="font-body-md text-body-md text-secondary">Module 2: Custom Hooks</p>
+<div class="w-full bg-surface-variant h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 32%;"></div>
 </div>
 </div>
-<div>
-<p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Topics of Interest</p>
+<div class="font-label-bold text-label-bold text-primary shrink-0">
+                                32%
+                            </div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Skills & Achievements -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Skills/Interests -->
+<section class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300">
+<h2 class="font-headline-lg text-[1.5rem] text-on-surface mb-stack-gap-md">Interests &amp; Skills</h2>
 <div class="flex flex-wrap gap-2">
-<span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Artificial Intelligence <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-<span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Web Development <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-<span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Cloud Computing <span class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-<button class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-medium hover:bg-primary/5 transition-all flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">add</span> Add Topic
-                                            </button>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">UI/UX Design</span>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">Ethical Hacking</span>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">Public Speaking</span>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">Frontend Dev</span>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">Python</span>
+<span class="bg-surface-container text-on-surface-variant px-4 py-2 rounded-full font-label-bold text-label-bold border border-outline-variant/50 hover:bg-surface-container-high transition-colors cursor-default">System Admin</span>
+</div>
+</section>
+<!-- Achievements Gallery -->
+<section class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-shadow duration-300 flex-grow">
+<h2 class="font-headline-lg text-[1.5rem] text-on-surface mb-stack-gap-md">Badges</h2>
+<div class="grid grid-cols-3 gap-4">
+<!-- Badge 1 -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-200 to-amber-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200 border-2 border-white">
+<span class="material-symbols-outlined text-amber-900" data-icon="local_fire_department">local_fire_department</span>
+</div>
+<span class="font-caption-xs text-caption-xs text-center text-secondary">30 Day Streak</span>
+</div>
+<!-- Badge 2 -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-gradient-to-tr from-emerald-200 to-emerald-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200 border-2 border-white">
+<span class="material-symbols-outlined text-emerald-900" data-icon="psychology">psychology</span>
+</div>
+<span class="font-caption-xs text-caption-xs text-center text-secondary">Top Learner</span>
+</div>
+<!-- Badge 3 -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-200 to-purple-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200 border-2 border-white">
+<span class="material-symbols-outlined text-purple-900" data-icon="forum">forum</span>
+</div>
+<span class="font-caption-xs text-caption-xs text-center text-secondary">Mentor</span>
+</div>
+<!-- Badge 4 -->
+<div class="flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-200 to-blue-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200 border-2 border-white">
+<span class="material-symbols-outlined text-blue-900" data-icon="bug_report">bug_report</span>
+</div>
+<span class="font-caption-xs text-caption-xs text-center text-secondary">Bug Hunter</span>
+</div>
+<!-- Empty Slot -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest border-2 border-dashed border-outline-variant flex items-center justify-center opacity-50">
+<span class="material-symbols-outlined text-outline" data-icon="lock">lock</span>
 </div>
 </div>
 </div>
-</div>
-<div class="bg-white dark:bg-slate-900 rounded-xl p-8 shadow-sm border border-slate-100 dark:border-slate-800">
-<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">lock</span> Security
-                                </h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="flex flex-col gap-2">
-<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">New Password</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" placeholder="••••••••" type="password"/>
-</div>
-<div class="flex flex-col gap-2">
-<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Confirm Password</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" placeholder="••••••••" type="password"/>
-</div>
-</div>
-<div class="mt-6 flex justify-end gap-3">
-<button class="px-6 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 transition-colors">Cancel</button>
-<button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 shadow-md shadow-primary/20 transition-all">Save Changes</button>
-</div>
-</div>
-</div>
+</section>
 </div>
 </div>
 </main>
-<footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-6 px-10">
-<div class="flex flex-col md:flex-row items-center justify-between gap-4 max-w-[1000px] mx-auto">
-<div class="flex items-center gap-2 text-primary opacity-60">
-<div class="size-6">
-<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill-rule="evenodd"></path>
-</svg>
-</div>
-<span class="text-sm font-bold">TeachMe © 2024</span>
-</div>
-<div class="flex gap-6">
-<a class="text-xs text-slate-500 hover:text-primary" href="#">Help Center</a>
-<a class="text-xs text-slate-500 hover:text-primary" href="#">Privacy Policy</a>
-<a class="text-xs text-slate-500 hover:text-primary" href="#">Terms of Service</a>
-</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-['Lexend'] text-sm full-width bottom-0 border-t border-slate-200 dark:border-slate-800 flat no shadows w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-6 max-w-[1280px] mx-auto mt-20">
+<div class="font-bold text-blue-600">
+            © 2024 TeachMe. Accelerating Academic Potential.
+        </div>
+<div class="flex flex-wrap gap-6 justify-center">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 underline underline-offset-4 transition-all duration-200" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 underline underline-offset-4 transition-all duration-200" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 underline underline-offset-4 transition-all duration-200" href="#">Help Center</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 underline underline-offset-4 transition-all duration-200" href="#">Contact Support</a>
 </div>
 </footer>
-</div>
-</div>
 </body></html>

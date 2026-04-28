@@ -22,19 +22,12 @@ class AuthController extends Controller
             return back()->with('error', 'Passwords do not match!');
         }
 
-        if (strlen($request->password) < 6) {
-            return back()->with('error', 'Password must be at least 6 characters');
-        }
-
-        if (User::where('email', $request->email)->exists()) {
-            return back()->with('error', 'Email already exists');
-        }
-
         $request->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users',
-        'password' => 'required|min:6',
-        'role' => 'required'
+        'password' => 'required|min:6|same:password2',
+        'password2' => 'required',
+        'role' => 'required|in:Student,Mentor'
         ]);
 
         $userId = $this->generateUserId($request->role);
@@ -88,8 +81,11 @@ class AuthController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-
+        //dd(Auth::check(), Auth::user()); 
         // get the logged-in user
+        
+        $request->session()->regenerate();
+
         $user = Auth::user();
 
         // redirect based on role
