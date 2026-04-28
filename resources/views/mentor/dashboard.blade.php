@@ -71,7 +71,7 @@
 <img class="w-full h-full object-cover" data-alt="Profile picture of a male mentor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTBj7VHLXQXX0PNYL2Lbpsx-4jfpZ8qtVZusoiR6NUD1J2W_pntz4e9wNKQHVPqH-LPj5b9qtvURCsNGXZAKnMapcTjuMD2Tu8ci3MdUt8gVPDgGpWm7KhN_kCb4Az0Obg7JYtiVqR9xJi6uXAhslVM8El39RApC9dEt_YOkiAd0k7MDS6Xk8gXayPLaVeBp_uXxxBVNHjTuV3OQ_tHHmNg3kadMmAQhY8s6qFHIMwghZvf-e7-AO79lLU7ogMx1tIAHm9SynXagQ"/>
 </div>
 <div>
-<p class="text-sm font-bold">Dr. James Wilson</p>
+<p class="text-sm font-bold">{{ Auth::user()->name }}</p>
 <div class="flex items-center gap-1">
 <span class="material-symbols-outlined text-[12px] text-primary fill-1">verified</span>
 <span class="text-[10px] uppercase font-bold text-primary">Verified Mentor</span>
@@ -88,7 +88,7 @@
 <header class="flex justify-between items-center mb-8">
 <div>
 <h1 class="text-3xl font-extrabold tracking-tight">Mentor Dashboard</h1>
-<p class="text-slate-500">Welcome back, James! Your courses are performing 12% better this week.</p>
+<p class="text-slate-500">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}! Your courses are performing 12% better this week.</p>
 </div>
 <div class="flex gap-4">
 <div class="relative">

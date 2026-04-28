@@ -71,8 +71,8 @@
 <a href="{{ route('student.profile') }}" class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
 <div class="size-10 rounded-full bg-primary/20 bg-center bg-cover" data-alt="Student profile picture smiling" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4PkJXvnSo_C7vJEdHtGkhFOnOF-GbqweQO6v5fUbJgGMsGbUlJpJ8-2FJj2PZKnsUt-GPo9SFiwCmdBEwl836qeG8eKT-wVCKcs2_Ca7UvV6FgPF844iAdeOVgPt0bfDf4qzXv1u-8Yd8pMBvDQ8-k8dxqOap7e9AXp_ESrC-di22zGQ7DWhVrddLV2ittYJ7Lbcpux4ZIj8U34pLZ9g7Vxz9-Yy5CU7LdcjJdM2AplYsZSoE7ZFEZfBduH1wW25vA_5oQLCIc2A')"></div>
 <div class="overflow-hidden">
-<p class="text-sm font-semibold truncate">Alex Johnson</p>
-<p class="text-xs text-slate-500 truncate">Premium Member</p>
+    <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
+    <p class="text-xs text-slate-500 truncate">{{ Auth::user()->role }}</p>
 </div>
 </a>
 </div>
@@ -118,7 +118,7 @@
 <!-- Welcome Banner -->
 <section class="mb-10 rounded-2xl bg-gradient-to-r from-primary to-blue-400 p-8 text-white relative overflow-hidden">
 <div class="relative z-10 max-w-lg">
-<h2 class="text-3xl font-bold mb-2">Welcome back, Alex!</h2>
+<h2 class="text-3xl font-bold mb-2">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}!</h2>
 <p class="text-blue-50/80 mb-6">You've completed 75% of your Weekly Calculus goal. Keep up the great work!</p>
 <button onclick="window.location.href='/my-course'" class="bg-white text-primary px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-50 transition-colors">Resume Lesson</button>
 </div>
