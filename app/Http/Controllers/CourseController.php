@@ -6,12 +6,27 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         # show all courses
-        // 1. Fetch all courses from the database
-        $courses = \App\Models\Course::all();
+        // Start the query
+        $query = \App\Models\Course::query();
 
-        // 2. Pass them to a view
+        // Check the "sort" parameter from the URL
+        if ($request->has('sort')) {
+            if ($request->sort == 'price_low') {
+                $query->orderBy('price', 'asc');
+            } elseif ($request->sort == 'price_high') {
+                $query->orderBy('price', 'desc');
+            } elseif ($request->sort == 'newest') {
+                $query->orderBy('created_at', 'desc');
+            }
+        } else {
+            // Default sort: show newest first
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $courses = $query->get();
+
         return view('courses.index', compact('courses'));
     }
 
