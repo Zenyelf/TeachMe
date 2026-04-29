@@ -25,7 +25,7 @@ class CourseController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $courses = $query->get();
+        $courses = $query->with('mentor.user')->paginate(6);
 
         return view('courses.index', compact('courses'));
     }
@@ -86,5 +86,6 @@ class CourseController extends Controller
 
     public function search(Request $request){
         # search courses
+        return view('public.courses1');
     }
 }
