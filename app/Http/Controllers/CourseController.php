@@ -36,7 +36,8 @@ class CourseController extends Controller
 
     public function create(){
         # show create course page
-        return view('courses.create');
+        //return view('courses.create');
+        return view('mentor.newcourse');
     }
 
     public function store(Request $request){
@@ -50,7 +51,7 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required',
-            'price' => 'required|numeric|min:0',
+            //'price' => 'required|numeric|min:0',
         ]);
 
         // 2. Generate a unique ID (Consistent with your Auth style)
@@ -63,7 +64,7 @@ class CourseController extends Controller
             'category_id' => '1',        // Hardcoded for now
             'title' => $request->title,
             'description' => $request->description,
-            'price' => $request->price,
+            'price' => 1000,//$request->price,
             'created_at' => now(),       // Manual timestamp required for insert
             'updated_at' => now(),       // Manual timestamp required for insert
         ]);
