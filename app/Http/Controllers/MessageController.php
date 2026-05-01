@@ -57,11 +57,17 @@ class MessageController extends Controller
         $query = $request->get('q');
         if (!$query) return response()->json([]);
 
-        // Search users by name, excluding yourself
-        $users = User::where('id', '!=', Auth::id())
+        $currentUser = Auth::user();
+        
+        // Determine who this user is allowed to search for
+        $allowedRole = strtolower($currentUser->role) === 'student' ? 'Mentor' : 'Student';
+
+        // Search users by name, excluding yourself, AND filtering by allowed role
+        $users = User::where('id', '!=', $currentUser->id)
+                     ->where('role', $allowedRole) // <-- THE UI FILTER
                      ->where('name', 'LIKE', "%{$query}%")
                      ->take(10)
-                     ->get(['id', 'name']);
+                     ->get(['id', 'name', 'role']); // Added 'role' just in case you need it in JS
                      
         return response()->json($users);
     }
@@ -76,6 +82,18 @@ class MessageController extends Controller
             'receiver_id' => 'required',
             'message' => 'required|string',
         ]);
+
+        $sender = Auth::user();
+        $receiver = User::findOrFail($request->receiver_id);
+
+        // <-- THE SECURITY BOUNCER -->
+        // If the sender and receiver have the exact same role, block the message
+        if (strtolower($sender->role) === strtolower($receiver->role)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You are only allowed to chat with ' . (strtolower($sender->role) === 'student' ? 'Mentors' : 'Students') . '.'
+            ], 403);
+        }
 
         // Save the message to the database
         $message = Message::create([
