@@ -44,6 +44,7 @@ Route::get('/mentor/earnings', [MentorController::class, 'earnings'])->name('men
 Route::get('/mentor/schedule', [MentorController::class, 'schedule'])->name('mentor.schedule')->middleware('auth');
 Route::get('/mentor/live', [MentorController::class, 'live'])->name('mentor.live')->middleware('auth');
 Route::get('/mentor/create-course', [CourseController::class, 'create'])->name('mentor.newcourse');
+Route::post('/mentor/create-course/step2', [CourseController::class, 'showStep2'])->name('courses.step2');
 
 Route::get('/settings', function () {
     return view('settings'); 

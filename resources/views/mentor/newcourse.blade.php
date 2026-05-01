@@ -152,17 +152,11 @@
                 TeachMe
             </div>
         </div>
-        <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-            <span class="text-label-bold font-label-bold text-on-surface">Draft:</span>
-            <span class="text-body-md font-body-md text-on-surface-variant">Untitled Course</span>
-        </div>
+
         <div class="flex items-center gap-3">
-            <button
-                class="hidden md:block px-4 py-2 rounded-lg text-label-bold font-label-bold text-on-surface hover:bg-surface-container-high transition-colors">
-                Save Draft
-            </button>
-            <button
-                type="submit" form="courseForm" class="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-label-bold font-label-bold shadow-[0_4px_14px_0_rgba(0,69,189,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
+
+            <button type="submit" form="courseForm"
+                class="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-label-bold font-label-bold shadow-[0_4px_14px_0_rgba(0,69,189,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2">
                 Continue
                 <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
             </button>
@@ -193,29 +187,7 @@
                                 class="w-8 h-8 rounded-full border-2 border-outline-variant flex items-center justify-center text-label-bold font-label-bold group-hover:border-on-surface-variant transition-colors">
                                 2
                             </div>
-                            <span class="text-body-md font-body-md font-medium">Curriculum</span>
-                        </a>
-                    </li>
-                    <!-- Step 3 -->
-                    <li class="relative min-w-max">
-                        <a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors group"
-                            href="#">
-                            <div
-                                class="w-8 h-8 rounded-full border-2 border-outline-variant flex items-center justify-center text-label-bold font-label-bold group-hover:border-on-surface-variant transition-colors">
-                                3
-                            </div>
-                            <span class="text-body-md font-body-md font-medium">Pricing</span>
-                        </a>
-                    </li>
-                    <!-- Step 4 -->
-                    <li class="relative min-w-max">
-                        <a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors group"
-                            href="#">
-                            <div
-                                class="w-8 h-8 rounded-full border-2 border-outline-variant flex items-center justify-center text-label-bold font-label-bold group-hover:border-on-surface-variant transition-colors">
-                                4
-                            </div>
-                            <span class="text-body-md font-body-md font-medium">Settings</span>
+                            <span class="text-body-md font-body-md font-medium">Advance</span>
                         </a>
                     </li>
                 </ul>
@@ -226,9 +198,9 @@
             <div class="mb-stack-gap-lg">
                 <h1 class="text-headline-xl font-headline-xl text-on-surface mb-2">Basic Details</h1>
                 <p class="text-body-lg font-body-lg text-on-surface-variant">Start by giving your course a strong
-                    identity. You can always change this later.</p>
+                    identity.</p>
             </div>
-            <form id="courseForm" action="{{ route('courses.store') }}" method="POST" class="flex flex-col gap-10">
+            <form id="courseForm" action="{{ route('courses.step2') }}" method="POST" class="flex flex-col gap-10">
                 @csrf
                 <!-- Title & Subtitle Section -->
                 <div
@@ -261,11 +233,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <!-- Type: Online (Active) -->
                         <label class="relative cursor-pointer group">
-                            <input checked="" class="peer sr-only" name="course-type" type="checkbox" value="online" />
+                            <input class="sr-only" name="course-type" type="radio" value="online" checked/>
                             <div
-                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
+                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest group-has-[:checked]:border-primary group-has-[:checked]:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                                    class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 bg-surface-container-high text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary group-hover:scale-110 group-has-[:checked]:bg-primary-fixed group-has-[:checked]:text-primary group-has-[:checked]:scale-110">
                                     <span class="material-symbols-outlined"
                                         style="font-variation-settings: 'FILL' 1;">play_circle</span>
                                 </div>
@@ -276,20 +248,16 @@
                                         class="text-caption-xs font-caption-xs text-on-surface-variant font-normal leading-snug">
                                         Pre-recorded video lessons students watch anytime.</p>
                                 </div>
-                                <div
-                                    class="absolute top-4 right-4 text-primary opacity-0 peer-checked:opacity-100 transition-opacity">
-                                    <span class="material-symbols-outlined"
-                                        style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                                </div>
                             </div>
                         </label>
+
                         <!-- Type: Live -->
                         <label class="relative cursor-pointer group">
-                            <input class="peer sr-only" name="course-type" type="checkbox" value="live" />
+                            <input class="sr-only" name="course-type" type="radio" value="live" />
                             <div
-                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
+                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest group-has-[:checked]:border-primary group-has-[:checked]:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary group-hover:scale-110 transition-all">
+                                    class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary group-hover:scale-110 group-has-[:checked]:bg-primary-fixed group-has-[:checked]:text-primary group-has-[:checked]:scale-110 transition-all duration-300">
                                     <span class="material-symbols-outlined">groups</span>
                                 </div>
                                 <div>
@@ -298,20 +266,16 @@
                                         class="text-caption-xs font-caption-xs text-on-surface-variant font-normal leading-snug">
                                         Scheduled live sessions via Zoom or integrated classroom.</p>
                                 </div>
-                                <div
-                                    class="absolute top-4 right-4 text-primary opacity-0 peer-checked:opacity-100 transition-opacity">
-                                    <span class="material-symbols-outlined"
-                                        style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                                </div>
                             </div>
                         </label>
+
                         <!-- Type: Offline -->
                         <label class="relative cursor-pointer group">
-                            <input class="peer sr-only" name="course-type" type="checkbox" value="offline" />
+                            <input class="sr-only" name="course-type" type="radio" value="offline" />
                             <div
-                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
+                                class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest group-has-[:checked]:border-primary group-has-[:checked]:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
                                 <div
-                                    class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary group-hover:scale-110 transition-all">
+                                    class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-primary group-hover:scale-110 group-has-[:checked]:bg-primary-fixed group-has-[:checked]:text-primary group-has-[:checked]:scale-110 transition-all duration-300">
                                     <span class="material-symbols-outlined">location_on</span>
                                 </div>
                                 <div>
@@ -320,11 +284,6 @@
                                     <p
                                         class="text-caption-xs font-caption-xs text-on-surface-variant font-normal leading-snug">
                                         Physical location meetings for local workshops.</p>
-                                </div>
-                                <div
-                                    class="absolute top-4 right-4 text-primary opacity-0 peer-checked:opacity-100 transition-opacity">
-                                    <span class="material-symbols-outlined"
-                                        style="font-variation-settings: 'FILL' 1;">check_circle</span>
                                 </div>
                             </div>
                         </label>

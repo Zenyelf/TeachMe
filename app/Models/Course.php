@@ -16,8 +16,16 @@ class Course extends Model
         'category_id', 
         'title', 
         'description', 
-        'price'
+        'price',
+        'type',
+        'language',
+        'slots',
+        'lessons'
     ];
+
+    public function sessions() {
+        return $this->hasMany(CourseSession::class);
+    }
 
     // Relationship to the Mentor
     public function mentor() {

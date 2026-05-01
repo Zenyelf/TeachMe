@@ -40,6 +40,19 @@ class CourseController extends Controller
         return view('mentor.newcourse');
     }
 
+    public function showStep2(Request $request) {
+        // Validate Step 1 data
+        $request->validate([
+            'title' => 'required|string|max:60',
+            'description' => 'required',
+            'course-type' => 'required'
+        ]);
+
+        // Pass the Step 1 data to the Step 2 view
+        $step1Data = $request->all();
+        return view('mentor.newcourseStep2', compact('step1Data'));
+    }
+
     public function store(Request $request){
                
         // Check if the logged-in user is actually a Mentor
@@ -49,29 +62,62 @@ class CourseController extends Controller
 
         // 1. Validate the input
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:60',
             'description' => 'required',
-            //'price' => 'required|numeric|min:0',
+            'course-type' => 'required',
+            'category_id' => 'required',
+            'language' => 'required',
+            'lessons' => 'required|integer|min:1',
+            'slots' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'selected_sessions' => 'required' // The string from Flatpickr
         ]);
 
         // 2. Generate a unique ID (Consistent with your Auth style)
-        $courseId = 'C' . date('Ymd') . rand(10, 99); 
+        // 1. Get today's date prefix (e.g., C20260501)
+        $datePrefix = 'C' . date('Ymd');
+
+        // 2. Count how many courses were already created today
+        $todayCount = DB::table('courses')
+            ->where('id', 'like', $datePrefix . '%')
+            ->count();
+
+        // 3. Increment the count and pad it (e.g., 1 becomes 01, 10 stays 10)
+        $nextNumber = str_pad($todayCount + 1, 2, '0', STR_PAD_LEFT);
+
+        // 4. Combine them
+        $courseId = $datePrefix . $nextNumber; 
+
+        $dates = explode(', ', $request->selected_sessions);
 
         // 3. Use INSERT instead of CREATE
         DB::table('courses')->insert([
             'id' => $courseId,
-            'mentor_id' => auth()->id(), // Gets the logged-in Mentor's ID (e.g., M202601)
-            'category_id' => '1',        // Hardcoded for now
+            'mentor_id' => auth()->id(),
+            'category_id' => $request->category_id,
             'title' => $request->title,
             'description' => $request->description,
-            'price' => 1000,//$request->price,
-            'created_at' => now(),       // Manual timestamp required for insert
-            'updated_at' => now(),       // Manual timestamp required for insert
+            'type' => $request->input('course-type'),
+            'language' => $request->language,
+            'slots' => $request->slots,
+            'lessons' => $request->lessons, // Auto-count how many dates were picked
+            'price' => $request->price,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
+        foreach ($dates as $date) {
+            DB::table('course_sessions')->insert([
+                'course_id' => $courseId,
+                'session_date' => $date,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         // 4. Redirect
         return redirect()->route('courses.index')->with('success', 'Course added successfully!');
-}
+    }
 
     public function edit($id){
         # show edit course page

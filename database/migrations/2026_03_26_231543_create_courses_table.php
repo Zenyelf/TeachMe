@@ -14,6 +14,10 @@ return new class extends Migration
             $table->string('category_id');
             $table->string('title');
             $table->text('description');
+            $table->string('type');        // Added
+            $table->string('language');    // Added
+            $table->integer('slots');      // Added
+            $table->integer('lessons');    // Added
             $table->integer('price')->default(0);
             $table->timestamps();
 
