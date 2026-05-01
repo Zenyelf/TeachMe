@@ -63,7 +63,7 @@ class CourseController extends Controller
         // 1. Validate the input
         $request->validate([
             'title' => 'required|string|max:60',
-            'description' => 'required',
+            'description' => 'required|string',
             'course-type' => 'required',
             'category_id' => 'required',
             'language' => 'required',

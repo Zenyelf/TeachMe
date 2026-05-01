@@ -104,6 +104,7 @@
                 <input type="hidden" name="title" value="{{ $step1Data['title'] }}">
                 <input type="hidden" name="description" value="{{ $step1Data['description'] }}">
                 <input type="hidden" name="course-type" value="{{ $step1Data['course-type'] }}">
+                
 
                 <!-- Row 1: Category & Language -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
