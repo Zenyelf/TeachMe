@@ -11,6 +11,26 @@ class CourseController extends Controller
         // Start the query
         $query = \App\Models\Course::query();
 
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+
+                $query->where(function($q) use ($searchTerm) {  
+                    $q->where('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('description', 'like', '%' . $searchTerm . '%')
+
+                // Search by Mentor Name
+                ->orWhereHas('mentor.user', function($userQuery) use ($searchTerm) {
+                    $userQuery->where('name', 'like', '%' . $searchTerm . '%');
+                })
+
+                // NEW: Search by Category Name
+                ->orWhereHas('category', function($categoryQuery) use ($searchTerm) {
+                    $categoryQuery->where('name', 'like', '%' . $searchTerm . '%');
+                });
+            });
+        }
+
+
         // Check the "sort" parameter from the URL
         if ($request->has('sort')) {
             if ($request->sort == 'price_low') {
@@ -25,7 +45,7 @@ class CourseController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $courses = $query->with('mentor.user')->paginate(6);
+        $courses = $query->with(['mentor.user', 'category'])->paginate(6)->appends($request->query());
 
         return view('courses.index', compact('courses'));
     }
