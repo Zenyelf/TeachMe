@@ -10,20 +10,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * Since you are using custom IDs (e.g., S202601), 
-     * we must tell Laravel that the ID is not an auto-incrementing integer.
-     */
     public $incrementing = false;
-
-    /**
-     * Specify that the ID is a string.
-     */
     protected $keyType = 'string';
-
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'id',
         'name',
@@ -32,13 +20,14 @@ class User extends Authenticatable
         'role'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    public function enrolledCourses() {
+        return $this->belongsToMany(Course::class, 'course_user');
+    }
 
     /**
      * Get the attributes that should be cast.

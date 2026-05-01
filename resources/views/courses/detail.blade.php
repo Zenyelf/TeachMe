@@ -196,7 +196,8 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-slate-500 font-medium">Price</span>
                                 <div class="text-right">
-                                    <span class="text-3xl font-bold">Rp{{ number_format($course->price, 0, ',', '.') }},00</span>
+                                    <span
+                                        class="text-3xl font-bold">Rp{{ number_format($course->price, 0, ',', '.') }},00</span>
                                 </div>
                             </div>
                         </div>
@@ -239,14 +240,19 @@
                                 class="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 flex items-center gap-3">
                                 <span class="material-symbols-outlined text-primary">event_seat</span>
                                 <div class="text-xs text-blue-900 dark:text-blue-200">
-                                    <span class="font-bold">{{ $course->slots }} slots remaining</span> at this location. <br />
+                                    <span class="font-bold">{{ $course->slots }} slots remaining</span> at this
+                                    location. <br />
                                     Capacity is strictly limited for quality.
                                 </div>
-                            </div><button
-                                class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined">shopping_cart_checkout</span>
-                                Enroll Now
-                            </button>
+                            </div>
+                            <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">shopping_cart_checkout</span>
+                                    Enroll Now
+                                </button>
+                            </form>
                             <p class="text-center text-xs text-slate-400">
                                 30-Day Money-Back Guarantee. Secure Checkout.
                             </p>
