@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MessageController;
 
 Route::get('/', function () {
     return view('public.home'); #nama page
@@ -56,8 +57,13 @@ Route::get('/feedback', function () {
 });
 
 // Chat
-Route::get('/chat', function () {
-    return view('chat'); 
+Route::get('/chat', [MessageController::class, 'index'])->middleware('auth')->name('chat');
+
+Route::get('/api/users/search', [MessageController::class, 'search'])->middleware('auth');
+
+// Protect it with the auth middleware so only logged-in users can chat
+Route::middleware(['auth'])->group(function () {
+    Route::post('/api/messages/send', [MessageController::class, 'sendMessage']);
 });
 
 
