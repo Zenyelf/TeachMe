@@ -81,3 +81,5 @@ Route::post('/courses', [CourseController::class, 'store'])->name('courses.store
 Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
 
 Route::get('/course', [CourseController::class, 'search']);
+
+Route::get('/courses/{course}', [\App\Http\Controllers\CourseController::class, 'show'])->name('courses.show');

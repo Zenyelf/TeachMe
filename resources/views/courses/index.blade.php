@@ -298,50 +298,53 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     @forelse($courses as $course)
-                    <div
-                        class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow group flex flex-col h-full">
-                        <div
-                            class="aspect-video relative overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
-                        </div>
+<div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow group flex flex-col h-full relative">
+    
+    <!-- 1. The Thumbnail (Clickable) -->
+    <a href="{{ route('courses.show', $course->id) }}" class="aspect-video relative overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+        @if($course->thumbnail)
+            <img src="{{ asset('storage/' . $course->thumbnail) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="{{ $course->title }}">
+        @else
+            <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+        @endif
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
+    </a>
 
-                        <div class="p-5 flex flex-col flex-1">
-                            <h3
-                                class="font-bold text-lg text-slate-900 dark:text-white line-clamp-2 mb-2 group-hover:text-primary transition-colors">
-                                {{ $course->title }}
-                            </h3>
+    <div class="p-5 flex flex-col flex-1">
+        <!-- 2. The Title (Clickable) -->
+        <h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+            <a href="{{ route('courses.show', $course->id) }}">
+                {{ $course->title }}
+            </a>
+        </h3>
 
-                            <p class="text-sm text-slate-500 mb-3">
-                                By {{ $course->mentor->user->name ?? 'Unknown Mentor' }}
-                            </p>
+        <p class="text-sm text-slate-500 mb-3">
+            By {{ $course->mentor->user->name ?? 'Unknown Mentor' }}
+        </p>
 
-                            <div class="flex items-center gap-2 mb-4 mt-auto">
-                                <div class="flex items-center text-yellow-500">
-                                    <span class="material-symbols-outlined text-sm fill-1">star</span>
-                                    <span class="text-sm font-bold ml-1">0.0</span>
-                                </div>
-                                <span class="text-xs text-slate-400">(0 reviews)</span>
-                            </div>
+        <div class="flex items-center gap-2 mb-4 mt-auto">
+            <div class="flex items-center text-yellow-500">
+                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                <span class="text-sm font-bold ml-1">0.0</span>
+            </div>
+            <span class="text-xs text-slate-400">(0 reviews)</span>
+        </div>
 
-                            <div class="flex items-center justify-between">
-                                <span class="text-xl font-bold text-slate-900 dark:text-white">
-                                    Rp {{ number_format($course->price, 0, ',', '.') }}
-                                </span>
+        <div class="flex items-center justify-between">
+            <span class="text-xl font-bold text-slate-900 dark:text-white">
+                Rp {{ number_format($course->price, 0, ',', '.') }}
+            </span>
 
-                                <button
-                                    class="flex items-center justify-center p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
-                                    <span class="material-symbols-outlined">add_shopping_cart</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <div
-                        class="col-span-full py-12 text-center text-slate-500 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-                        <span class="material-symbols-outlined text-4xl mb-3">search_off</span>
-                        <p>No courses found. Try adjusting your filters!</p>
-                    </div>
-                    @endforelse
+            <!-- Keep this button separate for "Add to Cart" logic -->
+            <button class="z-10 flex items-center justify-center p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                <span class="material-symbols-outlined">add_shopping_cart</span>
+            </button>
+        </div>
+    </div>
+</div>
+@empty
+<!-- ... no courses found ... -->
+@endforelse
                 </div>
 
                 <div class="mt-12 flex justify-center">
