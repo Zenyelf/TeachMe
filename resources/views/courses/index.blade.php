@@ -56,21 +56,44 @@
                         TeachMe</h1>
                 </div>
                 <!-- Search Bar -->
+
                 <div class="flex-1 max-w-2xl">
-                    <div class="relative group">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-slate-400">search</span>
+                    <form action="{{ route('courses.index') }}" method="GET" id="searchForm">
+                        <div class="relative group">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="material-symbols-outlined text-slate-400">search</span>
+                            </div>
+
+                            {{-- Added id="searchInput" --}}
+                            <input id="searchInput" name="search"
+                                class="block w-full pl-10 pr-12 py-2 border-none bg-slate-100 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-primary text-slate-900 dark:text-slate-100 transition-all"
+                                placeholder="Search courses, mentors..." type="text" value="{{ request('search') }}" />
+
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                {{-- If there is a search term, show the X button --}}
+                                @if(request('search'))
+                                <button type="button" onclick="clearSearch()"
+                                    class="text-slate-400 hover:text-primary flex items-center">
+                                    <span class="material-symbols-outlined text-lg font-bold">close</span>
+                                </button>
+                                @endif
+                            </div>
                         </div>
-                        <input
-                            class="block w-full pl-10 pr-12 py-2 border-none bg-slate-100 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-primary text-slate-900 dark:text-slate-100 transition-all"
-                            placeholder="Search courses, mentors..." type="text" value="Cyber Security" />
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                            <button class="text-slate-400 hover:text-primary">
-                                <span class="material-symbols-outlined text-lg font-bold">close</span>
-                            </button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
+
+                <script>
+                function clearSearch() {
+                    // 1. Find the input field
+                    const input = document.getElementById('searchInput');
+
+                    // 2. Clear the text
+                    input.value = '';
+
+                    // 3. Submit the form to reload all courses
+                    document.getElementById('searchForm').submit();
+                }
+                </script>
                 <!-- Icons & Profile -->
                 <div class="flex items-center gap-4">
                     <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
@@ -99,19 +122,62 @@
             </nav>
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Cyber Security Courses</h2>
-                    <p class="text-slate-500 mt-1">156 high-rated courses found for your search</p>
+                    <h2 class="text-3xl font-bold text-slate-900 dark:text-white">
+                        @if(request('search'))
+                        Results for "{{ request('search') }}"
+                        @elseif(request('category'))
+                        {{ $courses->first()?->category?->name ?? 'Category' }} Courses
+                        @else
+                        All Available Courses
+                        @endif
+                    </h2>
+                    <p class="text-slate-500 mt-1">
+                        {{ $courses->total() }} courses found
+                        @if(request('search'))
+                        for your search
+                        @endif
+                    </p>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-slate-500">Sort by:</span>
-                    <select
-                        class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary">
-                        <option>Most Relevant</option>
-                        <option>Newest</option>
-                        <option>Price: Low to High</option>
-                        <option>Rating: High to Low</option>
+                    <select id="sortSelect" onchange="applyFilters()"
+                        class="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary cursor-pointer">
+                        <option value="" {{ request('sort') == '' ? 'selected' : '' }}>Most Relevant</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+                        <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to
+                            High</option>
+                        <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>Price: High
+                            to Low</option>
                     </select>
                 </div>
+
+                <script>
+                function applyFilters() {
+                    // 1. Get the current sort value
+                    const sortValue = document.getElementById('sortSelect').value;
+
+                    // 2. Get the current search value (if it exists in your search input)
+                    const searchInput = document.getElementById('searchInput');
+                    const searchValue = searchInput ? searchInput.value : '';
+
+                    // 3. Create a URL search params object
+                    const params = new URLSearchParams(window.location.search);
+
+                    // 4. Update the params
+                    if (sortValue) {
+                        params.set('sort', sortValue);
+                    } else {
+                        params.delete('sort');
+                    }
+
+                    if (searchValue) {
+                        params.set('search', searchValue);
+                    }
+
+                    // 5. Reload the page with the combined filters
+                    window.location.href = window.location.pathname + '?' + params.toString();
+                }
+                </script>
             </div>
         </div>
         <div class="flex flex-col lg:flex-row gap-8">
@@ -226,57 +292,62 @@
             </aside>
             <!-- Course Grid -->
             <div class="flex-1">
-    <div class="mb-6 text-sm text-slate-500">
-        Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of {{ $courses->total() }} courses
-    </div>
+                <div class="mb-6 text-sm text-slate-500">
+                    Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of {{ $courses->total() }} courses
+                </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        @forelse($courses as $course)
-        <div class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow group flex flex-col h-full">
-            <div class="aspect-video relative overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    @forelse($courses as $course)
+                    <div
+                        class="bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow group flex flex-col h-full">
+                        <div
+                            class="aspect-video relative overflow-hidden bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+                        </div>
 
-            <div class="p-5 flex flex-col flex-1">
-                <h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-2 mb-2 group-hover:text-primary transition-colors">
-                    {{ $course->title }}
-                </h3>
+                        <div class="p-5 flex flex-col flex-1">
+                            <h3
+                                class="font-bold text-lg text-slate-900 dark:text-white line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+                                {{ $course->title }}
+                            </h3>
 
-                <p class="text-sm text-slate-500 mb-3">
-                    By {{ $course->mentor->user->name ?? 'Unknown Mentor' }}
-                </p>
+                            <p class="text-sm text-slate-500 mb-3">
+                                By {{ $course->mentor->user->name ?? 'Unknown Mentor' }}
+                            </p>
 
-                <div class="flex items-center gap-2 mb-4 mt-auto">
-                    <div class="flex items-center text-yellow-500">
-                        <span class="material-symbols-outlined text-sm fill-1">star</span>
-                        <span class="text-sm font-bold ml-1">0.0</span>
+                            <div class="flex items-center gap-2 mb-4 mt-auto">
+                                <div class="flex items-center text-yellow-500">
+                                    <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                    <span class="text-sm font-bold ml-1">0.0</span>
+                                </div>
+                                <span class="text-xs text-slate-400">(0 reviews)</span>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold text-slate-900 dark:text-white">
+                                    Rp {{ number_format($course->price, 0, ',', '.') }}
+                                </span>
+
+                                <button
+                                    class="flex items-center justify-center p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">add_shopping_cart</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <span class="text-xs text-slate-400">(0 reviews)</span>
+                    @empty
+                    <div
+                        class="col-span-full py-12 text-center text-slate-500 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <span class="material-symbols-outlined text-4xl mb-3">search_off</span>
+                        <p>No courses found. Try adjusting your filters!</p>
+                    </div>
+                    @endforelse
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold text-slate-900 dark:text-white">
-                        Rp {{ number_format($course->price, 0, ',', '.') }}
-                    </span>
-
-                    <button class="flex items-center justify-center p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors">
-                        <span class="material-symbols-outlined">add_shopping_cart</span>
-                    </button>
+                <div class="mt-12 flex justify-center">
+                    {{ $courses->links() }}
                 </div>
             </div>
-        </div>
-        @empty
-        <div class="col-span-full py-12 text-center text-slate-500 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-            <span class="material-symbols-outlined text-4xl mb-3">search_off</span>
-            <p>No courses found. Try adjusting your filters!</p>
-        </div>
-        @endforelse
-    </div>
-
-    <div class="mt-12 flex justify-center">
-        {{ $courses->links() }}
-    </div>
-</div>
     </main>
     <!-- Footer -->
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20">
