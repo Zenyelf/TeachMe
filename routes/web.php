@@ -6,6 +6,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\EnrollmentController;
 
 Route::get('/', function () {
     return view('public.home'); #nama page
@@ -40,6 +41,7 @@ Route::get('/my-course', function () {
 
 Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile')->middleware('auth');
 
+//Mentor
 Route::get('/mentor/profile', [MentorController::class, 'profile'])->name('mentor.profile')->middleware('auth');
 Route::get('/mentor/earnings', [MentorController::class, 'earnings'])->name('mentor.earnings')->middleware('auth');
 Route::get('/mentor/schedule', [MentorController::class, 'schedule'])->name('mentor.schedule')->middleware('auth');
@@ -75,7 +77,7 @@ Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('m
 /////////////////////////////////////////////////////
 
 
-// Grouping them for clarity
+// Courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
 Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
@@ -83,3 +85,7 @@ Route::get('/courses/create', [CourseController::class, 'create'])->name('course
 Route::get('/course', [CourseController::class, 'search']);
 
 Route::get('/courses/{course}', [\App\Http\Controllers\CourseController::class, 'show'])->name('courses.show');
+
+Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'store'])
+    ->name('courses.enroll')
+    ->middleware('auth'); // Only logged-in users can hit this
