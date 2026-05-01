@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{
+{       
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
@@ -14,6 +14,10 @@ return new class extends Migration
             $table->string('category_id');
             $table->string('title');
             $table->text('description');
+            $table->string('type');        // Added
+            $table->string('language');    // Added
+            $table->integer('slots');      // Added
+            $table->integer('lessons');    // Added
             $table->integer('price')->default(0);
             $table->timestamps();
 

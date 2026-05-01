@@ -2,29 +2,44 @@
 
 namespace App\Models;
 
-class Mentor extends User{
+use Illuminate\Database\Eloquent\Model;
 
-  public function CreateCourse($title, $description, $price){
-    #something
-  }
+class Mentor extends Model // 1. Change this to extend Model
+{
+    // If your IDs are strings like 'M202601', tell Laravel so it doesn't break!
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-  public function UpdateCourse($course_id){
-    #something
-  }
+    // 2. Define the relationship we asked for in the Controller
+    public function user()
+    {
+        // "This mentor profile belongs to a User account"
+        return $this->belongsTo(User::class);
+    }
 
-  public function DeleteCourse($course_id){
-    #something
-  }
+    // --- Keep your custom methods below --- //
 
-  public function SetAvailability($date, $time){
-    #something
-  }
+    public function CreateCourse($title, $description, $price){
+        #something
+    }
 
-  public function ViewBookings(){
-    #something
-  }
+    public function UpdateCourse($course_id){
+        #something
+    }
 
-  public function Message($student_id){
-    #something
-  }
+    public function DeleteCourse($course_id){
+        #something
+    }
+
+    public function SetAvailability($date, $time){
+        #something
+    }
+
+    public function ViewBookings(){
+        #something
+    }
+
+    public function Message($student_id){
+        #something
+    }
 }

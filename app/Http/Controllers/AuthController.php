@@ -42,6 +42,17 @@ class AuthController extends Controller
             'updated_at' => now()
         ]);
 
+        if ($request->role === 'Mentor') { //INI UNTUK PROFILE NANTI (MENTORS TABLE)
+        DB::table('mentors')->insert([
+            'id' => $userId, // This matches the user ID (M202601)
+            'user_id' => $userId, //HAPUS, GAK PENTING
+            'bio' => 'PLACEHOLDER',
+            'expertise' => 'PLACEHOLDER',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        }
+
         Auth::loginUsingId($userId);
 
         if ($request->role === 'Mentor') {

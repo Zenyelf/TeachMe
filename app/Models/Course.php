@@ -2,21 +2,33 @@
 
 namespace App\Models;
 
-class Course{
+use Illuminate\Database\Eloquent\Model;
 
-  public function CreateCourse($mentor_id, $title, $description, $price){
-    #something
-  }
+class Course extends Model
+{
+    // If your ID is a string/UUID, tell Laravel not to auto-increment it
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-  public function GetCourse($course_id){
-    #something
-  }
+    protected $fillable = [
+        'id', 
+        'mentor_id', 
+        'category_id', 
+        'title', 
+        'description', 
+        'price',
+        'type',
+        'language',
+        'slots',
+        'lessons'
+    ];
 
-  public function ListCourses(){
-    #something
-  }
+    public function sessions() {
+        return $this->hasMany(CourseSession::class);
+    }
 
-  public function SearchCourses($keyword){
-    #something
-  }
+    // Relationship to the Mentor
+    public function mentor() {
+        return $this->belongsTo(Mentor::class);
+    }
 }
