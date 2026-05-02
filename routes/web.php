@@ -38,8 +38,9 @@ Route::get('/blog', function () {
 Route::get('/my-course', function () {
     return view('student.mycourse'); 
 });
-
+//student profile
 Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile')->middleware('auth');
+Route::put('/student/profile/update', [StudentController::class, 'update'])->name('student.profile.update')->middleware('auth');
 
 //Mentor
 Route::get('/mentor/profile', [MentorController::class, 'profile'])->name('mentor.profile')->middleware('auth');

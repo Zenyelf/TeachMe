@@ -22,12 +22,19 @@ class AuthController extends Controller
             return back()->with('error', 'Passwords do not match!');
         }
 
+        if (strlen($request->password) < 6) {
+            return back()->with('error', 'Password must be at least 6 characters');
+        }
+
+        if (User::where('email', $request->email)->exists()) {
+            return back()->with('error', 'Email already exists');
+        }
+
         $request->validate([
         'name' => 'required',
         'email' => 'required|email|unique:users',
-        'password' => 'required|min:6|same:password2',
-        'password2' => 'required',
-        'role' => 'required|in:Student,Mentor'
+        'password' => 'required|min:6',
+        'role' => 'required'
         ]);
 
         $userId = $this->generateUserId($request->role);
@@ -41,17 +48,6 @@ class AuthController extends Controller
             'created_at' => now(),
             'updated_at' => now()
         ]);
-
-        if ($request->role === 'Mentor') { //INI UNTUK PROFILE NANTI (MENTORS TABLE)
-        DB::table('mentors')->insert([
-            'id' => $userId, // This matches the user ID (M202601)
-            'user_id' => $userId, //HAPUS, GAK PENTING
-            'bio' => 'PLACEHOLDER',
-            'expertise' => 'PLACEHOLDER',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        }
 
         Auth::loginUsingId($userId);
 
@@ -92,11 +88,8 @@ class AuthController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        //dd(Auth::check(), Auth::user()); 
-        // get the logged-in user
-        
-        $request->session()->regenerate();
 
+        // get the logged-in user
         $user = Auth::user();
 
         // redirect based on role
@@ -122,6 +115,7 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
+    
     public function profile()
 {
     $user = auth()->user();

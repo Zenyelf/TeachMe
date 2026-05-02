@@ -60,23 +60,28 @@
 <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Profile Settings</h1>
 <p class="text-slate-500 dark:text-slate-400">Manage your educational journey and account preferences.</p>
 </div>
+<form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <div class="lg:col-span-1 space-y-6">
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
 <div class="relative group">
-<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg" data-alt="Large profile picture for profile editing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhvODpTPPupe-CCw38b9oFP8uNl2Bw10FuYR0KfGX_abMHr2iciN4PstMuzcfMU13zl3EVMgUZXeHgBgHeGXqdgPqinlQf1Gh6Z4967d-vw2vmcJVKkRQTqCi_4pbJ6mxpZXmFDKXp5NFwMbNGvtwjh_T_z2m26g4jWz6jti12okAiLzKqdTnA6BUph5wKjFQhKe2RKMs6IuZrReKFjxuYO16yOcGsmL-En593ZCxltRSOqBsvw8a1uEh3V9eeGUDzbhMi3xt2Y70");'>
+<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg" 
+     style="background-image: url('{{ auth()->user()->avatar ? asset('storage/avatars/' . auth()->user()->avatar) : asset('images/default-avatar.png') }}')">
 </div>
 <button class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors">
 <span class="material-symbols-outlined text-sm">photo_camera</span>
 </button>
 </div>
 <div class="mt-4 text-center">
-<h3 class="text-lg font-bold">Alex Johnson</h3>
-<p class="text-slate-500 text-sm">Student ID: #EF-2024-883</p>
+<h3 class="text-lg font-bold">{{ auth()->user()->name }}</h3>
+<p class="text-slate-500 text-sm">Student ID: #{{ auth()->user()->id }}</p>
 </div>
-<button class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
+<button type="button" onclick="document.getElementById('avatarInput').click()" class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
                                     Upload New Photo
                                 </button>
+                                <input type="file" name="avatar" id="avatarInput" class="hidden" onchange="this.form.submit()">
 <p class="text-[10px] text-slate-400 mt-3 text-center">JPG, GIF or PNG. Max size 2MB.</p>
 </div>
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 space-y-4">
@@ -105,19 +110,17 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="flex flex-col gap-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="text" value="Alex Johnson"/>
-</div>
+<input name="name" type="text" value="{{ auth()->user()->name }}" class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" /></div>
 <div class="flex flex-col gap-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="email" value="alex.j@teachme.edu"/>
-</div>
+<input name="email" type="email" value="{{ auth()->user()->email }}" class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" readonly /></div>
 <div class="flex flex-col gap-2 md:col-span-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Current Studies / Major</label>
-<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
-<option>Computer Science</option>
-<option>Data Science</option>
-<option>UX Design</option>
-<option>Business Administration</option>
+<select name="major" class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
+    <option value="Computer Science" {{ auth()->user()->major == 'Computer Science' ? 'selected' : '' }}>Computer Science</option>
+    <option value="Data Science" {{ auth()->user()->major == 'Data Science' ? 'selected' : '' }}>Data Science</option>
+    <option value="UX Design" {{ auth()->user()->major == 'UX Design' ? 'selected' : '' }}>UX Design</option>
+    <option value="Business Administration" {{ auth()->user()->major == 'Business Administration' ? 'selected' : '' }}>Business Administration</option>
 </select>
 </div>
 </div>
@@ -131,15 +134,15 @@
 <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Preferred Learning Mode</p>
 <div class="flex flex-wrap gap-4">
 <label class="flex items-center gap-2 cursor-pointer group">
-<input checked="" class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="Fully Online" {{ auth()->user()->learning_mode == 'Fully Online' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">Fully Online</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="Hybrid" {{ auth()->user()->learning_mode == 'Hybrid' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">Hybrid / Blended</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="In-person" {{ auth()->user()->learning_mode == 'In-person' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">In-person</span>
 </label>
 </div>
@@ -175,6 +178,7 @@
 <button class="px-6 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 transition-colors">Cancel</button>
 <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 shadow-md shadow-primary/20 transition-all">Save Changes</button>
 </div>
+</form>
 </div>
 </div>
 </div>
