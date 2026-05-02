@@ -5,36 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use App\Events\MessageSent;
+use App\Models\Course;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
     // =========================================================================
-    // 1. INDEX: Loads the chat page, sidebars, and message history
+    // 1. INDEX: Automatically loads enrolled contacts in the sidebar
     // =========================================================================
     public function index(Request $request)
     {
-        $currentUserId = Auth::id();
+        $user = Auth::user();
+        $currentUserId = $user->id;
+        $role = strtolower($user->role);
 
-        // ONLY get IDs of users you have an existing chat history with
-        $chattedUserIds = Message::where('sender_id', $currentUserId)->pluck('receiver_id')
-            ->merge(Message::where('receiver_id', $currentUserId)->pluck('sender_id'))
-            ->unique();
+        $allowedUserIds = collect();
 
-        $contacts = User::whereIn('id', $chattedUserIds)->get();
+        // Fetch allowed contacts based on active enrollments
+        if ($role === 'student') {
+            // Change student_id to user_id here:
+            $enrolledCourseIds = Enrollment::where('user_id', $currentUserId)->pluck('course_id');
+            $allowedUserIds = Course::whereIn('id', $enrolledCourseIds)->pluck('mentor_id');
+            
+        } elseif ($role === 'mentor') {
+            $myCourseIds = Course::where('mentor_id', $currentUserId)->pluck('id');
+            // Change student_id to user_id here:
+            $allowedUserIds = Enrollment::whereIn('course_id', $myCourseIds)->pluck('user_id');
+        }
+
+        // Fetch the actual user data for the sidebar
+        $contacts = User::whereIn('id', $allowedUserIds->unique())->get();
 
         // Determine active user
         $activeUserId = $request->query('user_id');
         
-        // If searching a new user, force them into the contacts list so they show up
+        // Security Check: If they force an ID in the URL, verify they are allowed to talk to them
         if ($activeUserId && !$contacts->contains('id', $activeUserId)) {
-            $newContact = User::find($activeUserId);
-            if ($newContact) {
-                $contacts->push($newContact);
-            }
+            $activeUserId = null; // Kick them out of the chat view for that user
         }
-        $activeUser = $contacts->where('id', $activeUserId)->first();
+
+        $activeUser = $activeUserId ? $contacts->where('id', $activeUserId)->first() : null;
 
         // Fetch history
         $messages = [];
@@ -50,62 +62,82 @@ class MessageController extends Controller
     }
 
     // =========================================================================
-    // 2. SEARCH: Fetches new users from the database via the sidebar search
+    // 2. SEARCH: Only find users connected via enrollments
     // =========================================================================
     public function search(Request $request)
     {
         $query = $request->get('q');
         if (!$query) return response()->json([]);
 
-        $currentUser = Auth::user();
-        
-        // Determine who this user is allowed to search for
-        $allowedRole = strtolower($currentUser->role) === 'student' ? 'Mentor' : 'Student';
+        $user = Auth::user();
+        $role = strtolower($user->role);
+        $allowedUserIds = collect();
 
-        // Search users by name, excluding yourself, AND filtering by allowed role
-        $users = User::where('id', '!=', $currentUser->id)
-                     ->where('role', $allowedRole) // <-- THE UI FILTER
+        // Run the same check to see who they are allowed to search for
+        if ($role === 'student') {
+            $enrolledCourseIds = Enrollment::where('student_id', $user->id)->pluck('course_id');
+            $allowedUserIds = Course::whereIn('id', $enrolledCourseIds)->pluck('mentor_id');
+        } elseif ($role === 'mentor') {
+            $myCourseIds = Course::where('mentor_id', $user->id)->pluck('id');
+            $allowedUserIds = Enrollment::whereIn('course_id', $myCourseIds)->pluck('student_id');
+        }
+
+        // Search ONLY within their allowed contacts
+        $users = User::whereIn('id', $allowedUserIds->unique())
                      ->where('name', 'LIKE', "%{$query}%")
                      ->take(10)
-                     ->get(['id', 'name', 'role']); // Added 'role' just in case you need it in JS
+                     ->get(['id', 'name']);
                      
         return response()->json($users);
     }
 
     // =========================================================================
-    // 3. SEND MESSAGE: Catches the AJAX request and broadcasts to Pusher
+    // 3. SEND MESSAGE: The Ultimate Security Bouncer
     // =========================================================================
     public function sendMessage(Request $request)
     {
-        // Validate the incoming request
         $request->validate([
             'receiver_id' => 'required',
             'message' => 'required|string',
         ]);
 
         $sender = Auth::user();
-        $receiver = User::findOrFail($request->receiver_id);
+        $receiverId = $request->receiver_id;
+        $role = strtolower($sender->role);
 
-        // <-- THE SECURITY BOUNCER -->
-        // If the sender and receiver have the exact same role, block the message
-        if (strtolower($sender->role) === strtolower($receiver->role)) {
+        $isAllowed = false;
+
+        // Verify the connection actually exists in the database before sending
+        if ($role === 'student') {
+            $receiverCourses = Course::where('mentor_id', $receiverId)->pluck('id');
+            // FIX: Changed student_id to user_id below
+            $isAllowed = Enrollment::where('user_id', $sender->id)
+                                   ->whereIn('course_id', $receiverCourses)
+                                   ->exists();
+        } elseif ($role === 'mentor') {
+            $myCourses = Course::where('mentor_id', $sender->id)->pluck('id');
+            // FIX: Changed student_id to user_id below
+            $isAllowed = Enrollment::where('user_id', $receiverId)
+                                   ->whereIn('course_id', $myCourses)
+                                   ->exists();
+        }
+
+        // If they aren't connected through a course, block the message!
+        if (!$isAllowed) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'You are only allowed to chat with ' . (strtolower($sender->role) === 'student' ? 'Mentors' : 'Students') . '.'
+                'message' => 'You can only message users connected through your enrolled courses.'
             ], 403);
         }
 
-        // Save the message to the database
         $message = Message::create([
-            'sender_id' => Auth::id(),
-            'receiver_id' => $request->receiver_id,
+            'sender_id' => $sender->id,
+            'receiver_id' => $receiverId,
             'message' => $request->message,
         ]);
 
-        // Broadcast the event to Pusher
         broadcast(new MessageSent($message))->toOthers();
 
-        // Return a successful JSON response back to the JavaScript
         return response()->json([
             'status' => 'success',
             'message' => 'Message sent successfully!',
