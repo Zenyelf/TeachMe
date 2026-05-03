@@ -35,8 +35,15 @@ class Mentor extends Model // 1. Change this to extend Model
         #something
     }
 
-    public function ViewBookings(){
-        #something
+    public function enrollments()
+    {
+        return $this->hasManyThrough(Enrollment::class, Course::class); 
+    }
+
+    public function courses()
+    {
+        // Make sure the foreign key in the courses table is 'mentor_id'
+        return $this->hasMany(Course::class, 'mentor_id', 'id');
     }
 
     public function Message($student_id){
