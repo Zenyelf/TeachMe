@@ -200,7 +200,8 @@
                 <p class="text-body-lg font-body-lg text-on-surface-variant">Start by giving your course a strong
                     identity.</p>
             </div>
-            <form id="courseForm" action="{{ route('courses.step2') }}" method="POST" class="flex flex-col gap-10">
+            <form id="courseForm" action="{{ route('courses.step2') }}" method="POST" enctype="multipart/form-data"
+                class="flex flex-col gap-10">
                 @csrf
                 <!-- Title & Subtitle Section -->
                 <div
@@ -233,7 +234,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <!-- Type: Online (Active) -->
                         <label class="relative cursor-pointer group">
-                            <input class="sr-only" name="course-type" type="radio" value="online" checked/>
+                            <input class="sr-only" name="course-type" type="radio" value="online" checked />
                             <div
                                 class="h-full p-5 rounded-xl border-2 border-surface-variant bg-surface-container-lowest group-has-[:checked]:border-primary group-has-[:checked]:bg-primary-fixed/20 hover:border-primary-fixed transition-all flex flex-col gap-3">
                                 <div
@@ -294,31 +295,60 @@
                     <div class="flex flex-col gap-1">
                         <h2 class="text-headline-lg font-headline-lg text-on-surface text-xl">Course Cover</h2>
                         <p class="text-body-md font-body-md text-on-surface-variant">Upload a high-quality image to
-                            represent your course in the marketplace.</p>
+                            represent your course.</p>
                     </div>
-                    <!-- Upload Area -->
-                    <div
-                        class="relative w-full h-64 rounded-xl border-2 border-dashed border-outline-variant bg-surface-container-low hover:bg-surface-container transition-colors flex flex-col items-center justify-center cursor-pointer group overflow-hidden">
-                        <!-- Simulated Uploaded Image State -->
-                        <div
-                            class="absolute inset-0 w-full h-full p-2 opacity-50 group-hover:opacity-30 transition-opacity">
-                            <div class="w-full h-full rounded-lg bg-cover bg-center"
-                                data-alt="abstract flowing gradient background with vibrant blue and purple hues resembling modern tech educational branding"
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDzhxSE6xRe3RDExo83t4-7yxD4WtB_9YrQ_PozDYUl_JzmMO9C36jdvk-ESJ505syIK4yRVAX23xpFXy16yZNdoNJoXg4NlRtntNa6WquiwEjh-2BQHe_-4n-1MuzdUcMvPOSyORAyZGevyo2NRY5erw29LiQ_GutDOlhmbbQWdEFvWPQ9HqgG3570mUk-PVOf552c8tfcCIto3mF-yghwBp7x-ZicAgpgYXNOlvhY97_gtyzWjcxY2_f38Ysuw7s6CiVUZ1DB68Q');">
-                            </div>
+
+                    <!-- The Container Label -->
+                    <label for="cover_image"
+                        class="group relative w-full h-64 rounded-xl border-2 border-dashed border-outline-variant bg-surface-container-low hover:border-surface-container transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden">
+
+                        <!-- Hidden File Input -->
+                        <input type="file" id="cover_image" name="cover_image" class="sr-only" accept="image/*"
+                            onchange="previewImage(this)">
+
+                        <!-- 1. The Image Layer -->
+                        <div id="image-preview-container" class="absolute inset-0 w-full h-full">
+                            <img id="image-preview"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzhxSE6xRe3RDExo83t4-7yxD4WtB_9YrQ_PozDYUl_JzmMO9C36jdvk-ESJ505syIK4yRVAX23xpFXy16yZNdoNJoXg4NlRtntNa6WquiwEjh-2BQHe_-4n-1MuzdUcMvPOSyORAyZGevyo2NRY5erw29LiQ_GutDOlhmbbQWdEFvWPQ9HqgG3570mUk-PVOf552c8tfcCIto3mF-yghwBp7x-ZicAgpgYXNOlvhY97_gtyzWjcxY2_f38Ysuw7s6CiVUZ1DB68Q"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                alt="Course cover preview">
+
+                            <!-- 2. The Scrim/Overlay (Ensures text is always readable) -->
+                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
                         </div>
+
+                        <!-- 3. The Content Layer (Stays on top) -->
                         <div class="relative z-10 flex flex-col items-center text-center p-4">
                             <div
-                                class="w-12 h-12 rounded-full bg-surface shadow-sm flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform">
+                                class="w-12 h-12 rounded-full bg-white/90 shadow-sm flex items-center justify-center text-primary mb-3 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-outlined">cloud_upload</span>
                             </div>
-                            <span class="text-label-bold font-label-bold text-on-surface mb-1">Click to upload or drag
-                                and drop</span>
-                            <span class="text-caption-xs font-caption-xs text-on-surface-variant font-normal">SVG, PNG,
-                                JPG or GIF (max. 800x400px)</span>
+                            <!-- Changed text color to white for contrast against the image scrim -->
+                            <span class="text-label-bold font-label-bold text-white mb-1 drop-shadow-md">
+                                Click to upload or drag and drop
+                            </span>
+                            <span class="text-caption-xs font-caption-xs text-white/90 font-normal drop-shadow-sm">
+                                SVG, PNG, JPG or GIF (max. 800x400px)
+                            </span>
                         </div>
-                    </div>
+                    </label>
                 </div>
+
+                <!-- Simple JavaScript for the Preview -->
+                <script>
+                function previewImage(input) {
+                    const file = input.files[0];
+                    const previewImage = document.getElementById('image-preview');
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
+                </script>
             </form>
         </div>
     </main>

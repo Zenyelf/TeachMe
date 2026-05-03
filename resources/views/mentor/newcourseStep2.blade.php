@@ -97,14 +97,16 @@
             </div>
 
             <!-- ADDED ACTION AND METHOD -->
-            <form id="advanceForm" action="{{ route('courses.store') }}" method="POST" class="flex flex-col gap-8">
+            <form id="advanceForm" action="{{ route('courses.store') }}" method="POST" class="flex flex-col gap-8"
+                enctype="multipart/form-data">
                 @csrf
 
                 <!-- HIDDEN INPUTS: Carrying Step 1 data through -->
                 <input type="hidden" name="title" value="{{ $step1Data['title'] }}">
                 <input type="hidden" name="description" value="{{ $step1Data['description'] }}">
                 <input type="hidden" name="course-type" value="{{ $step1Data['course-type'] }}">
-                
+                <input type="hidden" name="cover_image_path" value="{{ $step1Data['cover_image_path'] ?? '' }}">
+
 
                 <!-- Row 1: Category & Language -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -240,7 +242,7 @@
                                 const updatedDates = instance.selectedDates.filter(d => d.getTime() !==
                                     dateObj.getTime());
                                 instance.setDate(updatedDates,
-                                true); // Update calendar and trigger onChange
+                                    true); // Update calendar and trigger onChange
                             });
 
                             rowsContainer.appendChild(row);

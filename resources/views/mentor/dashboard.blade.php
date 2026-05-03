@@ -13,6 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script id="tailwind-config">
     tailwind.config = {
         darkMode: "class",
@@ -118,16 +119,18 @@
             <header class="flex justify-between items-center mb-8">
                 <div>
                     <h1 class="text-3xl font-extrabold tracking-tight">Mentor Dashboard</h1>
-                    <p class="text-slate-500">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}! Your courses are
-                        performing 12% better this week.</p>
+                    <p class="text-slate-500">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}!</p>
                 </div>
                 <div class="flex gap-4">
                     <div class="relative">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                        <input
-                            class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none w-64"
-                            placeholder="Search students, courses..." type="text" />
+                        <form action="{{ route('courses.index') }}" method="GET"
+                            class="hidden lg:flex relative max-w-xs w-full">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                            <input name="search" value="{{ request('search') }}"
+                                class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none w-64"
+                                placeholder="Search courses" type="text" />
+                        </form>
                     </div>
                     <a href="{{ route('mentor.newcourse') }}"
                         class="accent-gradient text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
@@ -143,27 +146,24 @@
                         <div class="p-2 bg-blue-50 text-primary rounded-lg">
                             <span class="material-symbols-outlined">group</span>
                         </div>
-                        <span class="text-emerald-500 text-sm font-bold flex items-center">+12%</span>
                     </div>
                     <p class="text-slate-500 text-sm font-medium">Total Students</p>
-                    <h3 class="text-2xl font-bold">1,250</h3>
+                    <h3 class="text-2xl font-bold">{{ number_format($totalStudents) }}</h3>
                 </div>
                 <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
                             <span class="material-symbols-outlined">menu_book</span>
                         </div>
-                        <span class="text-slate-400 text-sm font-bold">Stable</span>
                     </div>
                     <p class="text-slate-500 text-sm font-medium">Active Courses</p>
-                    <h3 class="text-2xl font-bold">8</h3>
+                    <h3 class="text-2xl font-bold">{{ number_format($activeCoursesCount) }}</h3>
                 </div>
                 <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
                             <span class="material-symbols-outlined">monetization_on</span>
                         </div>
-                        <span class="text-emerald-500 text-sm font-bold">+18%</span>
                     </div>
                     <p class="text-slate-500 text-sm font-medium">Monthly Earnings</p>
                     <h3 class="text-2xl font-bold">$4,200</h3>
@@ -184,42 +184,66 @@
             <!-- Content Grid -->
             <div class="grid grid-cols-3 gap-8">
                 <!-- My Courses List -->
+                <!-- Left Column: Courses & Schedule -->
                 <div class="col-span-2 space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-xl font-bold">My Courses</h2>
-                        <button class="text-primary font-bold text-sm">View All</button>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div
-                            class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all group">
-                            <div class="h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
-                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                                    data-alt="Web development course thumbnail with code"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs-p76gPIIL-Wof3jfu6jakz6hFc0sT_8sN-9W5OCFPDGfzznDeyKLBelqM5Ooj5j3rll5bPW4ZqXxAmWnH8L2CFAjqOfJ4YlAZ3hPs4qd9zo9C88-V_EFuVak4MEMbpwIPhDdAOXsdYdEpmJpcVWLyuu0DxtR8B7-J7GXkhNTnnl8EUwjW61wuWXKQmBEe6flTO2EU_LMxplla-Kxa9e4hMkGHdMMF9xHWIwjniXfRotiTptG21Qb0Z5bLxBYdv_ImvQb1Y_ZX-Q" />
-                            </div>
-                            <h4 class="font-bold text-lg mb-1">Advanced React Patterns</h4>
-                            <div class="flex justify-between items-center text-sm text-slate-500">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">person</span> 450 Students</span>
-                                <span class="bg-blue-50 text-primary px-2 py-0.5 rounded font-bold">$89.00</span>
-                            </div>
+
+                    <!-- My Courses Header -->
+                    <!-- Wrap the section in an Alpine component -->
+                    <div class="col-span-2 space-y-6" x-data="{ expanded: false }">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-bold">My Courses</h2>
+                            <!-- The Toggle Button -->
+                            <button type="button" @click="expanded = !expanded"
+                                class="text-primary font-bold text-sm hover:underline"
+                                x-text="expanded ? 'Show Less' : 'View All'">
+                                View All
+                            </button>
                         </div>
-                        <div
-                            class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all group">
-                            <div class="h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
-                                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                                    data-alt="Data science chart dashboard visual"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPe5U9GVrxAbB9VGanEtgRuUgsurqbwM8pJAKuu4lDCnTr9RZ7yclQXkZ5G2WPmeN5Bz7FxoVQSOSXpMCt6_d0xlcKYcpdCYjR3BRNI-TjVeDHLpTOGIAY0cX7JB8IFlwsAvRNdmWznWn25Bt7slbpZsRfKzTZM1WuuPA9cJ-unpMMVSnFX0I2z33E-1cAiRpLfj14Sd8UQHBsLJ57XILuwMa0LLLdm4-_qHvQR6JwC_Av-HMNi7D-uhcPh7cqYvZR0Ihhyr-Isa0" />
+
+                        <div class="grid grid-cols-2 gap-4">
+                            @forelse($myCourses as $index => $course)
+                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all group"
+                                {{-- Hide items after index 1 (the first 2) if not expanded --}}
+                                x-show="expanded || {{ $index }} < 2"
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100">
+                                <div
+                                    class="h-32 rounded-xl mb-4 overflow-hidden bg-slate-100 flex items-center justify-center">
+                                    {{-- Logic: Check if path exists in DB and if the file exists in public storage --}}
+                                    @if($course->thumbnail && Storage::disk('public')->exists($course->thumbnail))
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                        alt="{{ $course->title }}" src="{{ asset('storage/' . $course->thumbnail) }}" />
+                                    @else
+                                    {{-- Fallback: Use your default Pixabay image if the file is missing --}}
+                                    <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+                                    @endif
+                                </div>
+
+                                <h4 class="font-bold text-lg mb-1 truncate">{{ $course->title }}</h4>
+
+                                <div class="flex justify-between items-center text-sm text-slate-500">
+                                    <span class="flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-sm">person</span>
+                                        {{ number_format($course->enrollments_count ?? 0) }} Students
+                                    </span>
+                                    <span class="bg-blue-50 text-primary px-2 py-0.5 rounded font-bold">
+                                        ${{ number_format($course->price, 2) }}
+                                    </span>
+                                </div>
                             </div>
-                            <h4 class="font-bold text-lg mb-1">Data Visualization Mastery</h4>
-                            <div class="flex justify-between items-center text-sm text-slate-500">
-                                <span class="flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-sm">person</span> 820 Students</span>
-                                <span class="bg-blue-50 text-primary px-2 py-0.5 rounded font-bold">$120.00</span>
+                            @empty
+                            <div
+                                class="col-span-2 bg-slate-50 p-6 rounded-2xl text-center border border-dashed border-slate-200">
+                                <p class="text-slate-500 mb-2">You haven't created any courses yet.</p>
+                                <a href="{{ route('mentor.newcourse') }}"
+                                    class="text-primary font-bold hover:underline">Create your first course</a>
                             </div>
+                            @endforelse
                         </div>
                     </div>
-                    <!-- Upcoming Schedule -->
+
+                    <!-- Upcoming Schedule (Restored & Untouched) -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-bold">Upcoming Live Sessions</h2>

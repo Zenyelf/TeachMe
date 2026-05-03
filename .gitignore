@@ -27,3 +27,5 @@
 .phpunit.result.cache
 .vscode/
 .idea/
+
+storage/app/public/*
