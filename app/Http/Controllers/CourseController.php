@@ -68,11 +68,19 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:60',
             'description' => 'required',
-            'course-type' => 'required'
+            'course-type' => 'required',
+            'cover_image' => 'nullable|image|max:2048'
         ]);
 
         // Pass the Step 1 data to the Step 2 view
         $step1Data = $request->all();
+
+        if ($request->hasFile('cover_image')) {
+            // Store temporarily or permanently
+            $path = $request->file('cover_image')->store('thumbnails', 'public');
+            $step1Data['cover_image_path'] = $path;
+        }
+
         return view('mentor.newcourseStep2', compact('step1Data'));
     }
 
@@ -89,6 +97,7 @@ class CourseController extends Controller
             'description' => 'required|string',
             'course-type' => 'required',
             'category_id' => 'required',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'language' => 'required',
             'lessons' => 'required|integer|min:1',
             'slots' => 'required|integer|min:1',
@@ -96,20 +105,43 @@ class CourseController extends Controller
             'selected_sessions' => 'required' // The string from Flatpickr
         ]);
 
-        // 2. Generate a unique ID (Consistent with your Auth style)
-        // 1. Get today's date prefix (e.g., C20260501)
         $datePrefix = 'C' . date('Ymd');
-
-        // 2. Count how many courses were already created today
         $todayCount = DB::table('courses')
             ->where('id', 'like', $datePrefix . '%')
             ->count();
-
-        // 3. Increment the count and pad it (e.g., 1 becomes 01, 10 stays 10)
         $nextNumber = str_pad($todayCount + 1, 2, '0', STR_PAD_LEFT);
-
-        // 4. Combine them
         $courseId = $datePrefix . $nextNumber; 
+
+        $thumbnailPath = null; 
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+    
+            // Get the original extension (jpg, png, etc.)
+            $extension = $file->getClientOriginalExtension();
+    
+         // Construct the new filename: CC_C2026050401.jpg
+            $fileName = "CC_{$courseId}.{$extension}";
+    
+            // Use storeAs to specify the path and the new name
+            // This saves to: storage/app/public/thumbnails/CC_C2026050401.jpg
+            $thumbnailPath = $file->storeAs('thumbnails', $fileName, 'public');
+        }
+
+            // USE THE PATH FROM STEP 1
+        elseif ($request->filled('cover_image_path')) {
+            $thumbnailPath = $request->cover_image_path;
+        
+            // OPTIONAL: Rename the hashed file to your CC_ format
+            $oldPath = storage_path('app/public/' . $thumbnailPath);
+            $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
+            $newFileName = "CC_{$courseId}.{$extension}";
+            $newPath = 'thumbnails/' . $newFileName;
+        
+            if (file_exists($oldPath)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->move($thumbnailPath, $newPath);
+                $thumbnailPath = $newPath;
+            }
+        }
 
         $dates = explode(', ', $request->selected_sessions);
 
@@ -121,6 +153,7 @@ class CourseController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'type' => $request->input('course-type'),
+            'thumbnail' => $thumbnailPath, // Storing the path string in the DB[cite: 1]
             'language' => $request->language,
             'slots' => $request->slots,
             'lessons' => $request->lessons, // Auto-count how many dates were picked

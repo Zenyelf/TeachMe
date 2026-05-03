@@ -67,15 +67,31 @@
                 <!-- Hero Section -->
                 <div
                     class="relative overflow-hidden rounded-xl h-64 sm:h-80 bg-gradient-to-br from-primary to-blue-400 group">
+
+                    {{-- Check if path exists in DB AND file exists in storage --}}
+                    @if($course->thumbnail && Storage::disk('public')->exists($course->thumbnail))
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                        style="background-image: url('{{ asset('storage/' . $course->thumbnail) }}');">
+                    </div>
+                    @else
+                    {{-- Fallback to your original Unsplash image or a placeholder if missing --}}
                     <div class="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&amp;w=1200&amp;auto=format&amp;fit=crop')] bg-cover bg-center"
-                        data-alt="Modern professional workspace with laptop and creative tools"></div>
+                        data-alt="Modern professional workspace">
+                    </div>
+                    @endif
+
+                    {{-- The rest of your overlays and content remain the same --}}
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+
                     <div class="absolute bottom-0 left-0 p-8">
                         <span
-                            class="bg-primary px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider mb-3 inline-block">{{ $course->category->name }}</span>
+                            class="bg-primary px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider mb-3 inline-block">
+                            {{ $course->category->name }}
+                        </span>
                         <span
-                            class="bg-blue-500/20 border border-blue-400 px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider mb-3 ml-2 inline-block">{{ $course->type }}
-                            Class</span>
+                            class="bg-blue-500/20 border border-blue-400 px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider mb-3 ml-2 inline-block">
+                            {{ $course->type }} Class
+                        </span>
                         <h1 class="text-white text-3xl sm:text-4xl font-bold leading-tight">{{ $course->title }}</h1>
                         <div class="flex items-center gap-4 mt-4 text-white/90">
                             <div class="flex items-center gap-1">

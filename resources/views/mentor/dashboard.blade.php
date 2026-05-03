@@ -208,10 +208,16 @@
                                 x-transition:enter="transition ease-out duration-300"
                                 x-transition:enter-start="opacity-0 transform scale-95"
                                 x-transition:enter-end="opacity-100 transform scale-100">
-                                <div class="h-32 rounded-xl mb-4 overflow-hidden bg-slate-100">
+                                <div
+                                    class="h-32 rounded-xl mb-4 overflow-hidden bg-slate-100 flex items-center justify-center">
+                                    {{-- Logic: Check if path exists in DB and if the file exists in public storage --}}
+                                    @if($course->thumbnail && Storage::disk('public')->exists($course->thumbnail))
                                     <img class="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                                        alt="{{ $course->title }}"
-                                        src="{{ $course->thumbnail ?? 'https://cdn.pixabay.com/photo/2022/10/22/17/00/gull-7539615_1280.jpg' }}" />
+                                        alt="{{ $course->title }}" src="{{ asset('storage/' . $course->thumbnail) }}" />
+                                    @else
+                                    {{-- Fallback: Use your default Pixabay image if the file is missing --}}
+                                    <span class="material-symbols-outlined text-5xl text-slate-400">image</span>
+                                    @endif
                                 </div>
 
                                 <h4 class="font-bold text-lg mb-1 truncate">{{ $course->title }}</h4>
