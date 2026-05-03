@@ -143,8 +143,9 @@
                                 </div>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <div class="flex justify-between items-baseline mb-0.5">
-                                    <h4 class="text-sm font-semibold truncate">{{ $contact->name }}</h4>
+                                <div class="flex flex-col justify-center mb-0.5">
+                            <h4 class="text-sm font-semibold truncate">{{ $contact->name }}</h4>
+                            <p class="text-xs text-primary truncate mt-0.5">{{ $contact->shared_course ?? 'Connected via Course' }}</p>
                                 </div>
                             </div>
                         </a>
@@ -196,7 +197,7 @@
                                             {{ $msg->message }}
                                         </div>
                                         <div class="flex items-center justify-end gap-1">
-                                            <span class="text-[10px] text-slate-400">{{ $msg->created_at->format('h:i A') }}</span>
+                                            <span class="message-time text-[10px] text-slate-400" data-time="{{ $msg->created_at->toIso8601String() }}"></span>
                                             <span class="material-symbols-outlined text-primary text-[14px]">done_all</span>
                                         </div>
                                     </div>
@@ -211,7 +212,7 @@
                                         <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-none shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 inline-block">
                                             {{ $msg->message }}
                                         </div>
-                                        <span class="text-[10px] text-slate-400 ml-1">{{ $msg->created_at->format('h:i A') }}</span>
+                                        <span class="message-time text-[10px] text-slate-400 ml-1" data-time="{{ $msg->created_at->toIso8601String() }}"></span>
                                     </div>
                                 </div>
                             @endif
@@ -278,6 +279,17 @@
     const chatContainer = document.getElementById('chat-messages');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const timeElements = document.querySelectorAll('.message-time');
+        timeElements.forEach(el => {
+            const utcTime = el.getAttribute('data-time');
+            if (utcTime) {
+                const localDate = new Date(utcTime);
+                el.innerText = localDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            }
+        });
+    });
 
     // Scroll to bottom on initial load
     if(chatContainer) {

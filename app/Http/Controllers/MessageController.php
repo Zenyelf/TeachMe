@@ -41,6 +41,28 @@ class MessageController extends Controller
         // Determine active user
         $activeUserId = $request->query('user_id');
         
+        foreach ($contacts as $contact) {
+            if ($role === 'student') {
+                // Find the course this Mentor teaches that the Student is enrolled in
+                $sharedCourse = Course::where('mentor_id', $contact->id)
+                    ->whereIn('id', function($query) use ($currentUserId) {
+                        $query->select('course_id')->from('enrollments')->where('user_id', $currentUserId);
+                    })->first();
+                
+                // Assuming your Course model has a 'title' column. Change to 'name' if necessary!
+                $contact->shared_course = $sharedCourse ? $sharedCourse->title : 'Mentor';
+                
+            } elseif ($role === 'mentor') {
+                // Find the course this Mentor teaches that this specific Student is enrolled in
+                $sharedCourse = Course::where('mentor_id', $currentUserId)
+                    ->whereIn('id', function($query) use ($contact) {
+                        $query->select('course_id')->from('enrollments')->where('user_id', $contact->id);
+                    })->first();
+                
+                $contact->shared_course = $sharedCourse ? $sharedCourse->title : 'Enrolled Student';
+            }
+        }
+
         // Security Check: If they force an ID in the URL, verify they are allowed to talk to them
         if ($activeUserId && !$contacts->contains('id', $activeUserId)) {
             $activeUserId = null; // Kick them out of the chat view for that user
