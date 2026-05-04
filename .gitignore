@@ -22,6 +22,7 @@
 # Vite / Frontend Build
 /public/build
 /public/hot
+/public/storage
 
 # Testing & IDEs
 .phpunit.result.cache
