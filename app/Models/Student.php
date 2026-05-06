@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Student extends Model
 {
@@ -19,6 +19,21 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function enrollments()
+{
+ 
+    return $this->belongsToMany(
+        Course::class, 
+        'enrollments', 
+        'user_id',   // In your DB, this column actually holds Student IDs
+        'course_id', 
+        'id',        // The Student's 'id' (S202602)
+        'id'         // The Course's 'id'
+    )
+    ->withPivot('status', 'progress_percent', 'enrolled_at')
+    ->withTimestamps();
+}
 
     // --- Method asli kamu tetap di bawah ini --- //
 

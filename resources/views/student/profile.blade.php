@@ -71,7 +71,7 @@
                         <div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20"
                             data-alt="User avatar"
                             style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')">
-                        </div>s
+                        </div>
                     </div>
                 </div>
             </header>
