@@ -14,8 +14,8 @@ class StudentController extends Controller
 
     public function profile(){
         $user = Auth::user();
-        // Pastikan view-nya mengarah ke settings.blade.php
-        return view('settings', compact('user'));
+        // Pastikan view-nya mengarah ke profile.blade.php
+        return view('student.profile', compact('user'));
     }
 
     public function updateProfile(Request $request)
@@ -29,26 +29,36 @@ class StudentController extends Controller
         'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
-    // 1. Logika Upload Foto (Gunakan move agar nama file bersih)
+    // 1. Photo Upload Logic
     if ($request->hasFile('avatar')) {
-        // Buat nama file unik
-        $fileName = time().'.'.$request->avatar->extension();
+        // Create the custom filename: PP_USERID.extension
+        $fileName = 'PP_' . $user->id . '.' . "jpg";
         
-        // Pindahkan langsung ke folder public/avatars
+        // OPTIONAL: Delete old avatar file from storage if it exists 
+        // and if it has a different extension than the new one
+        if ($user->avatar && $user->avatar !== $fileName) {
+            $oldPath = storage_path('app/public/avatars/' . $user->avatar);
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+
+        // Move to folder: storage/app/public/avatars
         $request->avatar->move(storage_path('app/public/avatars'), $fileName);
-        // Simpan hanya NAMA FILENYA saja ke database
-        $user->avatar = $fileName;
+        
+        // Save ONLY the filename to the database
+        $user->avatar = "avatars/{$fileName}";
     }
 
-    // 2. Update data User
+    // 2. Update User data
     $user->name = $request->name;
     $user->save();
 
-    // 3. Update data Student
+    // 3. Update Student data
     $user->student()->updateOrCreate(
         ['user_id' => $user->id],
         [
-            'id' => $user->id,
+            'id' => $user->id, // Assuming student ID is same as user ID based on your snippet
             'major' => $request->major,
             'learning_mode' => $request->learning_mode,
         ]
