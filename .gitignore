@@ -23,6 +23,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/storage/Thumbnails/*
 
 # Testing & IDEs
 .phpunit.result.cache
