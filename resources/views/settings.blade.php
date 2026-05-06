@@ -49,11 +49,16 @@
 <button class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
 <span class="material-symbols-outlined">notifications</span>
 </button>
-<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" data-alt="User avatar placeholder circular image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBohjFi6K-498FIfv35vMz1T_cl2VrP3QZuH8m96YLmvvvkB1BSv6QCjVI7ijpDrJHxF4T7SQBk3XiYkc2sZNpZeyGW_xKxqqD6F7V4-DvC9IGRJmXZQsDTvmNGuElsC0AjHhqjfFDUlN3p5Jf4w6aoya7QyHHnDIKfhEFgb9nysYPKJfxLqrmoSqmMtuYinFBCxNu4VHhlzJdrbG-sn4nw3H4sVdDD8woPT800cD8WHFkWyuPPI5faXkAPLZBG9rSZhHWVpf6MCY8");'>
-</div>
+<div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20" 
+     data-alt="User avatar" 
+     style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')">
+</div>s
 </div>
 </div>
 </header>
+<form action="{{ route('student.profile.update') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 <main class="flex-1 flex justify-center py-8 px-4 md:px-10">
 <div class="max-w-[1000px] w-full space-y-8">
 <div class="flex flex-col gap-2">
@@ -64,19 +69,22 @@
 <div class="lg:col-span-1 space-y-6">
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
 <div class="relative group">
-<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg" data-alt="Large profile picture for profile editing" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhvODpTPPupe-CCw38b9oFP8uNl2Bw10FuYR0KfGX_abMHr2iciN4PstMuzcfMU13zl3EVMgUZXeHgBgHeGXqdgPqinlQf1Gh6Z4967d-vw2vmcJVKkRQTqCi_4pbJ6mxpZXmFDKXp5NFwMbNGvtwjh_T_z2m26g4jWz6jti12okAiLzKqdTnA6BUph5wKjFQhKe2RKMs6IuZrReKFjxuYO16yOcGsmL-En593ZCxltRSOqBsvw8a1uEh3V9eeGUDzbhMi3xt2Y70");'>
+<div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg" 
+     style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')" 
+     data-alt="Large profile picture">
 </div>
 <button class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors">
 <span class="material-symbols-outlined text-sm">photo_camera</span>
 </button>
 </div>
 <div class="mt-4 text-center">
-<h3 class="text-lg font-bold">Alex Johnson</h3>
-<p class="text-slate-500 text-sm">Student ID: #EF-2024-883</p>
+<h3 class="text-lg font-bold">{{ Auth::user()->name }}</h3>
+<p class="text-slate-500 text-sm">Student ID: #{{ Auth::user()->id }}</p>
 </div>
-<button class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
+<button type="button" onclick="document.getElementById('avatar-input').click()" class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
                                     Upload New Photo
                                 </button>
+                                <input type="file" name="avatar" id="avatar-input" class="hidden" accept="image/*">
 <p class="text-[10px] text-slate-400 mt-3 text-center">JPG, GIF or PNG. Max size 2MB.</p>
 </div>
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 space-y-4">
@@ -105,19 +113,19 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="flex flex-col gap-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="text" value="Alex Johnson"/>
+<input type="text" name="name" value="{{ Auth::user()->name }}" class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
 </div>
 <div class="flex flex-col gap-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
-<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all" type="email" value="alex.j@teachme.edu"/>
+<input type="email" value="{{ Auth::user()->email }}" disabled class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all opacity-60 cursor-not-allowed">
 </div>
 <div class="flex flex-col gap-2 md:col-span-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Current Studies / Major</label>
-<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
-<option>Computer Science</option>
-<option>Data Science</option>
-<option>UX Design</option>
-<option>Business Administration</option>
+<select name="major" class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
+    <option value="Computer Science" {{ optional(Auth::user()->student)->major == 'Computer Science' ? 'selected' : '' }}>Computer Science</option>
+    <option value="Data Science" {{ optional(Auth::user()->student)->major == 'Data Science' ? 'selected' : '' }}>Data Science</option>
+    <option value="UX Design" {{ optional(Auth::user()->student)->major == 'UX Design' ? 'selected' : '' }}>UX Design</option>
+    <option value="Business Administration" {{ optional(Auth::user()->student)->major == 'Business Administration' ? 'selected' : '' }}>Business Administration</option>
 </select>
 </div>
 </div>
@@ -131,15 +139,15 @@
 <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Preferred Learning Mode</p>
 <div class="flex flex-wrap gap-4">
 <label class="flex items-center gap-2 cursor-pointer group">
-<input checked="" class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="Fully Online" {{ optional(Auth::user()->student)->learning_mode == 'Fully Online' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">Fully Online</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="Hybrid" {{ optional(Auth::user()->student)->learning_mode == 'Hybrid' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">Hybrid / Blended</span>
 </label>
 <label class="flex items-center gap-2 cursor-pointer group">
-<input class="w-4 h-4 text-primary focus:ring-primary" name="mode" type="radio"/>
+<input type="radio" name="learning_mode" value="In-person" {{ optional(Auth::user()->student)->learning_mode == 'In-person' ? 'checked' : '' }} class="w-4 h-4 text-primary focus:ring-primary">
 <span class="text-sm group-hover:text-primary">In-person</span>
 </label>
 </div>
@@ -173,13 +181,14 @@
 </div>
 <div class="mt-6 flex justify-end gap-3">
 <button class="px-6 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 transition-colors">Cancel</button>
-<button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 shadow-md shadow-primary/20 transition-all">Save Changes</button>
+<button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 shadow-md shadow-primary/20 transition-all">Save Changes</button>
 </div>
 </div>
 </div>
 </div>
 </div>
 </main>
+</form>
 <footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-6 px-10">
 <div class="flex flex-col md:flex-row items-center justify-between gap-4 max-w-[1000px] mx-auto">
 <div class="flex items-center gap-2 text-primary opacity-60">

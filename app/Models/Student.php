@@ -1,34 +1,52 @@
 <?php
 
-class Student extends User{
+namespace App\Models;
 
-  public function BrowseCourses(){
-    #something
-  }
+use Illuminate\Database\Eloquent\Model;
 
-  public function SearchCourse($keyword){
-    #something
-  }
 
-  public function ViewCourse($course_id){
-    #something
-  }
+class Student extends Model
+{
+    // Agar ID bisa menggunakan string
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-  public function BookCourse($course_id, $schedule){
-    #something
-  }
+    // Daftar kolom yang boleh diisi
+    protected $fillable = ['id', 'user_id', 'major', 'learning_mode'];
 
-  public function CancelBooking($booking_id){
-    #something
-  }
+    // Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-  public function ViewBookings(){
-    #something
-  }
+    // --- Method asli kamu tetap di bawah ini --- //
 
-  public function MessageMentor($mentor_id){
-    #something
-  }
+    public function BrowseCourses(){
+        #something
+    }
 
+    public function SearchCourse($keyword){
+        #something
+    }
+
+    public function ViewCourse($course_id){
+        #something
+    }
+
+    public function BookCourse($course_id, $schedule){
+        #something
+    }
+
+    public function CancelBooking($booking_id){
+        #something
+    }
+
+    public function ViewBookings(){
+        #something
+    }
+
+    public function MessageMentor($mentor_id){
+        #something
+    }
 }
-?>

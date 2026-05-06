@@ -71,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
 
 //GANTI
 Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('auth');
-
+Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.profile.update')->middleware('auth');
 Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard')->middleware('auth');
 
 /////////////////////////////////////////////////////
