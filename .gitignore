@@ -22,7 +22,7 @@
 # Vite / Frontend Build
 /public/build
 /public/hot
-/public/storage
+/public/storage/avatars/*
 /public/storage/Thumbnails/*
 
 # Testing & IDEs
