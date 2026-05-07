@@ -90,7 +90,7 @@ class CourseController extends Controller
         if (auth()->user()->role !== 'Mentor') {
             return redirect()->route('courses.index')->with('error', 'Only mentors can create courses!');
         }
-
+        
         // 1. Validate the input
         $request->validate([
             'title' => 'required|string|max:60',
@@ -100,11 +100,12 @@ class CourseController extends Controller
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'language' => 'required',
             'lessons' => 'required|integer|min:1',
-            'slots' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
-            'selected_sessions' => 'required' // The string from Flatpickr
+            'batches'              => 'required|array|min:1',
+            'batches.*.start_date' => 'required|date',
+            'batches.*.end_date'   => 'required|date|after:batches.*.start_date',
         ]);
-
+        //dd($request->all());
         $datePrefix = 'C' . date('Ymd');
         $todayCount = DB::table('courses')
             ->where('id', 'like', $datePrefix . '%')
@@ -143,8 +144,6 @@ class CourseController extends Controller
             }
         }
 
-        $dates = explode(', ', $request->selected_sessions);
-
         // 3. Use INSERT instead of CREATE
         DB::table('courses')->insert([
             'id' => $courseId,
@@ -162,12 +161,17 @@ class CourseController extends Controller
             'updated_at' => now(),
         ]);
 
-        foreach ($dates as $date) {
+        foreach ($request->batches as $index => $batch) {
             DB::table('course_sessions')->insert([
-                'course_id' => $courseId,
-                'session_date' => $date,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'course_id'    => $courseId,
+                'batch_number' => $index,  // 1, 2, 3... from JS batchCount
+                'start_date'   => $batch['start_date'],
+                'end_date'     => $batch['end_date'],
+                'slots'        => $request->slots,      // global
+                'meeting_link' => $request->meeting_link ?? null,  // global
+                'location'     => $request->location ?? null,      // global
+                'created_at'   => now(),
+                'updated_at'   => now(),
             ]);
         }
 

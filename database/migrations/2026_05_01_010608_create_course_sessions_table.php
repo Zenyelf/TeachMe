@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('course_sessions', function (Blueprint $table) {
         $table->id();
-        $table->string('course_id'); // Foreign key to courses
-        $table->dateTime('session_date'); // The date and time picked in Step 2
-        $table->timestamps();
-
+        $table->string('course_id');
         $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+
+        $table->integer('batch_number');        // Batch 1, Batch 2, etc.
+        $table->date('start_date');
+        $table->date('end_date');
+        $table->integer('slots');               // Max students for this batch
+        $table->string('meeting_link')->nullable();  // Zoom link if online/hybrid
+        $table->string('location')->nullable();      // Address if onsite/hybrid
+        $table->timestamps();
         });
     }
 
