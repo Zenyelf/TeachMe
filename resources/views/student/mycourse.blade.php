@@ -181,10 +181,24 @@
                                 <span class="material-symbols-outlined text-[14px] text-primary">calendar_month</span>
                                 <span class="text-xs font-semibold text-primary">Batch {{ $batch->batch_number }}</span>
                                 <span class="text-xs text-slate-400">
-                                    · {{ \Carbon\Carbon::parse($batch->start_date)->format('d M') }} –
+                                    · {{ \Carbon\Carbon::parse($batch->start_date)->format('d M') }} -
                                     {{ \Carbon\Carbon::parse($batch->end_date)->format('d M Y') }}
                                 </span>
                             </div>
+
+                            @if($batch->schedule_days)
+                            <div class="flex items-center gap-1 mb-3 -mt-1">
+                                <span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span>
+                                <span class="text-xs text-slate-400">
+                                    {{ str_replace(',', ' · ', $batch->schedule_days) }}
+                                    @if($batch->start_time)
+                                    &nbsp;·&nbsp;
+                                    {{ \Carbon\Carbon::parse($batch->start_time)->format('H:i') }} -
+                                    {{ \Carbon\Carbon::parse($batch->end_time)->format('H:i') }}
+                                    @endif
+                                </span>
+                            </div>
+                            @endif
                             @endif
                             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 line-clamp-1"
                                 title="{{ $course->title }}">
