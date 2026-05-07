@@ -219,5 +219,24 @@ class CategorySeeder extends Seeder
                 'updated_at' => '2026-05-01 22:08:16',
             ],
         ]);
+
+        DB::table('students')->insert([
+            [
+                'id' => 'S202601',
+                'user_id' => 'S202601',
+                'major' => NULL,
+                'learning_mode' => NULL,
+                'created_at' => '2026-05-01 21:13:35',
+                'updated_at' => '2026-05-01 21:13:35',
+            ],
+            [
+                'id' => 'S202602',
+                'user_id' => 'S202602',
+                'major' => NULL,
+                'learning_mode' => NULL,
+                'created_at' => '2026-05-01 21:53:56',
+                'updated_at' => '2026-05-01 21:53:56',
+            ],
+        ]);
     }
 }
