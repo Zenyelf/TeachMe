@@ -52,8 +52,7 @@ class CourseController extends Controller
 
     public function show(\App\Models\Course $course){
         // Load relationships to avoid "N+1" issues in the view
-        $course->load(['mentor.user', 'category']);
-    
+        $course->load(['mentor.user', 'category', 'sessions']);
         return view('courses.detail', compact('course'));
     }
 

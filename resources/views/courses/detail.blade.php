@@ -138,33 +138,50 @@
                 </section>
                 <section
                     class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 mt-8">
+                    @php $session = $course->sessions->first(); @endphp
+
+                    @if($course->type === 'online')
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">videocam</span>
+                        Online Class
+                    </h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm">This course is held online. You will receive
+                        the meeting link after enrolling.</p>
+                    @if($session?->meeting_link)
+                    <a href="{{ $session->meeting_link }}"
+                        class="inline-flex items-center gap-2 mt-3 text-primary font-medium text-sm hover:underline">
+                        <span class="material-symbols-outlined text-sm">link</span>
+                        {{ $session->meeting_link }}
+                    </a>
+                    @endif
+
+                    @elseif($course->type === 'offline')
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">location_on</span>
                         Venue &amp; Location
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                        <div class="space-y-4">
-                            <div>
-                                <p class="font-bold text-slate-900 dark:text-white">Innovation Hub SF</p>
-                                <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">123 Tech Plaza, Suite
-                                    400<br />San Francisco, CA 94105</p>
-                            </div>
-                            <div class="flex items-center gap-2 text-sm text-primary font-medium">
-                                <span class="material-symbols-outlined text-sm">directions</span>
-                                <a href="#">Get Directions</a>
-                            </div>
-                        </div>
-                        <div
-                            class="h-40 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative border border-slate-200 dark:border-slate-700">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-30">
-                                <span class="material-symbols-outlined text-6xl">map</span>
-                            </div>
-                            <div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent"></div>
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                <span class="material-symbols-outlined text-primary fill-1">location_on</span>
-                            </div>
-                        </div>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">
+                        {{ $session?->location ?? 'Location TBA' }}</p>
+
+                    @elseif($course->type === 'live')
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">groups</span>
+                        Live Cohort Details
+                    </h3>
+                    @if($session?->meeting_link)
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">videocam</span>
+                        <a href="{{ $session->meeting_link }}"
+                            class="text-primary font-medium text-sm hover:underline">{{ $session->meeting_link }}</a>
                     </div>
+                    @endif
+                    @if($session?->location)
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm">{{ $session->location }}</p>
+                    </div>
+                    @endif
+                    @endif
                 </section>
                 <!-- Mentor Profile -->
                 <section
@@ -263,6 +280,33 @@
                             </div>
                             <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
                                 @csrf
+
+                                {{-- Batch Selection --}}
+                                <div class="mb-5">
+                                    <h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">Select
+                                        Batch(es)</h4>
+                                    <div class="space-y-2">
+                                        @forelse($course->sessions as $session)
+                                        <label
+                                            class="flex items-start gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:border-primary/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                                            <input type="checkbox" name="batch_ids[]" value="{{ $session->id }}"
+                                                class="mt-1 w-4 h-4 text-primary focus:ring-primary border-slate-300 rounded" />
+                                            <div>
+                                                <p class="text-sm font-bold">Batch {{ $session->batch_number }}</p>
+                                                <p class="text-xs text-slate-500">
+                                                    {{ \Carbon\Carbon::parse($session->start_date)->format('d M Y') }} →
+                                                    {{ \Carbon\Carbon::parse($session->end_date)->format('d M Y') }}
+                                                </p>
+                                                <p class="text-xs text-primary font-medium mt-0.5">{{ $session->slots }}
+                                                    slots available</p>
+                                            </div>
+                                        </label>
+                                        @empty
+                                        <p class="text-sm text-slate-400">No batches available yet.</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+
                                 <button type="submit"
                                     class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
                                     <span class="material-symbols-outlined">shopping_cart_checkout</span>

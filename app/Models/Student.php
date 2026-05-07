@@ -31,7 +31,7 @@ class Student extends Model
         'id',        // The Student's 'id' (S202602)
         'id'         // The Course's 'id'
     )
-    ->withPivot('status', 'progress_percent', 'enrolled_at')
+    ->withPivot('status', 'progress_percent', 'enrolled_at', 'session_id')
     ->withTimestamps();
 }
 
