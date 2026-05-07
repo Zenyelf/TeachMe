@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('status')->default('active');
             $table->unsignedTinyInteger('progress_percent')->default(0);
 
-            $table->foreignId('batch_id')->nullable()->constrained('course_sessions')->onDelete('set null');
             $table->foreignId('session_id')->nullable()->constrained('course_sessions')->onDelete('set null');
 
             $table->timestamp('enrolled_at')->useCurrent();
