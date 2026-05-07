@@ -12,7 +12,7 @@ class Student extends Model
     protected $keyType = 'string';
 
     // Daftar kolom yang boleh diisi
-    protected $fillable = ['id', 'user_id', 'major', 'learning_mode'];
+    protected $fillable = ['id', 'user_id', 'major', 'learning_mode', 'avatar'];
 
     // Relasi ke User
     public function user()

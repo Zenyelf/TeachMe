@@ -44,13 +44,15 @@ class AuthController extends Controller
 
         if ($request->role === 'Mentor') { //INI UNTUK PROFILE NANTI (MENTORS TABLE)
             DB::table('mentors')->insert([
-                'id' => $userId, // This matches the user ID (M202601)
-                'user_id' => $userId, //HAPUS, GAK PENTING
-                'bio' => 'PLACEHOLDER',
-                'expertise' => 'PLACEHOLDER',
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
+            'id' => $userId,
+            'user_id' => $userId,
+            'title' => 'Professional Mentor', // Nilai default
+            'bio' => 'Belum ada bio.',         // Nilai default
+            'is_online' => false,
+            'is_offline' => false,
+            'created_at' => now(),
+            'updated_at' => now()
+         ]);
         }
         if ($request->role === 'Student') {
             DB::table('students')->insert([

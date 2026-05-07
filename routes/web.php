@@ -68,6 +68,8 @@ Route::get('/api/users/search', [MessageController::class, 'search'])->middlewar
 // Protect it with the auth middleware so only logged-in users can chat
 Route::middleware(['auth'])->group(function () {
     Route::post('/api/messages/send', [MessageController::class, 'sendMessage']);
+    Route::get('/mentor/profile', [MentorController::class, 'profile'])->name('mentor.profile');
+    Route::put('/mentor/profile/update', [MentorController::class, 'updateProfile'])->name('mentor.profile.update');
 });
 
 
@@ -83,3 +85,5 @@ Route::get('/courses/{course}', [\App\Http\Controllers\CourseController::class, 
 Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'store'])
     ->name('courses.enroll')
     ->middleware('auth'); // Only logged-in users can hit this
+
+   

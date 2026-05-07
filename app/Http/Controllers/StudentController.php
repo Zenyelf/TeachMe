@@ -31,7 +31,16 @@ class StudentController extends Controller
         return view('student.dashboard', compact('enrolledCourses', 'recommendations'));
     }
 
-    public function updateProfile(Request $request){
+    public function profile()
+    {
+        $user = auth()->user();
+        
+        // Pastikan nama file view-nya benar (student/profile.blade.php)
+        return view('student.profile', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
         $user = Auth::user();
 
         $request->validate([
@@ -41,38 +50,30 @@ class StudentController extends Controller
             'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // 1. Photo Upload Logic
+        // 1. Logic Upload Foto
+        $avatarPath = $user->student->avatar ?? null; // Ambil foto lama dari tabel student
+
         if ($request->hasFile('avatar')) {
-            // Create the custom filename: PP_USERID.extension
-            $fileName = 'PP_' . $user->id . '.' . "jpg";
-
-            // OPTIONAL: Delete old avatar file from storage if it exists 
-            // and if it has a different extension than the new one
-            if ($user->avatar && $user->avatar !== $fileName) {
-                $oldPath = storage_path('app/public/avatars/' . $user->avatar);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
-                }
-            }
-
-            // Move to folder: storage/app/public/avatars
+            $fileName = 'PP_' . $user->id . '.jpg';
+            
+            // Pindahkan file ke folder storage/app/public/avatars
             $request->avatar->move(storage_path('app/public/avatars'), $fileName);
 
-            // Save ONLY the filename to the database
-            $user->avatar = "avatars/{$fileName}";
+            // Simpan path untuk tabel students
+            $avatarPath = "avatars/{$fileName}";
         }
 
-        // 2. Update User data
+        // 2. Update data di table USERS (Hanya kolom yang ada di users)
         $user->name = $request->name;
-        $user->save();
+        $user->save(); 
 
-        // 3. Update Student data
+        // 3. Update data di table STUDENTS (Simpan major, mode, dan AVATAR di sini)
         $user->student()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'id' => $user->id, // Assuming student ID is same as user ID based on your snippet
                 'major' => $request->major,
                 'learning_mode' => $request->learning_mode,
+                'avatar' => $avatarPath, // Sekarang avatar masuk ke laci yang benar (tabel students)
             ]
         );
 

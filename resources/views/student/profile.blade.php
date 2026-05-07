@@ -70,7 +70,7 @@
                         </button>
                         <div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20"
                             data-alt="User avatar"
-                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')">
+                            style="background-image: url('{{ auth()->user()->student && auth()->user()->student->avatar ? asset('storage/' . auth()->user()->student->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}')">
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                                     class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
                                     <div class="relative group">
                                         <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg"
-                                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
+                                            style="background-image: url('{{ auth()->user()->student && auth()->user()->student->avatar ? asset('storage/' . auth()->user()->student->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}')"
                                             data-alt="Large profile picture">
                                         </div>
                                         <button

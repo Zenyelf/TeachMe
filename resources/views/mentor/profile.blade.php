@@ -95,6 +95,9 @@
 <!-- Main Content Area -->
 <div class="lg:col-span-9 space-y-8">
 <!-- Header Section -->
+<form action="{{ route('mentor.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+    @csrf
+    @method('PUT')
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 <div>
 <h1 class="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Public Profile</h1>
@@ -102,42 +105,43 @@
 </div>
 <div class="flex gap-3 w-full md:w-auto">
 <button class="flex-1 md:flex-none px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Discard</button>
-<button class="flex-1 md:flex-none px-6 py-2.5 rounded-lg bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">Save Changes</button>
+<button type="submit" class="flex-1 md:flex-none px-6 py-2.5 rounded-lg bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors">Save Changes</button>
 </div>
 </div>
 <!-- Profile Header Card -->
 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-center gap-8">
 <div class="relative">
 <div class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
-<img class="w-full h-full object-cover" data-alt="Modern profile photo of a male professional mentor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAer-4Ul2yorN-nlZEkD6F_gc3Gd57PxYEap9_IXltErAAnC3ov2CmQ2fTQ4di0ay3EIlDC4SyLUhnxXD9ChNGiy9EsjAp2Kl5n97RYyqXDVq6R89GBLj3C8slb8xljwHjFjVynSanhbycfIp2Tffi8YQKiRogBcKq_v7OlERv_2nHAi8Xqcs4KnvZDqWQWzl65Hnn2SykIs3q57uBPH6RwRUm3J0CiZFWlPmCiy9sucJqGNZ4dg0fvtH8vDP_5PQmX2EmyzlATVjw"/>
-</div>
-<button class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
-<span class="material-symbols-outlined text-sm">photo_camera</span>
+    <img class="w-full h-full object-cover" 
+         src="{{ auth()->user()->mentor->profile_photo ? asset('storage/' . auth()->user()->mentor->profile_photo) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}" 
+         alt="Profile Photo">
+</div> <button class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
+    <span class="material-symbols-outlined text-sm">photo_camera</span>
 </button>
+</div> <div class="flex-1 text-center md:text-left">
+    <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{{ auth()->user()->name }}</h2>
+        <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-primary text-[10px] font-bold uppercase tracking-wider border border-primary/20">
+            <span class="material-symbols-outlined text-sm">verified</span> Verified
+        </span>
+    </div>
+    <p class="text-slate-500 font-medium mb-4">{{ auth()->user()->mentor->title ?? 'Professional Mentor' }}</p>
+    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">school</span> Master of Fine Arts
+        </span>
+        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">location_on</span> San Francisco, CA
+        </span>
+    </div>
 </div>
-<div class="flex-1 text-center md:text-left">
-<div class="flex items-center justify-center md:justify-start gap-2 mb-1">
-<h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Alex Johnson</h2>
-<span class="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-primary text-[10px] font-bold uppercase tracking-wider border border-primary/20">
-<span class="material-symbols-outlined text-sm">verified</span>
-                            Verified
-                        </span>
+
+<div class="mt-4 md:mt-0">
+    <label class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
+        Upload New Photo
+        <input type="file" name="profile_photo" class="hidden">
+    </label>
 </div>
-<p class="text-slate-500 font-medium mb-4">Lead Product Designer at TechFlow</p>
-<div class="flex flex-wrap justify-center md:justify-start gap-3">
-<span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">school</span>
-                            Master of Fine Arts
-                        </span>
-<span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-sm">location_on</span>
-                            San Francisco, CA
-                        </span>
-</div>
-</div>
-<button class="px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
-                    Upload New Photo
-                </button>
 </div>
 <!-- Profile Details Form -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -150,16 +154,13 @@
 <div class="space-y-3">
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary" type="text" value="Alex Johnson"/>
-</div>
+<input type="text" name="name" value="{{ auth()->user()->name }}" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary" required></div>
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Professional Title</label>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary" type="text" value="Senior UX Design Mentor"/>
-</div>
+<input type="text" name="title" value="{{ auth()->user()->mentor->title ?? '' }}" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary"></div>
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Academic Degree</label>
-<select class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary">
-<option>Bachelor's Degree</option>
+<select name="academic_degree" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary"><option>Bachelor's Degree</option>
 <option selected="">Master's Degree</option>
 <option>PhD / Doctorate</option>
 <option>Professional Certification</option>
@@ -181,14 +182,14 @@
 <span class="material-symbols-outlined text-slate-400">videocam</span>
 <span class="font-medium">Live Online</span>
 </div>
-<input checked="" class="rounded text-primary focus:ring-primary size-5" type="checkbox"/>
+<input type="checkbox" name="is_online" value="1" {{ (auth()->user()->mentor->is_online ?? false) ? 'checked' : '' }} class="rounded text-primary focus:ring-primary size-5">
 </label>
 <label class="flex items-center justify-between p-3 border border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-slate-400">groups</span>
 <span class="font-medium">Offline Classroom</span>
 </div>
-<input class="rounded text-primary focus:ring-primary size-5" type="checkbox"/>
+<input type="checkbox" name="is_offline" value="1" {{ (auth()->user()->mentor->is_offline ?? false) ? 'checked' : '' }} class="rounded text-primary focus:ring-primary size-5">
 </label>
 </div>
 </div>
@@ -202,7 +203,10 @@
 <div class="space-y-4">
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Short Biography</label>
-<textarea class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary" rows="4">Passionate UX designer with over 10 years of experience in leading design teams at Fortune 500 companies. I specialize in design systems, user research, and accessibility. My goal is to help aspiring designers bridge the gap between theory and industry practice.</textarea>
+<textarea name="bio" 
+          rows="4" 
+          class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 focus:ring-primary focus:border-primary" 
+          placeholder="Write a short bio...">{{ auth()->user()->mentor->bio ?? '' }}</textarea>
 <p class="text-xs text-right text-slate-400 mt-1">245 / 500 characters</p>
 </div>
 <div>
@@ -228,34 +232,35 @@
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
 <div class="relative">
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400">mail</span>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 focus:ring-primary focus:border-primary" type="email" value="alex.johnson@example.com"/>
+<input type="email" name="contact_email" value="{{ auth()->user()->mentor->contact_email ?? '' }}" class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 focus:ring-primary focus:border-primary" placeholder="email.bisnis@example.com">
 </div>
 </div>
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">LinkedIn Profile</label>
 <div class="relative">
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400">share</span>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 focus:ring-primary focus:border-primary" type="text" value="linkedin.com/in/alexjohnson"/>
+<input type="text" name="linkedin_url" value="{{ auth()->user()->mentor->linkedin_url ?? '' }}" class="..." placeholder="linkedin.com/in/username">
 </div>
 </div>
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Portfolio URL</label>
 <div class="relative">
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400">language</span>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 focus:ring-primary focus:border-primary" type="text" value="https://alexj.design"/>
+<input type="text" name="portfolio_url" value="{{ auth()->user()->mentor->portfolio_url ?? '' }}" class="..." placeholder="https://yourportfolio.com">
 </div>
 </div>
 <div>
 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Twitter (Optional)</label>
 <div class="relative">
 <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400">alternate_email</span>
-<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg pl-10 pr-4 py-2.5 focus:ring-primary focus:border-primary" placeholder="@username" type="text"/>
+<input type="text" name="twitter_handle" value="{{ auth()->user()->mentor->twitter_handle ?? '' }}" class="..." placeholder="@username">
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
+</form>
 </main>
 <!-- Footer for quick access -->
 <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-6 mt-12">
