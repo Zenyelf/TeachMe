@@ -204,16 +204,17 @@
                 </div>
                 @endforelse
                 <!-- Section for Past Courses Mockup (Visible for user to see the style) -->
+                @if($completedCourses->isNotEmpty())
                 <div class="md:col-span-2 lg:col-span-3 mt-12 mb-4">
                     <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200">Completed Courses</h2>
                 </div>
-                <!-- Past Course Card 1 -->
+
+                @foreach($completedCourses as $enrollment)
                 <div
                     class="group bg-white dark:bg-slate-800/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-slate-800 opacity-90 hover:opacity-100">
                     <div class="relative h-40 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-                        <img alt="Marketing Course" class="w-full h-full object-cover"
-                            data-alt="Digital marketing charts and data on a desk"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc3nM-3ief0kZANoRbR3Q4I8CAcRSQ_pFhSYHfUpy0X96v7zXUH8gBhlbfU1lUIf2irm0YKV2okzFQBTFLVrWPYu7H-PKlcvgmpEbYiTrswmna-QRQ9-I22j6LZ5lc83pNCKpLiSJhsBgEGfgqaQ0d6O-z9yEwoKZ6INwK1kg_dN6vOW3JKip_d52LIRKY8OkUD1FwDKHbwX2B_jAfn_hiLol3b7vvl7f2vM3463FbvRX9nMdmzLfquOL0C0CMn9yMfMoskb1y1XA" />
+                        <img alt="{{ $enrollment->title }}" class="w-full h-full object-cover"
+                            src="{{ $enrollment->thumbnail ? asset('storage/' . $enrollment->thumbnail) : 'https://placehold.co/400x160' }}" />
                         <div class="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
                             <span
                                 class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-[10px] font-bold px-4 py-2 rounded-full flex items-center gap-2 uppercase tracking-widest">
@@ -225,16 +226,10 @@
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg font-bold text-slate-800 dark:text-white line-clamp-1">Growth
-                                    Marketing 101</h3>
-                                <p class="text-xs text-slate-500 mt-1">Completed: Oct 12, 2023</p>
-                            </div>
-                            <div class="text-right">
-                                <div class="flex items-center text-amber-500 font-bold">
-                                    <span class="material-symbols-outlined text-[18px]">star</span>
-                                    <span class="ml-1">4.9</span>
-                                </div>
-                                <span class="text-[10px] text-slate-400 font-bold">GRADE A+</span>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-white line-clamp-1">
+                                    {{ $enrollment->title }}</h3>
+                                <p class="text-xs text-slate-500 mt-1">Completed:
+                                    {{ \Carbon\Carbon::parse($enrollment->pivot->enrolled_at)->format('M d, Y') }}</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
@@ -251,50 +246,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Past Course Card 2 -->
-                <div
-                    class="group bg-white dark:bg-slate-800/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 dark:border-slate-800 opacity-90 hover:opacity-100">
-                    <div class="relative h-40 overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-                        <img alt="Team Management" class="w-full h-full object-cover"
-                            data-alt="Team of people working together in a modern office"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwD7HCwSl2PjnBcGh2CFOSpaBNCcJl5X0Jf2EQFJ08IAc4Y3uo-AarxzcBY19UqIg2-5O05ZfrLkPTMQRgSrFZFFizxQCQEpPCcNfT9fsfceVokVj0cEyF14sCsVoecnSPUDteZ_aD_37K_2R80q0rsS80uuUaWnDLm8dwvWqBER7MBQutfNABCgYNOnXR90NF6_s1rdYI4C2i8Ys3yIrgGROA0iGtuBUZNh1qlAy9cRC4ujALINQSGdZgDwbCSIxYbubRTAPx6go" />
-                        <div class="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
-                            <span
-                                class="bg-white/20 backdrop-blur-md text-white border border-white/30 text-[10px] font-bold px-4 py-2 rounded-full flex items-center gap-2 uppercase tracking-widest">
-                                <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                                Completed
-                            </span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-800 dark:text-white line-clamp-1">Leadership for
-                                    Tech Teams</h3>
-                                <p class="text-xs text-slate-500 mt-1">Completed: Aug 05, 2023</p>
-                            </div>
-                            <div class="text-right">
-                                <div class="flex items-center text-amber-500 font-bold">
-                                    <span class="material-symbols-outlined text-[18px]">star</span>
-                                    <span class="ml-1">5.0</span>
-                                </div>
-                                <span class="text-[10px] text-slate-400 font-bold">GRADE A+</span>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button
-                                class="py-2.5 bg-primary/10 text-primary rounded-xl font-bold text-xs hover:bg-primary/20 transition-colors flex items-center justify-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">workspace_premium</span>
-                                Certificate
-                            </button>
-                            <button
-                                class="py-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors flex items-center justify-center gap-1">
-                                <span class="material-symbols-outlined text-[16px]">rate_review</span>
-                                Review
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                @endif
             </div>
         </main>
         <!-- Footer Stats (Floating style) -->

@@ -85,9 +85,17 @@ class StudentController extends Controller
     // Fetch all courses the student is enrolled in
     $enrolledCourses = $user->student->enrollments()
         ->with(['mentor.user', 'category'])
+        ->where('progress_percent', '<', 100)
         ->latest('enrolled_at')
         ->get();
 
-    return view('student.mycourse', compact('enrolledCourses'));
+    $completedCourses = $user->student->enrollments()  
+        ->with(['mentor.user', 'category'])
+        ->where('progress_percent', 100)
+        ->latest('enrolled_at')
+        ->get();
+
+    return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
+
     }
 }
