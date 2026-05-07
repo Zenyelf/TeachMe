@@ -52,7 +52,6 @@ class AuthController extends Controller
                 'updated_at' => now()
             ]);
         }
-        
         if ($request->role === 'Student') {
             DB::table('students')->insert([
                 'id' => $userId,
