@@ -78,11 +78,14 @@
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                 <div class="flex flex-col gap-2">
                     <h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight">My Courses</h1>
-                    <p class="text-slate-500 dark:text-slate-400">You have <span class="text-primary font-semibold">4
-                            active</span> courses and <span class="text-primary font-semibold">12 completed</span>.</p>
+                    <p class="text-slate-500 dark:text-slate-400">You have
+                        <span class="text-primary font-semibold">{{ $enrolledCourses->count() }} active</span>
+                        courses and
+                        <span class="text-primary font-semibold">{{ $completedCourses->count() }} completed</span>.
+                    </p>
                 </div>
                 <div class="flex gap-2">
-                    <button
+                    <button onclick="window.location.href='/courses'"
                         class="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
                         <span class="material-symbols-outlined text-[20px]">add</span>
                         Browse New Courses
@@ -94,7 +97,7 @@
                 <div class="relative flex-1">
                     <span
                         class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
-                    <input
+                    <input id="course-search"
                         class="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-primary text-slate-900 dark:text-white placeholder:text-slate-400 shadow-sm"
                         placeholder="Search your courses by title or mentor..." type="text" />
                 </div>
@@ -144,8 +147,9 @@
                 : 'https://ui-avatars.com/api/?name=' . urlencode($course->mentor->user->name);
                 @endphp
 
-                <div
-                    class="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700">
+                <div class="course-card group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700"
+                    data-title="{{ strtolower($course->title) }}"
+                    data-mentor="{{ strtolower($course->mentor->user->name) }}">
                     <div class="relative h-48 overflow-hidden bg-slate-200 flex items-center justify-center">
                         @if($thumbUrl)
                         <img src="{{ $thumbUrl }}" alt="{{ $course->title }}"
@@ -285,6 +289,21 @@
             </div>
         </footer>
     </div>
+
+    <script>
+        document.getElementById('course-search').addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.course-card');
+    
+            cards.forEach(card => {
+                const title = card.dataset.title || '';
+                const mentor = card.dataset.mentor || '';
+                const matches = title.includes(query) || mentor.includes(query);
+                card.style.display = matches ? '' : 'none';
+            });
+        });
+    </script>
+
 </body>
 
 </html>
