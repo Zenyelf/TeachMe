@@ -13,41 +13,53 @@ class EnrollmentController extends Controller
      * Store a new enrollment in the database.
      */
     public function store(Request $request, Course $course)
-    {
-        // 1. Ensure the user is logged in
-        if (!Auth::check()) {
-            return redirect()->route('login')
-                ->with('error', 'You must be logged in to enroll in a course.');
-        }
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')
+            ->with('error', 'You must be logged in to enroll in a course.');
+    }
 
-        $user = Auth::user();
+    // 1. Make sure at least one batch was selected
+    $request->validate([
+        'batch_ids'   => 'required|array|min:1',
+        'batch_ids.*' => 'exists:course_sessions,id',
+    ]);
 
-        // 2. Check if the user is already enrolled
+    $user = Auth::user();
+    $enrolledBatches = [];
+    $skippedBatches  = [];
+
+    // 2. Loop through each selected batch
+    foreach ($request->batch_ids as $sessionId) {
+
         $alreadyEnrolled = Enrollment::where('user_id', $user->id)
             ->where('course_id', $course->id)
+            ->where('session_id', $sessionId)
             ->exists();
 
         if ($alreadyEnrolled) {
-            return redirect()->back()
-                ->with('info', 'You are already enrolled in this course.');
+            $skippedBatches[] = $sessionId;
+            continue;
         }
 
-        // 3. Create the Enrollment record
-        try {
-            Enrollment::create([
-                'user_id' => $user->id,
-                'course_id' => $course->id,
-                'status' => 'active', // Default status
-                'enrolled_at' => now(),
-            ]);
+        Enrollment::create([
+            'user_id'    => $user->id,
+            'course_id'  => $course->id,
+            'session_id' => $sessionId,
+            'status'     => 'active',
+            'enrolled_at'=> now(),
+        ]);
 
-            // 4. Redirect to a "My Learning" page or the course player
-            return redirect()->route('dashboard') 
-                ->with('success', 'Congratulations! You have successfully enrolled in ' . $course->title);
-                
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Something went wrong. Please try again later.');
-        }
+        $enrolledBatches[] = $sessionId;
     }
+
+    // 3. Build feedback message
+    if (empty($enrolledBatches) && !empty($skippedBatches)) {
+        return redirect()->back()
+            ->with('info', 'You are already enrolled in all selected batches.');
+    }
+
+    return redirect()->route('student.mycourse')
+        ->with('success', 'You have successfully enrolled in ' . count($enrolledBatches) . ' batch(es) of ' . $course->title . '!');
+}
 }

@@ -212,6 +212,18 @@
                                 {{ $course->mentor->user->name ?? 'Instructor' }}
                             </p>
 
+                            {{-- Add this --}}
+                            @php
+                            $batch = \App\Models\CourseSession::find($course->pivot->session_id);
+                            @endphp
+                            @if($batch)
+                            <p class="text-xs font-semibold text-primary mb-4">
+                                Batch {{ $batch->batch_number }} &nbsp;·&nbsp;
+                                {{ \Carbon\Carbon::parse($batch->start_date)->format('d M Y') }} –
+                                {{ \Carbon\Carbon::parse($batch->end_date)->format('d M Y') }}
+                            </p>
+                            @endif
+
                             <div class="space-y-2">
                                 <div class="flex justify-between text-xs font-semibold">
                                     <span>Progress</span>
