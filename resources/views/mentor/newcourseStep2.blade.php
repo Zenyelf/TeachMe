@@ -215,6 +215,18 @@
                     batchCount++;
                     const container = document.getElementById('batch-container');
 
+                    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                    const dayCheckboxes = days.map(day => `
+        <label class="cursor-pointer group">
+            <input type="checkbox" class="sr-only peer" name="batches[${batchCount}][days][]" value="${day}">
+            <div class="px-3 py-2 rounded-full border-2 border-outline-variant text-xs font-bold
+                peer-checked:border-primary peer-checked:bg-primary peer-checked:text-on-primary
+                transition-all">
+                ${day}
+            </div>
+        </label>
+    `).join('');
+
                     const card = document.createElement('div');
                     card.className =
                         "bg-surface-container-lowest p-5 rounded-xl border border-surface-variant shadow-sm flex flex-col gap-4";
@@ -227,6 +239,8 @@
                 <span class="material-symbols-outlined">delete</span>
             </button>
         </div>
+
+        <!-- Date Range -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="flex flex-col gap-1">
                 <label class="text-xs font-bold uppercase text-on-surface-variant">Start Date</label>
@@ -236,6 +250,28 @@
             <div class="flex flex-col gap-1">
                 <label class="text-xs font-bold uppercase text-on-surface-variant">End Date</label>
                 <input type="date" name="batches[${batchCount}][end_date]" required
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+        </div>
+
+        <!-- Days -->
+        <div class="flex flex-col gap-2">
+            <label class="text-xs font-bold uppercase text-on-surface-variant">Class Days</label>
+            <div class="flex flex-wrap gap-2">
+                ${dayCheckboxes}
+            </div>
+        </div>
+
+        <!-- Time -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">Start Time</label>
+                <input type="time" name="batches[${batchCount}][start_time]"
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">End Time</label>
+                <input type="time" name="batches[${batchCount}][end_time]"
                     class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
             </div>
         </div>

@@ -19,9 +19,15 @@ return new class extends Migration
         $table->integer('batch_number');        // Batch 1, Batch 2, etc.
         $table->date('start_date');
         $table->date('end_date');
+        $table->string('schedule_days')->nullable(); // e.g. "Mon,Wed,Fri"
+        $table->time('start_time')->nullable();
+        $table->time('end_time')->nullable();
+        
         $table->integer('slots');               // Max students for this batch
         $table->string('meeting_link')->nullable();  // Zoom link if online/hybrid
         $table->string('location')->nullable();      // Address if onsite/hybrid
+
+
         $table->timestamps();
         });
     }

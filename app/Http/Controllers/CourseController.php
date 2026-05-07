@@ -169,6 +169,9 @@ class CourseController extends Controller
                 'slots'        => $request->slots,      // global
                 'meeting_link' => $request->meeting_link ?? null,  // global
                 'location'     => $request->location ?? null,      // global
+                'schedule_days' => isset($batch['days']) ? implode(',', $batch['days']) : null, // "Mon,Wed,Fri"
+                'start_time'    => $batch['start_time'] ?? null,
+                'end_time'      => $batch['end_time'] ?? null,
                 'created_at'   => now(),
                 'updated_at'   => now(),
             ]);

@@ -297,6 +297,25 @@
                                                     {{ \Carbon\Carbon::parse($session->start_date)->format('d M Y') }} →
                                                     {{ \Carbon\Carbon::parse($session->end_date)->format('d M Y') }}
                                                 </p>
+
+                                                @if($session->schedule_days)
+                                                <div class="flex flex-col text-xs text-slate-500 mt-0.5">
+                                                    <!-- Row 1: Days -->
+                                                    <span>
+                                                        {{ str_replace(',', ' · ', $session->schedule_days) }}
+                                                    </span>
+
+                                                    <!-- Row 2: Times -->
+                                                    @if($session->start_time)
+                                                    <span>
+                                                        {{ \Carbon\Carbon::parse($session->start_time)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($session->end_time)->format('H:i') }}
+                                                    </span>
+                                                    @endif
+                                                </div>
+                                                @endif
+
                                                 <p class="text-xs text-primary font-medium mt-0.5">{{ $session->slots }}
                                                     slots available</p>
                                             </div>
