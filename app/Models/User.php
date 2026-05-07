@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,20 @@ class User extends Authenticatable
     public function enrolledCourses() {
         return $this->belongsToMany(Course::class, 'course_user');
     }
+
+    public function enrollments(): BelongsToMany
+{
+    return $this->belongsToMany(
+        Course::class, 
+        'enrollments', 
+        'user_id',   // The column in your table holding 'S202602'
+        'course_id', 
+        'id',        // Student's ID
+        'id'         // Course's ID
+    )
+    ->withPivot('status', 'progress_percent', 'enrolled_at')
+    ->withTimestamps();
+}
 
     /**
      * Get the attributes that should be cast.

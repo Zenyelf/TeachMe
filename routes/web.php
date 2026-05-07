@@ -34,14 +34,16 @@ Route::get('/blog', function () {
     return view('public.blog'); 
 });
 
-// Student Dashboard Buttons
-Route::get('/my-course', function () {
-    return view('student.mycourse'); 
-});
+// Student Dashboard Butt
 
+//Student
 Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile')->middleware('auth');
+Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.profile.update')->middleware('auth');
+Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('auth');
+Route::get('/student/my-course', [StudentController::class, 'myCourse'])->name('student.mycourse')->middleware('auth');
 
 //Mentor
+Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard')->middleware('auth');
 Route::get('/mentor/profile', [MentorController::class, 'profile'])->name('mentor.profile')->middleware('auth');
 Route::get('/mentor/earnings', [MentorController::class, 'earnings'])->name('mentor.earnings')->middleware('auth');
 Route::get('/mentor/schedule', [MentorController::class, 'schedule'])->name('mentor.schedule')->middleware('auth');
@@ -67,14 +69,6 @@ Route::get('/api/users/search', [MessageController::class, 'search'])->middlewar
 Route::middleware(['auth'])->group(function () {
     Route::post('/api/messages/send', [MessageController::class, 'sendMessage']);
 });
-
-
-//GANTI
-Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard')->middleware('auth');
-Route::put('/student/profile', [StudentController::class, 'updateProfile'])->name('student.profile.update')->middleware('auth');
-Route::get('/mentor/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard')->middleware('auth');
-
-/////////////////////////////////////////////////////
 
 
 // Courses
