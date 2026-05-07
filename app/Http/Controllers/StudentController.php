@@ -12,7 +12,7 @@ class StudentController extends Controller
         $user = auth()->user();
 
         // 1. Get IDs of courses the student is already in
-        $enrolledIds = $user->student->enrollments()->pluck('courses.id');
+        $enrolledIds = $user->student->enrollments->pluck('id');
 
         // 2. Fetch 4 random courses NOT in that list
         $recommendations = \App\Models\Course::whereNotIn('id', $enrolledIds)
@@ -24,7 +24,8 @@ class StudentController extends Controller
         // 3. Keep your existing enrolled courses logic
         $enrolledCourses = $user->student->enrollments()
             ->with(['mentor.user', 'category'])
-            ->latest('enrolled_at')
+            ->orderByRaw('progress_percent = 100 ASC')  // ← completed ones sink to last
+            ->orderBy('enrolled_at', 'desc')             // ← then sort the rest by newest
             ->take(3)
             ->get();
 
