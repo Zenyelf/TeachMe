@@ -41,7 +41,13 @@ class StudentController extends Controller
 
     public function updateProfile(Request $request)
     {
+        
         $user = Auth::user();
+
+        $studentData = [
+        'major' => $request->major,
+        'learning_mode' => $request->learning_mode,
+    ];
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -73,7 +79,7 @@ class StudentController extends Controller
             [
                 'major' => $request->major,
                 'learning_mode' => $request->learning_mode,
-                'avatar' => $avatarPath, // Sekarang avatar masuk ke laci yang benar (tabel students)
+                'avatar' => $studentData['avatar'] ?? $user->student->avatar,
             ]
         );
 

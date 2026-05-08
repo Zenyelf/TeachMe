@@ -91,7 +91,7 @@
                                     class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
                                     <div class="relative group">
                                         <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg"
-                                            style="background-image: url('{{ auth()->user()->student && auth()->user()->student->avatar ? asset('storage/avatars/' . auth()->user()->student->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}')"
+                                            style="background-image: url('{{ Auth::user()->student && Auth::user()->student->avatar ? asset('storage/avatars/' . Auth::user()->student->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
                                             data-alt="Large profile picture">
                                         </div>
                                         <button
