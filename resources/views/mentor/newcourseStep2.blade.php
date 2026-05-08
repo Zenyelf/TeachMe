@@ -160,128 +160,134 @@
                     </div>
                 </div>
 
-                <!-- Location -->
+                <!-- Meeting Details (shared across all batches) -->
                 <div
-                    class="flex flex-col gap-2 p-6 bg-surface-container-lowest rounded-xl border border-surface-variant shadow-sm">
-                    <label class="font-bold text-sm">Meeting Location / Link</label>
-                    <div class="relative">
+                    class="flex flex-col gap-4 p-6 bg-surface-container-lowest rounded-xl border border-surface-variant shadow-sm">
+                    <label class="font-bold text-sm">Meeting Details</label>
+
+                    <div id="field-meeting-link" class="relative hidden">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-3.5 text-outline-variant">videocam</span>
+                        <input type="text" name="meeting_link" placeholder="e.g. https://zoom.us/j/123456"
+                            class="w-full bg-surface-container-low border-none rounded-lg pl-11 pr-4 py-3 focus:ring-2 focus:ring-primary" />
+                    </div>
+
+                    <div id="field-location" class="relative hidden">
                         <span
                             class="material-symbols-outlined absolute left-3 top-3.5 text-outline-variant">location_on</span>
-                        <input type="text" name="location" placeholder="e.g. Zoom Link or Physical Address"
+                        <input type="text" name="location" placeholder="e.g. Jl. Sudirman No.1, Jakarta"
                             class="w-full bg-surface-container-low border-none rounded-lg pl-11 pr-4 py-3 focus:ring-2 focus:ring-primary" />
                     </div>
                 </div>
 
-                <!-- Schedule -->
-                <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-variant shadow-sm">
-                    <label class="font-bold text-sm block mb-3 text-on-surface-variant">Class Schedule</label>
 
-                    <!-- The Hidden/Readonly Input that Flatpickr uses -->
-                    <div class="flex items-center gap-3 mb-4 p-3 bg-surface-container-low rounded-lg">
-                        <span class="material-symbols-outlined text-primary">calendar_month</span>
-                        <input type="text" id="date-picker" name="selected_sessions"
-                            placeholder="Click to pick dates..."
-                            class="w-full bg-transparent border-none p-0 focus:ring-0 text-lg font-bold cursor-pointer"
-                            readonly />
-                    </div>
 
-                    <!-- The "Row" Display Area -->
-                    <div id="session-preview" class="hidden">
-                        <p class="text-xs font-bold uppercase tracking-wider text-primary mb-2">Confirmed Sessions:</p>
-                        <div id="session-rows" class="flex flex-col gap-2">
-                            <!-- JavaScript will inject rows here -->
+                <!-- Batches -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold">Batches</h2>
+                            <p class="text-sm text-on-surface-variant">Add one or more batches for this course.</p>
                         </div>
+                        <button type="button" onclick="addBatch()"
+                            class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-primary text-primary font-bold hover:bg-primary-fixed/30 transition-all">
+                            <span class="material-symbols-outlined text-sm">add</span> Add Batch
+                        </button>
                     </div>
+
+                    <div id="batch-container" class="flex flex-col gap-4"></div>
                 </div>
 
                 <script>
-                const fp = flatpickr("#date-picker", {
-                    mode: "multiple",
-                    dateFormat: "Y-m-d H:i",
-                    enableTime: true,
-                    time_24hr: true,
-                    minDate: "today",
-                    onChange: function(selectedDates, dateStr, instance) {
-                        renderRows(selectedDates, instance);
-                    }
-                });
+                const courseType = "{{ $step1Data['course-type'] }}";
 
-                function renderRows(selectedDates, instance) {
-                    const previewContainer = document.getElementById('session-preview');
-                    const rowsContainer = document.getElementById('session-rows');
+                // Show the right global fields based on course type
+                if (courseType === 'online' || courseType === 'live') {
+                    document.getElementById('field-meeting-link').classList.remove('hidden');
+                }
+                if (courseType === 'offline' || courseType === 'live') {
+                    document.getElementById('field-location').classList.remove('hidden');
+                }
 
-                    rowsContainer.innerHTML = '';
+                let batchCount = 0;
 
-                    if (selectedDates.length > 0) {
-                        previewContainer.classList.remove('hidden');
+                function addBatch() {
+                    batchCount++;
+                    const container = document.getElementById('batch-container');
 
-                        // Sort dates chronologically before displaying
-                        selectedDates.sort((a, b) => a - b);
+                    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                    const dayCheckboxes = days.map(day => `
+        <label class="cursor-pointer group">
+            <input type="checkbox" class="sr-only peer" name="batches[${batchCount}][days][]" value="${day}">
+            <div class="px-3 py-2 rounded-full border-2 border-outline-variant text-xs font-bold
+                peer-checked:border-primary peer-checked:bg-primary peer-checked:text-on-primary
+                transition-all">
+                ${day}
+            </div>
+        </label>
+    `).join('');
 
-                        selectedDates.forEach((dateObj) => {
-                            // Format the date to match your input style
-                            const dateString = instance.formatDate(dateObj, "Y-m-d H:i");
+                    const card = document.createElement('div');
+                    card.className =
+                        "bg-surface-container-lowest p-5 rounded-xl border border-surface-variant shadow-sm flex flex-col gap-4";
+                    card.id = `batch-${batchCount}`;
+                    card.innerHTML = `
+        <div class="flex items-center justify-between">
+            <span class="font-bold text-sm">Batch ${batchCount}</span>
+            <button type="button" onclick="removeBatch(${batchCount})"
+                class="text-on-surface-variant hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+        </div>
 
-                            const row = document.createElement('div');
-                            row.className =
-                                "flex items-center justify-between bg-surface-container-high px-4 py-3 rounded-lg border border-surface-variant group hover:border-error/50 transition-colors";
+        <!-- Date Range -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">Start Date</label>
+                <input type="date" name="batches[${batchCount}][start_date]" required
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">End Date</label>
+                <input type="date" name="batches[${batchCount}][end_date]" required
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+        </div>
 
-                            row.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-on-surface-variant text-sm">schedule</span>
-                    <span class="font-mono text-sm font-bold text-on-surface">${dateString}</span>
-                </div>
-                <button type="button" class="delete-session text-on-surface-variant hover:text-error transition-colors flex items-center">
-                    <span class="material-symbols-outlined text-xl">close</span>
-                </button>
-            `;
+        <!-- Days -->
+        <div class="flex flex-col gap-2">
+            <label class="text-xs font-bold uppercase text-on-surface-variant">Class Days</label>
+            <div class="flex flex-wrap gap-2">
+                ${dayCheckboxes}
+            </div>
+        </div>
 
-                            // Handle the Delete Click
-                            row.querySelector('.delete-session').addEventListener('click', () => {
-                                // Filter out this specific date from the calendar
-                                const updatedDates = instance.selectedDates.filter(d => d.getTime() !==
-                                    dateObj.getTime());
-                                instance.setDate(updatedDates,
-                                    true); // Update calendar and trigger onChange
-                            });
+        <!-- Time -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">Start Time</label>
+                <input type="time" name="batches[${batchCount}][start_time]"
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold uppercase text-on-surface-variant">End Time</label>
+                <input type="time" name="batches[${batchCount}][end_time]"
+                    class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary" />
+            </div>
+        </div>
+    `;
+                    container.appendChild(card);
+                }
 
-                            rowsContainer.appendChild(row);
-                        });
-                    } else {
-                        previewContainer.classList.add('hidden');
+                function removeBatch(id) {
+                    const card = document.getElementById(`batch-${id}`);
+                    if (document.getElementById('batch-container').children.length > 1) {
+                        card.remove();
                     }
                 }
+
+                addBatch();
                 </script>
-                <div class="flex flex-col gap-4">
-                    <div>
-                        <h2 class="text-xl font-bold">Weekly Schedule</h2>
-                        <p class="text-sm text-on-surface-variant">Select the days this course will take place.</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
-                        <label class="cursor-pointer group">
-                            <input type="checkbox" class="sr-only peer" name="schedule[]"
-                                value="{{ strtolower($day) }}">
-                            <div
-                                class="px-5 py-3 rounded-full border-2 border-outline-variant peer-checked:border-primary peer-checked:bg-primary-fixed/30 peer-checked:text-primary font-bold transition-all">
-                                {{ $day }}
-                            </div>
-                        </label>
-                        @endforeach
-                    </div>
-                    <div class="flex flex-col md:flex-row gap-4 mt-2">
-                        <div class="flex-1">
-                            <label class="text-xs font-bold uppercase text-outline-variant">Start Time</label>
-                            <input type="time" name="start_time"
-                                class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 mt-1" />
-                        </div>
-                        <div class="flex-1">
-                            <label class="text-xs font-bold uppercase text-outline-variant">End Time</label>
-                            <input type="time" name="end_time"
-                                class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 mt-1" />
-                        </div>
-                    </div>
-                </div>
             </form>
         </div>
     </main>

@@ -83,20 +83,25 @@ class StudentController extends Controller
     public function myCourse(){
         $user = auth()->user();
     
-    // Fetch all courses the student is enrolled in
-    $enrolledCourses = $user->student->enrollments()
-        ->with(['mentor.user', 'category'])
-        ->where('progress_percent', '<', 100)
-        ->latest('enrolled_at')
-        ->get();
+        // Fetch all courses the student is enrolled in
+        $enrolledCourses = $user->student->enrollments()
+            ->with(['mentor.user', 'category'])
+            ->where('progress_percent', '<', 100)
+            ->latest('enrolled_at')
+            ->get();
+    
+        $completedCourses = $user->student->enrollments()  
+            ->with(['mentor.user', 'category'])
+            ->where('progress_percent', 100)
+            ->latest('enrolled_at')
+            ->get();
+    
+        return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
 
-    $completedCourses = $user->student->enrollments()  
-        ->with(['mentor.user', 'category'])
-        ->where('progress_percent', 100)
-        ->latest('enrolled_at')
-        ->get();
+    }
 
-    return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
-
+    public function profile(){
+        $user = auth()->user();
+        return view('student.profile', compact('user'));
     }
 }
