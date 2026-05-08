@@ -32,59 +32,44 @@ class StudentController extends Controller
     }
 
     public function profile()
-    {
-        $user = auth()->user();
-        
-        // Pastikan nama file view-nya benar (student/profile.blade.php)
-        return view('student.profile', compact('user'));
-    }
+{
+    // Auth::user() mengambil SATU objek user yang sedang login
+    $user = Auth::user(); 
+    
+    return view('student.profile', compact('user'));
+}
 
     public function updateProfile(Request $request)
-    {
-        
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $studentData = [
-        'major' => $request->major,
-        'learning_mode' => $request->learning_mode,
-    ];
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'major' => 'nullable|string|max:255',
+        'learning_mode' => 'nullable|string',
+        'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'major' => 'nullable|string|max:255',
-            'learning_mode' => 'nullable|string',
-            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
-        // 1. Logic Upload Foto
-        $avatarPath = $user->student->avatar ?? null; // Ambil foto lama dari tabel student
-
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-    
-            $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
-
-            $file->move(storage_path('app/public/avatars'), $fileName);
-
-            $studentData['avatar'] = $fileName;
-        }
-
-        // 2. Update data di table USERS (Hanya kolom yang ada di users)
-        $user->name = $request->name;
-        $user->save(); 
-
-        // 3. Update data di table STUDENTS (Simpan major, mode, dan AVATAR di sini)
-        $user->student()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'major' => $request->major,
-                'learning_mode' => $request->learning_mode,
-                'avatar' => $studentData['avatar'] ?? $user->student->avatar,
-            ]
-        );
-
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+    if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
+        $file->move(storage_path('app/public/avatars'), $fileName);
+        $user->avatar = $fileName;
     }
+
+    $user->name = $request->name;
+    $user->save(); 
+
+    $user->student()->updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'interest' => $request->interest,
+            'learning_mode' => $request->learning_mode,
+        ]
+    );
+
+    return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+}
 
     public function myCourse(){
         $user = auth()->user();

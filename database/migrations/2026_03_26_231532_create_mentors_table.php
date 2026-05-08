@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('academic_degree')->nullable();
             $table->text('bio')->nullable();
-            $table->json('skills')->nullable();
-            $table->boolean('is_online')->default(true);
-            $table->boolean('is_offline')->default(false);
+            $table->string('preferred_learning')->nullable();
             $table->string('contact_email')->nullable();
-            $table->string('profile_photo')->nullable(); // <-- KOLOM FOTO BARU
+            $table->text('address')->nullable();
             $table->string('linkedin_url')->nullable();
             $table->string('portfolio_url')->nullable();
             $table->string('twitter_handle')->nullable();

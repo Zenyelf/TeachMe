@@ -48,8 +48,6 @@ class AuthController extends Controller
             'user_id' => $userId,
             'title' => 'Professional Mentor', // Nilai default
             'bio' => 'Belum ada bio.',         // Nilai default
-            'is_online' => false,
-            'is_offline' => false,
             'created_at' => now(),
             'updated_at' => now()
          ]);
@@ -58,8 +56,8 @@ class AuthController extends Controller
             DB::table('students')->insert([
                 'id' => $userId,
                 'user_id' => $userId,
-                'major' => null,
-                'learning_mode' => null,
+                'interest' => 'General',
+                'learning_mode' => 'Hybrid',
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

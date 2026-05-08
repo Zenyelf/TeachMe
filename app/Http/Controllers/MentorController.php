@@ -14,17 +14,14 @@ class MentorController extends Controller
     {
         $mentor = auth()->user()->mentor;
         
-        // Ambil kursus milik mentor
         $myCourses = $mentor->courses()->withCount('enrollments')->orderBy('created_at', 'desc')->get();
         $activeCoursesCount = $mentor->courses()->count();
         
-        // Kira jumlah pelajar yang unik
         $courseIds = $mentor->courses()->pluck('id');
         $totalStudents = $courseIds->isNotEmpty() 
             ? Enrollment::whereIn('course_id', $courseIds)->distinct('user_id')->count() 
             : 0;
 
-        // Ambil mesej terbaru
         $recentMessages = Message::with('sender')
             ->where('receiver_id', Auth::id())
             ->orderBy('created_at', 'desc')
@@ -47,66 +44,60 @@ class MentorController extends Controller
         return view('mentor.courses.index', compact('courses'));
     }
 
-// --- FUNGSI UPDATE UNTUK ALEX JOHNSON ---
-   public function updateProfile(Request $request)
-    {
-        $user = Auth::user();
+    public function updateProfile(Request $request)
+{
+    $user = Auth::user();
 
-        // 1. Validasi (Pastikan profile_photo ada di sini)
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'title' => 'nullable|string|max:255',
-            'bio' => 'nullable|string|max:500',
-            'academic_degree' => 'nullable|string',
-            'contact_email' => 'nullable|string',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto
-            'linkedin_url' => 'nullable|string',
-            'portfolio_url' => 'nullable|string',
-            'twitter_handle' => 'nullable|string',
-        ]);
+    // 1. Validasi (Samakan nama input dengan Blade, misal 'avatar')
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'title' => 'nullable|string|max:255',
+        'bio' => 'nullable|string|max:500',
+        'academic_degree' => 'nullable|string',
+        'contact_email' => 'nullable|email',
+        'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Pastikan di blade namanya 'avatar'
+        'linkedin_url' => 'nullable|string',
+        'portfolio_url' => 'nullable|string',
+        'twitter_handle' => 'nullable|string',
+    ]);
 
-        // 2. Update nama di table Users
-        $user->update([
-            'name' => $request->name
-        ]);
+    // 2. Logic Update ke table USERS (Nama & Foto)
+    $userData = [
+        'name' => $request->name,
+    ];
 
-        // 3. LOGIC MENANGKAP FOTO (Ini yang paling penting)
-        // Ambil foto yang sudah ada di database dulu sebagai default
-        $photoPath = $user->mentor->profile_photo; 
-
-
-        if ($request->hasFile('profile_photo')) {
-            $file = $request->file('profile_photo');
-
-            $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
-    
-            $file->move(storage_path('app/public/avatars'), $fileName);
-    
-            $photoPath = $fileName;
-        }
-
-        // 4. Update data di table Mentors
-        $user->mentor()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'title' => $request->title,
-                'academic_degree' => $request->academic_degree,
-                'bio' => $request->bio,
-                'contact_email' => $request->contact_email,
-                'profile_photo' => $photoPath, // <--- INI HARUS ADA SUPAYA GAK NULL
-                'linkedin_url' => $request->linkedin_url,
-                'portfolio_url' => $request->portfolio_url,
-                'twitter_handle' => $request->twitter_handle,
-                'is_online' => $request->has('is_online'),
-                'is_offline' => $request->has('is_offline'),
-                'skills' => $request->skills, 
-            ]
-        );
-
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+    if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        // Pake time() biar gak kena cache browser
+        $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
+        $file->move(storage_path('app/public/avatars'), $fileName);
+        
+        $userData['avatar'] = $fileName;
     }
 
-    // --- FUNGSI TAMPILAN (VIEW) LAIN ---
+    // Eksekusi update ke tabel users
+    \Illuminate\Support\Facades\DB::table('users')
+        ->where('id', $user->id)
+        ->update($userData);
+
+    // 3. Update ke table MENTORS (Data spesifik mentor + Alamat)
+    $user->mentor()->updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'title' => $request->title,
+            'academic_degree' => $request->academic_degree,
+            'bio' => $request->bio,
+            'contact_email' => $request->contact_email,
+            'address' => $request->address, // Karena tadi deal-nya address di mentor saja
+            'linkedin_url' => $request->linkedin_url,
+            'portfolio_url' => $request->portfolio_url,
+            'twitter_handle' => $request->twitter_handle,
+            'preferred_learning' => $request->preferred_learning
+        ]
+    );
+
+    return redirect()->back()->with('success', 'Profile updated successfully!');
+}
 
     public function myBookings()
     {
@@ -115,7 +106,8 @@ class MentorController extends Controller
 
     public function profile()
     {
-        return view('mentor.profile');
+        $user = Auth::user();
+        return view('mentor.profile', compact('user'));
     }
 
     public function earnings()

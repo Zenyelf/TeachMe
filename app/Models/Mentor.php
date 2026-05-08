@@ -19,17 +19,15 @@ class Mentor extends Model
         'title',
         'academic_degree',
         'bio',
-        'skills',
-        'is_online',
-        'is_offline',
+        'preferred_learning',
         'contact_email',
-        'profile_photo',
+        'address',
         'linkedin_url',
         'portfolio_url',
         'twitter_handle',
     ];
 
-    // Konversi otomatis JSON/Boolean
+    // Konversi otomatis JSON/  
     protected $casts = [
         'skills' => 'array',
         'is_online' => 'boolean',
