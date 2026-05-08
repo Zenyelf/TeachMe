@@ -31,53 +31,45 @@ class StudentController extends Controller
         return view('student.dashboard', compact('enrolledCourses', 'recommendations'));
     }
 
-    public function updateProfile(Request $request){
-        $user = Auth::user();
+    public function profile()
+{
+    // Auth::user() mengambil SATU objek user yang sedang login
+    $user = Auth::user(); 
+    
+    return view('student.profile', compact('user'));
+}
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'major' => 'nullable|string|max:255',
-            'learning_mode' => 'nullable|string',
-            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    public function updateProfile(Request $request)
+{
+    $user = Auth::user();
 
-        // 1. Photo Upload Logic
-        if ($request->hasFile('avatar')) {
-            // Create the custom filename: PP_USERID.extension
-            $fileName = 'PP_' . $user->id . '.' . "jpg";
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'major' => 'nullable|string|max:255',
+        'learning_mode' => 'nullable|string',
+        'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-            // OPTIONAL: Delete old avatar file from storage if it exists 
-            // and if it has a different extension than the new one
-            if ($user->avatar && $user->avatar !== $fileName) {
-                $oldPath = storage_path('app/public/avatars/' . $user->avatar);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
-                }
-            }
-
-            // Move to folder: storage/app/public/avatars
-            $request->avatar->move(storage_path('app/public/avatars'), $fileName);
-
-            // Save ONLY the filename to the database
-            $user->avatar = "avatars/{$fileName}";
-        }
-
-        // 2. Update User data
-        $user->name = $request->name;
-        $user->save();
-
-        // 3. Update Student data
-        $user->student()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'id' => $user->id, // Assuming student ID is same as user ID based on your snippet
-                'major' => $request->major,
-                'learning_mode' => $request->learning_mode,
-            ]
-        );
-
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+    if ($request->hasFile('avatar')) {
+        $file = $request->file('avatar');
+        $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
+        $file->move(storage_path('app/public/avatars'), $fileName);
+        $user->avatar = $fileName;
     }
+
+    $user->name = $request->name;
+    $user->save(); 
+
+    $user->student()->updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'interest' => $request->interest,
+            'learning_mode' => $request->learning_mode,
+        ]
+    );
+
+    return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+}
 
     public function myCourse(){
         $user = auth()->user();
@@ -97,10 +89,5 @@ class StudentController extends Controller
     
         return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
 
-    }
-
-    public function profile(){
-        $user = auth()->user();
-        return view('student.profile', compact('user'));
     }
 }

@@ -58,7 +58,7 @@
                 <div class="flex flex-1 justify-end gap-6 items-center">
                     <nav class="hidden md:flex items-center gap-8">
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
-                            href="#">Dashboard</a>
+                            href="{{ route('student.dashboard') }}">Dashboard</a>
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
                             href="#">Courses</a>
                         <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Settings</a>
@@ -70,7 +70,7 @@
                         </button>
                         <div class="h-10 w-10 rounded-full bg-cover bg-center border-2 border-primary/20"
                             data-alt="User avatar"
-                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')">
+                            style="background-image: url('{{ auth()->user()->student && auth()->user()->student->avatar ? asset('storage/' . auth()->user()->student->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}')">
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                                     class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
                                     <div class="relative group">
                                         <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg"
-                                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
+                                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
                                             data-alt="Large profile picture">
                                         </div>
                                         <button
@@ -158,24 +158,16 @@
                                                 class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all opacity-60 cursor-not-allowed">
                                         </div>
                                         <div class="flex flex-col gap-2 md:col-span-2">
-                                            <label
-                                                class="text-sm font-semibold text-slate-700 dark:text-slate-300">Current
-                                                Studies / Major</label>
-                                            <select name="major"
-                                                class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary transition-all">
-                                                <option value="Computer Science"
-                                                    {{ optional(Auth::user()->student)->major == 'Computer Science' ? 'selected' : '' }}>
-                                                    Computer Science</option>
-                                                <option value="Data Science"
-                                                    {{ optional(Auth::user()->student)->major == 'Data Science' ? 'selected' : '' }}>
-                                                    Data Science</option>
-                                                <option value="UX Design"
-                                                    {{ optional(Auth::user()->student)->major == 'UX Design' ? 'selected' : '' }}>
-                                                    UX Design</option>
-                                                <option value="Business Administration"
-                                                    {{ optional(Auth::user()->student)->major == 'Business Administration' ? 'selected' : '' }}>
-                                                    Business Administration</option>
-                                            </select>
+                                            <div class="flex flex-col gap-2 md:col-span-2">
+    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">
+        Primary Interest / Field of Study
+    </label>
+    <input type="text" 
+           name="interest" 
+           value="{{ optional(Auth::user()->student)->interest }}" 
+           class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3 focus:ring-primary focus:border-primary" 
+           placeholder="Contoh: Artificial Intelligence, Cyber Security, atau Web Development">
+</div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,26 +204,9 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
-                                                Topics of Interest</p>
+                                            
                                             <div class="flex flex-wrap gap-2">
-                                                <span
-                                                    class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Artificial
-                                                    Intelligence <span
-                                                        class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-                                                <span
-                                                    class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Web
-                                                    Development <span
-                                                        class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-                                                <span
-                                                    class="px-3 py-1 bg-primary text-white rounded-full text-xs font-medium flex items-center gap-1">Cloud
-                                                    Computing <span
-                                                        class="material-symbols-outlined text-[14px] cursor-pointer">close</span></span>
-                                                <button
-                                                    class="px-3 py-1 border border-primary text-primary rounded-full text-xs font-medium hover:bg-primary/5 transition-all flex items-center gap-1">
-                                                    <span class="material-symbols-outlined text-[14px]">add</span> Add
-                                                    Topic
-                                                </button>
+                                                
                                             </div>
                                         </div>
                                     </div>

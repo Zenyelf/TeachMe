@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary(); // Untuk format seperti 'S2024-883'
             $table->string('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('major')->nullable();
+            $table->string('interest')->nullable();
             $table->string('learning_mode')->nullable();
             $table->timestamps();
         });
