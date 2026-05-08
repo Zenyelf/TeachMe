@@ -54,13 +54,13 @@ class StudentController extends Controller
         $avatarPath = $user->student->avatar ?? null; // Ambil foto lama dari tabel student
 
         if ($request->hasFile('avatar')) {
-            $fileName = 'PP_' . $user->id . '.jpg';
-            
-            // Pindahkan file ke folder storage/app/public/avatars
-            $request->avatar->move(storage_path('app/public/avatars'), $fileName);
+            $file = $request->file('avatar');
+    
+            $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
 
-            // Simpan path untuk tabel students
-            $avatarPath = "avatars/{$fileName}";
+            $file->move(storage_path('app/public/avatars'), $fileName);
+
+            $studentData['avatar'] = $fileName;
         }
 
         // 2. Update data di table USERS (Hanya kolom yang ada di users)
@@ -98,10 +98,5 @@ class StudentController extends Controller
     
         return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
 
-    }
-
-    public function profile(){
-        $user = auth()->user();
-        return view('student.profile', compact('user'));
     }
 }

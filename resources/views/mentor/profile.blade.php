@@ -113,8 +113,10 @@
 <div class="relative">
 <div class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
     <img class="w-full h-full object-cover" 
-         src="{{ auth()->user()->mentor->profile_photo ? asset('storage/' . auth()->user()->mentor->profile_photo) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}" 
-         alt="Profile Photo">
+     src="{{ auth()->user()->mentor && auth()->user()->mentor->profile_photo 
+            ? asset('storage/avatars/' . auth()->user()->mentor->profile_photo) 
+            : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}" 
+     alt="Profile Photo">
 </div> <button class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
     <span class="material-symbols-outlined text-sm">photo_camera</span>
 </button>

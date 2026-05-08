@@ -74,10 +74,15 @@ class MentorController extends Controller
         // Ambil foto yang sudah ada di database dulu sebagai default
         $photoPath = $user->mentor->profile_photo; 
 
-        // Cek apakah ada file yang diupload
+
         if ($request->hasFile('profile_photo')) {
-            // Simpan file baru ke folder public/profile_photos
-            $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
+            $file = $request->file('profile_photo');
+
+            $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
+    
+            $file->move(storage_path('app/public/avatars'), $fileName);
+    
+            $photoPath = $fileName;
         }
 
         // 4. Update data di table Mentors
