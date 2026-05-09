@@ -183,23 +183,22 @@
                                                 Preferred Learning Mode</p>
                                             <div class="flex flex-wrap gap-4">
                                                 <label class="flex items-center gap-2 cursor-pointer group">
-                                                    <input type="radio" name="learning_mode" value="Fully Online"
-                                                        {{ optional(Auth::user()->student)->learning_mode == 'Fully Online' ? 'checked' : '' }}
+                                                    <input type="radio" name="learning_mode" value="Live Online"
+                                                        {{ optional(Auth::user()->student)->learning_mode == 'Live Online' ? 'checked' : '' }}
                                                         class="w-4 h-4 text-primary focus:ring-primary">
-                                                    <span class="text-sm group-hover:text-primary">Fully Online</span>
+                                                    <span class="text-sm group-hover:text-primary">Live Online</span>
                                                 </label>
                                                 <label class="flex items-center gap-2 cursor-pointer group">
                                                     <input type="radio" name="learning_mode" value="Hybrid"
                                                         {{ optional(Auth::user()->student)->learning_mode == 'Hybrid' ? 'checked' : '' }}
                                                         class="w-4 h-4 text-primary focus:ring-primary">
-                                                    <span class="text-sm group-hover:text-primary">Hybrid /
-                                                        Blended</span>
+                                                    <span class="text-sm group-hover:text-primary">Hybrid</span>
                                                 </label>
                                                 <label class="flex items-center gap-2 cursor-pointer group">
-                                                    <input type="radio" name="learning_mode" value="In-person"
-                                                        {{ optional(Auth::user()->student)->learning_mode == 'In-person' ? 'checked' : '' }}
+                                                    <input type="radio" name="learning_mode" value="Offline Classroom"
+                                                        {{ optional(Auth::user()->student)->learning_mode == 'Offline Classroom' ? 'checked' : '' }}
                                                         class="w-4 h-4 text-primary focus:ring-primary">
-                                                    <span class="text-sm group-hover:text-primary">In-person</span>
+                                                    <span class="text-sm group-hover:text-primary">Offline Classroom</span>
                                                 </label>
                                             </div>
                                         </div>
