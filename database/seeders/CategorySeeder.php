@@ -74,8 +74,10 @@ class CategorySeeder extends Seeder
             [
                 'id' => 'M202601',
                 'user_id' => 'M202601',
-                'expertise' => 'KOSONG',
+                'title' => 'Batman',
+                'academic_degree' => 'KOSONG',
                 'bio' => 'KOSONG',
+                'preferred_learning' => 'Offline Classroom',
                 'created_at' => '2026-05-01 21:10:58',
                 'updated_at' => '2026-05-01 21:10:58',
             ],
@@ -163,7 +165,7 @@ class CategorySeeder extends Seeder
             [
                 'id' => 'S202601',
                 'user_id' => 'S202601',
-                'major' => NULL,
+                'interest' => NULL,
                 'learning_mode' => NULL,
                 'created_at' => '2026-05-01 21:13:35',
                 'updated_at' => '2026-05-01 21:13:35',
@@ -171,7 +173,7 @@ class CategorySeeder extends Seeder
             [
                 'id' => 'S202602',
                 'user_id' => 'S202602',
-                'major' => NULL,
+                'interest' => NULL,
                 'learning_mode' => NULL,
                 'created_at' => '2026-05-01 21:53:56',
                 'updated_at' => '2026-05-01 21:53:56',

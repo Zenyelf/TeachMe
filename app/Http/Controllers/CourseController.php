@@ -90,6 +90,11 @@ class CourseController extends Controller
             return redirect()->route('courses.index')->with('error', 'Only mentors can create courses!');
         }
         
+        $mentor = auth()->user()->mentor;
+        if (!$mentor) {
+            return redirect()->back()->with('error', 'Mentor profile not found.');
+        }
+        //dd($request->all());    
         // 1. Validate the input
         $request->validate([
             'title' => 'required|string|max:60',
@@ -102,7 +107,7 @@ class CourseController extends Controller
             'price' => 'required|numeric|min:0',
             'batches'              => 'required|array|min:1',
             'batches.*.start_date' => 'required|date',
-            'batches.*.end_date'   => 'required|date|after:batches.*.start_date',
+            'batches.*.end_date'   => 'required|date|after_or_equal:batches.*.start_date',
         ]);
         //dd($request->all());
         $datePrefix = 'C' . date('Ymd');
@@ -115,29 +120,21 @@ class CourseController extends Controller
         $thumbnailPath = null; 
         if ($request->hasFile('cover_image')) {
             $file = $request->file('cover_image');
-    
-            // Get the original extension (jpg, png, etc.)
-            $extension = $file->getClientOriginalExtension();
-    
          // Construct the new filename: CC_C2026050401.jpg
-            $fileName = "CC_{$courseId}.{$extension}";
-    
-            // Use storeAs to specify the path and the new name
-            // This saves to: storage/app/public/thumbnails/CC_C2026050401.jpg
+            $fileName = "CC_{$courseId}.jpg";
             $thumbnailPath = $file->storeAs('thumbnails', $fileName, 'public');
         }
 
             // USE THE PATH FROM STEP 1
         elseif ($request->filled('cover_image_path')) {
             $thumbnailPath = $request->cover_image_path;
-        
-            // OPTIONAL: Rename the hashed file to your CC_ format
-            $oldPath = storage_path('app/public/' . $thumbnailPath);
-            $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
-            $newFileName = "CC_{$courseId}.{$extension}";
+
+            $extension = pathinfo($thumbnailPath, PATHINFO_EXTENSION); // ✅ get ext from the stored path directly
+            $newFileName = "CC_{$courseId}.jpg";
             $newPath = 'thumbnails/' . $newFileName;
-        
-            if (file_exists($oldPath)) {
+
+            // ✅ Use Storage::exists() instead of file_exists()
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($thumbnailPath)) {
                 \Illuminate\Support\Facades\Storage::disk('public')->move($thumbnailPath, $newPath);
                 $thumbnailPath = $newPath;
             }
@@ -146,7 +143,7 @@ class CourseController extends Controller
         // 3. Use INSERT instead of CREATE
         DB::table('courses')->insert([
             'id' => $courseId,
-            'mentor_id' => auth()->id(),
+            'mentor_id' => $mentor->id,
             'category_id' => $request->category_id,
             'title' => $request->title,
             'description' => $request->description,
