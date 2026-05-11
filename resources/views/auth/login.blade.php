@@ -146,7 +146,7 @@
 <a class="hover:text-primary" href="#">Terms of Service</a>
 <a class="hover:text-primary" href="#">Cookie Policy</a>
 </div>
-<p>© 2024 TeachMe Inc. All rights reserved.</p>
+<p>©2026 TeachMe Inc. All rights reserved.</p>
 </footer>
 </div>
 </body></html>

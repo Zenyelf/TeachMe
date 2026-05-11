@@ -96,9 +96,11 @@
             <div class="p-4 mt-auto">
                 <div class="bg-primary/5 rounded-2xl p-4 border border-primary/10">
                     <div class="flex items-center gap-3 mb-3">
-                        <div class="size-10 rounded-full bg-slate-200 overflow-hidden">
-                            <img class="w-full h-full object-cover" data-alt="Profile picture of a male mentor"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTBj7VHLXQXX0PNYL2Lbpsx-4jfpZ8qtVZusoiR6NUD1J2W_pntz4e9wNKQHVPqH-LPj5b9qtvURCsNGXZAKnMapcTjuMD2Tu8ci3MdUt8gVPDgGpWm7KhN_kCb4Az0Obg7JYtiVqR9xJi6uXAhslVM8El39RApC9dEt_YOkiAd0k7MDS6Xk8gXayPLaVeBp_uXxxBVNHjTuV3OQ_tHHmNg3kadMmAQhY8s6qFHIMwghZvf-e7-AO79lLU7ogMx1tIAHm9SynXagQ" />
+                        <div
+                            class="size-10 rounded-full overflow-hidden bg-slate-200 border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <img class="w-full h-full object-cover"
+                                src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
+                                alt="{{ Auth::user()->name }}" />
                         </div>
                         <div>
                             <p class="text-sm font-bold">{{ Auth::user()->name }}</p>
@@ -326,35 +328,7 @@
                             <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
                         </div>
                     </div>
-                    <!-- Recent Messages -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="font-bold mb-4">Messages</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-3">
-                                <div class="size-8 rounded-full bg-blue-100">
-                                    <img class="w-full h-full object-cover" data-alt="Student profile avatar"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXbAIDA-Joc3GvMy30D9OuDLGYYekkhzpQpGkEtHi6i-gWJdLoB64sfKnSv7mfNmNObaG_STBuFZXnblZK_xUWzMZg8Ev_cfhqX1q6XIheTyEK_ufGHNrj_160N529ReYEISqlzsgheRAhibsJJWPeuFHYjqW-GK2g0r9x5RmHqlunVbLbVuP2yp4eTFHEBS1RPkUhhZzKEPjX82JNoVjnzSmqYLz4uhY0-JU2T5JwDcpauE5kzqZ5-B3hpqT_Pj9Kq02aFJa-A0k" />
-                                </div>
-                                <div class="flex-1 overflow-hidden">
-                                    <p class="text-xs font-bold truncate">Sarah Jenkins</p>
-                                    <p class="text-[10px] text-slate-500 truncate">Thanks for the feedback on my React
-                                        project!</p>
-                                </div>
-                                <span class="size-2 rounded-full bg-primary"></span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <div class="size-8 rounded-full bg-blue-100">
-                                    <img class="w-full h-full object-cover" data-alt="Student profile avatar"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcuOQauGUuUnH7ItqqebaE__JNxNocxVcmlUkbD6y9oUfZ3v1qaCbiT5a1EoMsO56JYLp18vhkZkvN2qWduS_qr44KAAkbDqmgMtJI-oc3JwA34p7IwVcbjhNC8PhAuGChORMVYz7nR60pBnZAsEfV1ODEN9wj8eL3Yg5APfjypPk6kGFt7rdClXLg9CkJe3VdrpIJmEaBQ3zkF63TlM91JEAHP4IsMC1zYcSe1iJVJO_PGEbeMF1bJ2nFVcJZPCybntDF-5JAA3c" />
-                                </div>
-                                <div class="flex-1 overflow-hidden">
-                                    <p class="text-xs font-bold truncate">Mike Peters</p>
-                                    <p class="text-[10px] text-slate-500 truncate">When is the next live session link?
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </main>

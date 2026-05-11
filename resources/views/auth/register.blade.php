@@ -164,7 +164,7 @@
 <!-- Footer -->
 <footer class="relative z-10 p-6 text-center">
 <p class="text-slate-400 dark:text-slate-600 text-xs">
-                © 2024 TeachMe Inc. All rights reserved. <br class="md:hidden"/>
+                ©2026 TeachMe Inc. All rights reserved. <br class="md:hidden"/>
 <a class="hover:text-primary mx-2" href="#">Privacy Policy</a> · 
                 <a class="hover:text-primary mx-2" href="#">Terms of Service</a>
 </p>
