@@ -185,7 +185,7 @@
 </main>
 <!-- Footer -->
 <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-slate-500 text-xs">
-<p>© 2024 TeachMe Platform. All rights reserved. Version 2.4.0-alpha</p>
+<p>©2026 TeachMe Platform. All rights reserved. Version 2.4.0-alpha</p>
 </footer>
 </div>
 </body></html>

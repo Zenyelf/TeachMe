@@ -255,7 +255,7 @@
                                     fill-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <span class="text-sm font-bold">TeachMe © 2024</span>
+                        <span class="text-sm font-bold">TeachMe ©2026</span>
                     </div>
                     <div class="flex gap-6">
                         <a class="text-xs text-slate-500 hover:text-primary" href="#">Help Center</a>

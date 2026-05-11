@@ -283,12 +283,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Promo Card -->
-                <div class="bg-primary rounded-xl p-6 text-white text-center">
-                    <h4 class="font-bold mb-2">Go Premium</h4>
-                    <p class="text-sm text-white/80 mb-4">Unlimited access to 5,000+ top courses</p>
-                    <button class="w-full py-2 bg-white text-primary rounded-lg font-bold text-sm">Upgrade Now</button>
-                </div>
             </aside>
             <!-- Course Grid -->
             <div class="flex-1">
@@ -404,7 +398,7 @@
                 </div>
             </div>
             <div class="pt-8 border-t border-slate-100 dark:border-slate-800 text-center text-xs text-slate-400">
-                © 2024 TeachMe Platform. All rights reserved.
+                ©2026 TeachMe Platform. All rights reserved.
             </div>
         </div>
     </footer>

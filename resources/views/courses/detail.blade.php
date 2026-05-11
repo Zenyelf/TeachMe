@@ -40,6 +40,97 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+
+    {{-- ===================== ENROLLMENT CONFIRMATION MODAL ===================== --}}
+    <div id="enrollModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" aria-modal="true"
+        role="dialog">
+
+        {{-- Backdrop --}}
+        <div id="modalBackdrop"
+            class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        {{-- Panel --}}
+        <div id="modalPanel"
+            class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 scale-95 opacity-0 transition-all duration-300">
+
+            {{-- Header --}}
+            <div class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="size-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">receipt_long</span>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold">Confirm Enrollment</h2>
+                        <p class="text-xs text-slate-500">Review your order before proceeding</p>
+                    </div>
+                </div>
+                <button id="closeModal"
+                    class="size-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-slate-400 text-lg">close</span>
+                </button>
+            </div>
+
+            {{-- Course Info --}}
+            <div class="px-6 pt-5">
+                <p class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-1">Course</p>
+                <p class="font-bold text-base">{{ $course->title }}</p>
+                <p class="text-xs text-slate-500 mt-0.5">{{ $course->category->name }} · {{ ucfirst($course->type) }}
+                    Class</p>
+            </div>
+
+            {{-- Selected Batches --}}
+            <div class="px-6 pt-4">
+                <p class="text-xs uppercase font-bold text-slate-400 tracking-wider mb-2">Selected Batch(es)</p>
+                <div id="modalBatchList" class="space-y-2">
+                    {{-- Filled by JS --}}
+                </div>
+                <p id="noBatchWarning" class="hidden text-sm text-red-500 font-medium py-2">
+                    <span class="material-symbols-outlined text-sm align-middle">warning</span>
+                    Please select at least one batch.
+                </p>
+            </div>
+
+            {{-- Price per batch note --}}
+            <div class="px-6 pt-4">
+                <div class="flex items-center justify-between text-sm text-slate-500 mb-1">
+                    <span>Price per batch</span>
+                    <span>Rp{{ number_format($course->price, 0, ',', '.') }},00</span>
+                </div>
+                <div class="flex items-center justify-between text-sm text-slate-500 mb-1">
+                    <span>Batches selected</span>
+                    <span id="modalBatchCount">0</span>
+                </div>
+                <div class="h-px bg-slate-100 dark:bg-slate-800 my-3"></div>
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-base">Total</span>
+                    <span id="modalTotal" class="text-2xl font-bold text-primary">Rp0</span>
+                </div>
+            </div>
+
+            {{-- Payment method reminder --}}
+            <div
+                class="mx-6 mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">credit_card</span>
+                <p class="text-xs text-blue-900 dark:text-blue-200">Payment via <span class="font-bold">Credit / Debit
+                        Card</span></p>
+            </div>
+
+            {{-- Actions --}}
+            <div class="p-6 flex gap-3 mt-2">
+                <button id="cancelBtn"
+                    class="flex-1 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    Cancel
+                </button>
+                <button id="confirmBtn"
+                    class="flex-1 py-3 rounded-xl bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">shopping_cart_checkout</span>
+                    Confirm & Enroll
+                </button>
+            </div>
+        </div>
+    </div>
+    {{-- ===================== END MODAL ===================== --}}
+
     <div class="layout-container flex h-full grow flex-col">
         <!-- Top Navigation -->
         <header
@@ -278,7 +369,7 @@
                                     Capacity is strictly limited for quality.
                                 </div>
                             </div>
-                            <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
+                            <form id="enrollForm" action="{{ route('courses.enroll', $course->id) }}" method="POST">
                                 @csrf
 
                                 {{-- Batch Selection --}}
@@ -288,9 +379,13 @@
                                     <div class="space-y-2">
                                         @forelse($course->sessions as $session)
                                         <label
-                                            class="flex items-start gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:border-primary/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                                            class="flex items-start gap-3 p-3 border border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:border-primary/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+                                            data-batch-number="{{ $session->batch_number }}"
+                                            data-start="{{ \Carbon\Carbon::parse($session->start_date)->format('d M Y') }}"
+                                            data-end="{{ \Carbon\Carbon::parse($session->end_date)->format('d M Y') }}">
+
                                             <input type="checkbox" name="batch_ids[]" value="{{ $session->id }}"
-                                                class="mt-1 w-4 h-4 text-primary focus:ring-primary border-slate-300 rounded" />
+                                                class="batch-checkbox mt-1 w-4 h-4 text-primary focus:ring-primary border-slate-300 rounded" />
                                             <div>
                                                 <p class="text-sm font-bold">Batch {{ $session->batch_number }}</p>
                                                 <p class="text-xs text-slate-500">
@@ -326,7 +421,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit"
+                                <button type="button" id="openModalBtn"
                                     class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
                                     <span class="material-symbols-outlined">shopping_cart_checkout</span>
                                     Enroll Now
@@ -336,17 +431,6 @@
                                 30-Day Money-Back Guarantee. Secure Checkout.
                             </p>
                         </div>
-                    </div>
-                    <!-- Additional Info -->
-                    <div class="bg-gradient-to-br from-primary to-blue-600 rounded-xl p-6 text-white">
-                        <h4 class="font-bold flex items-center gap-2 mb-3">
-                            <span class="material-symbols-outlined">verified_user</span>
-                            Lifetime Access
-                        </h4>
-                        <p class="text-sm text-white/80">
-                            Buy once and get unlimited access to all future course updates and our private student
-                            community.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -358,7 +442,7 @@
                     <span class="material-symbols-outlined text-primary">auto_stories</span>
                     <span class="font-bold">TeachMe</span>
                 </div>
-                <p class="text-slate-500 text-sm">© 2024 TeachMe Learning Platform. All rights reserved.</p>
+                <p class="text-slate-500 text-sm">©2026 TeachMe Learning Platform. All rights reserved.</p>
                 <div class="flex gap-6">
                     <a class="text-sm text-slate-500 hover:text-primary" href="#">Support</a>
                     <a class="text-sm text-slate-500 hover:text-primary" href="#">Privacy</a>
@@ -367,6 +451,80 @@
             </div>
         </footer>
     </div>
-</body>
 
+    <script>
+        const pricePerBatch = {
+            {
+                $course - > price
+            }
+        };
+        const modal = document.getElementById('enrollModal');
+        const backdrop = document.getElementById('modalBackdrop');
+        const panel = document.getElementById('modalPanel');
+        const batchList = document.getElementById('modalBatchList');
+        const batchCount = document.getElementById('modalBatchCount');
+        const totalEl = document.getElementById('modalTotal');
+        const warning = document.getElementById('noBatchWarning');
+
+        function formatRupiah(amount) {
+            return 'Rp' + amount.toLocaleString('id-ID') + ',00';
+        }
+
+        function openModal() {
+            const checked = document.querySelectorAll('.batch-checkbox:checked');
+
+            if (checked.length === 0) {
+                warning.classList.remove('hidden');
+                batchList.innerHTML = '';
+                batchCount.textContent = '0';
+                totalEl.textContent = formatRupiah(0);
+            } else {
+                warning.classList.add('hidden');
+                batchList.innerHTML = '';
+                checked.forEach(cb => {
+                    const label = cb.closest('label');
+                    batchList.innerHTML += `
+                        <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                            <div>
+                                <p class="text-sm font-bold">Batch ${label.dataset.batchNumber}</p>
+                                <p class="text-xs text-slate-500">${label.dataset.start} → ${label.dataset.end}</p>
+                            </div>
+                            <span class="text-sm font-semibold text-primary">${formatRupiah(pricePerBatch)}</span>
+                        </div>`;
+                });
+                batchCount.textContent = checked.length;
+                totalEl.textContent = formatRupiah(checked.length * pricePerBatch);
+            }
+
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                backdrop.classList.add('opacity-100');
+                panel.classList.remove('scale-95', 'opacity-0');
+                panel.classList.add('scale-100', 'opacity-100');
+            });
+        }
+
+        function closeModal() {
+            backdrop.classList.remove('opacity-100');
+            panel.classList.add('scale-95', 'opacity-0');
+            panel.classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        document.getElementById('openModalBtn').addEventListener('click', openModal);
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('cancelBtn').addEventListener('click', closeModal);
+        document.getElementById('modalBackdrop').addEventListener('click', closeModal);
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            const checked = document.querySelectorAll('.batch-checkbox:checked');
+            if (checked.length === 0) return;
+            document.getElementById('enrollForm').submit();
+        });
+    </script>
+
+</body>
 </html>

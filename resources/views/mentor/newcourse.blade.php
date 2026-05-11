@@ -143,7 +143,7 @@
     <header
         class="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-surface-variant px-6 h-16 flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <button aria-label="Close and return to dashboard"
+            <button onclick="window.location.href='/mentor/dashboard'" aria-label="Close and return to dashboard"
                 class="w-10 h-10 rounded-full hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>

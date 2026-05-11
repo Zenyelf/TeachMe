@@ -189,14 +189,20 @@
                             @if($batch->schedule_days)
                             <div class="flex items-center gap-1 mb-3 -mt-1">
                                 <span class="material-symbols-outlined text-[14px] text-slate-400">schedule</span>
-                                <span class="text-xs text-slate-400">
-                                    {{ str_replace(',', ' · ', $batch->schedule_days) }}
+                                <div class="flex flex-col">
+                                    <!-- Days Row -->
+                                    <span class="text-xs text-slate-400 font-medium">
+                                        {{ str_replace(',', ' · ', $batch->schedule_days) }}
+                                    </span>
+
+                                    <!-- Time Row -->
                                     @if($batch->start_time)
-                                    &nbsp;·&nbsp;
-                                    {{ \Carbon\Carbon::parse($batch->start_time)->format('H:i') }} -
-                                    {{ \Carbon\Carbon::parse($batch->end_time)->format('H:i') }}
+                                    <span class="text-xs text-slate-400">
+                                        {{ \Carbon\Carbon::parse($batch->start_time)->format('H:i') }} -
+                                        {{ \Carbon\Carbon::parse($batch->end_time)->format('H:i') }}
+                                    </span>
                                     @endif
-                                </span>
+                                </div>
                             </div>
                             @endif
                             @endif
@@ -322,7 +328,7 @@
                     </div>
                     <div
                         class="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p class="text-slate-400 text-sm">© 2024 TeachMe Learning Platform. All rights reserved.</p>
+                        <p class="text-slate-400 text-sm">©2026 TeachMe Learning Platform. All rights reserved.</p>
                         <div class="flex gap-6">
                             <a class="text-slate-400 hover:text-primary transition-colors text-sm" href="#">Help
                                 Center</a>

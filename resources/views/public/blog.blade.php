@@ -175,7 +175,7 @@
 <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-primary px-3 py-1 rounded-lg font-caption-xs uppercase">Study Tips</div>
 </div>
 <div class="p-8 flex flex-col flex-grow gap-4">
-<h3 class="font-headline-lg text-on-surface leading-tight">Mastering Deep Focus: The 2024 Guide for Online Learners</h3>
+<h3 class="font-headline-lg text-on-surface leading-tight">Mastering Deep Focus: The2026 Guide for Online Learners</h3>
 <p class="text-on-surface-variant font-body-md line-clamp-3">Discover the psychological triggers of focus and how to design a study environment that minimizes distraction and maximizes retention.</p>
 <div class="mt-auto pt-4 flex items-center justify-between border-t border-surface-variant">
 <div class="flex items-center gap-2">
@@ -348,7 +348,7 @@
 </div>
 </div>
 <div class="max-w-[1280px] mx-auto px-8 mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-gray-400 text-xs font-lexend">
-            © 2024 TeachMe. All rights reserved.
+            ©2026 TeachMe. All rights reserved.
         </div>
 </footer>
 </body></html>

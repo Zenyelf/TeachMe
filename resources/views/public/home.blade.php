@@ -305,7 +305,7 @@
                         <h2 class="text-xl font-extrabold tracking-tight">TeachMe</h2>
                     </div>
                     <p class="text-slate-500 max-w-xs mb-6">The world's leading marketplace for skills and knowledge.
-                        Empowering learners and mentors since 2024.</p>
+                        Empowering learners and mentors since2026.</p>
                     <div class="flex gap-4">
                         <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"
                             href="#">
@@ -351,7 +351,7 @@
             </div>
             <div
                 class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
-                <p>© 2024 TeachMe Technologies Inc. All rights reserved.</p>
+                <p>©2026 TeachMe Technologies Inc. All rights reserved.</p>
                 <div class="flex items-center gap-4">
                     <span class="flex items-center gap-1">
                         <span class="material-symbols-outlined text-sm">language</span>

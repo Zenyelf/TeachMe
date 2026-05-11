@@ -101,13 +101,7 @@
                     <span class="hidden lg:block font-medium">Schedule</span>
                 </a>
             </div>
-            <div class="mt-auto px-4">
-                <div class="hidden lg:block p-4 rounded-2xl bg-gradient-to-br from-primary to-blue-600 text-white">
-                    <p class="text-xs opacity-80 mb-2">Pro Plan</p>
-                    <h4 class="font-bold mb-3 leading-tight">Unlock all course materials</h4>
-                    <button class="w-full py-2 bg-white text-primary text-xs font-bold rounded-lg hover:bg-slate-100 transition-colors">Upgrade Now</button>
-                </div>
-            </div>
+            
         </aside>
 
         <!-- Chat Interface Split View -->
