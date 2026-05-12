@@ -43,14 +43,29 @@
 </div>
 <div class="flex flex-1 justify-end gap-8">
 <div class="hidden md:flex items-center gap-9">
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
-<a class="text-primary text-sm font-semibold" href="#">Feedback</a>
-<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+@auth
+    @php
+        // Cek apakah user punya mentor_id atau student_id (sesuaikan logic role kamu)
+        $isMentor = auth()->user()->mentor !== null; 
+    @endphp
+
+    @if($isMentor)
+        <a class="{{ request()->routeIs('mentor.dashboard') ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-300' }} text-sm font-medium hover:text-primary transition-colors" 
+           href="{{ route('mentor.dashboard') }}">Dashboard</a>
+    @else
+        <a class="{{ request()->routeIs('student.dashboard') ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-300' }} text-sm font-medium hover:text-primary transition-colors" 
+           href="{{ route('student.dashboard') }}">Dashboard</a>
+    @endif
+@endauth
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{{ route('courses.index') }}">Courses</a>
+<a class="text-primary text-sm font-semibold" href="{{ route('feedback.index') }}">Feedback</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="{{ url('/settings') }}">Settings</a>
 </div>
-<div class="bg-primary/20 border-2 border-primary/10 rounded-full size-10 flex items-center justify-center overflow-hidden" data-alt="User profile avatar placeholder">
-<span class="material-symbols-outlined text-primary">person</span>
-</div>
+<a href="{{ route('student.profile') }}">
+    <div class="bg-primary/20 border-2 border-primary/10 rounded-full size-10 flex items-center justify-center overflow-hidden">
+        <span class="material-symbols-outlined text-primary">person</span>
+    </div>
+</a>
 </div>
 </header>
 <!-- Main Content Area -->
@@ -64,63 +79,78 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <!-- Feedback Form Section -->
 <div class="lg:col-span-2 space-y-6">
+    <form action="{{ route('feedback.store') }}" method="POST" enctype="multipart/form-data" id="feedbackForm">
+        @csrf   
 <div class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
 <!-- Rating Experience -->
 <div class="mb-8">
 <p class="text-slate-900 dark:text-white text-base font-semibold mb-3">Your insights help us shape the future of TeachMe. Report bugs, suggest features, or just tell us how we're doing.</p>
-<div class="flex gap-4">
-<button class="flex flex-col items-center gap-1 group">
-<span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_very_dissatisfied</span>
-<span class="text-xs text-slate-500">Poor</span>
-</button>
-<button class="flex flex-col items-center gap-1 group">
-<span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_dissatisfied</span>
-<span class="text-xs text-slate-500">Bad</span>
-</button>
-<button class="flex flex-col items-center gap-1 group">
-<span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_satisfied</span>
-<span class="text-xs text-slate-500">Average</span>
-</button>
-<button class="flex flex-col items-center gap-1 group">
-<span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_satisfied_alt</span>
-<span class="text-xs text-slate-500">Good</span>
-</button>
-<button class="flex flex-col items-center gap-1 group">
-<span class="material-symbols-outlined text-3xl text-primary">sentiment_very_satisfied</span>
-<span class="text-xs text-primary font-bold">Excellent</span>
-</button>
+<input type="hidden" name="rating" id="selected_rating" value="5"> <div class="flex gap-4" id="emoji-container">
+    <button type="button" onclick="setRating(1)" class="rating-btn flex flex-col items-center gap-1 group" data-rating="1">
+        <span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_very_dissatisfied</span>
+        <span class="text-xs text-slate-500">Poor</span>
+    </button>
+
+    <button type="button" onclick="setRating(2)" class="rating-btn flex flex-col items-center gap-1 group" data-rating="2">
+        <span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_dissatisfied</span>
+        <span class="text-xs text-slate-500">Bad</span>
+    </button>
+
+    <button type="button" onclick="setRating(3)" class="rating-btn flex flex-col items-center gap-1 group" data-rating="3">
+        <span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_satisfied</span>
+        <span class="text-xs text-slate-500">Average</span>
+    </button>
+
+    <button type="button" onclick="setRating(4)" class="rating-btn flex flex-col items-center gap-1 group" data-rating="4">
+        <span class="material-symbols-outlined text-3xl text-slate-300 group-hover:text-primary transition-colors">sentiment_satisfied_alt</span>
+        <span class="text-xs text-slate-500">Good</span>
+    </button>
+
+    <button type="button" onclick="setRating(5)" class="rating-btn flex flex-col items-center gap-1 group active-rating" data-rating="5">
+        <span class="material-symbols-outlined text-3xl text-primary">sentiment_very_satisfied</span>
+        <span class="text-xs text-primary font-bold">Excellent</span>
+    </button>
 </div>
 </div>
 <!-- Category Dropdown -->
 <div class="mb-6">
-<label class="block text-slate-900 dark:text-white text-sm font-semibold mb-2">Feedback Category</label>
-<select class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-primary focus:border-primary">
-<option disabled="" selected="" value="">Choose a category...</option>
-<option value="bug">Bug Report</option>
-<option value="feature">Feature Suggestion</option>
-<option value="general">General Feedback</option>
-<option value="uiux">UI/UX Improvement</option>
-<option value="performance">Performance Issue</option>
-</select>
+    <label class="block text-slate-700 dark:text-white text-base font-semibold mb-3">Feedback Category</label>
+    <select name="category" required 
+            class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-600 dark:text-slate-300">
+        <option value="" disabled selected>Choose a category...</option>
+        <option value="Bug Report">Bug Report</option>
+        <option value="Feature Request">Feature Request</option>
+        <option value="User Interface">User Interface</option>
+        <option value="Performance">Performance</option>
+        <option value="Other">Other</option>
+    </select>
 </div>
 <!-- Detailed Comments -->
 <div class="mb-6">
-<label class="block text-slate-900 dark:text-white text-sm font-semibold mb-2">Detailed Comments</label>
-<textarea class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-primary focus:border-primary placeholder:text-slate-400" placeholder="Please describe your experience or the issue in detail..." rows="6"></textarea>
+    <label class="block text-slate-700 dark:text-white text-base font-semibold mb-3">Detailed Comments</label>
+    <textarea name="comments" required rows="5" 
+              class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-slate-600 dark:text-slate-300"
+              placeholder="Please describe your experience or the issue in detail..."></textarea>
+    @error('comments')
+    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+    @enderror
 </div>
 <!-- File Upload -->
-<div class="mb-8">
-<p class="text-slate-900 dark:text-white text-sm font-semibold mb-2">Your insights help us shape the future of TeachMe. Report bugs, suggest features, or just tell us how we're doing.</p>
-<div class="flex items-center justify-center w-full">
-<label class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 dark:border-slate-700 border-dashed rounded-xl cursor-pointer bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 transition-colors">
-<div class="flex flex-col items-center justify-center pt-5 pb-6">
-<span class="material-symbols-outlined text-slate-400 mb-2">cloud_upload</span>
-<p class="mb-1 text-sm text-slate-500 dark:text-slate-400">Your insights help us shape the future of TeachMe. Report bugs, suggest features, or just tell us how we're doing.</p>
-<p class="text-xs text-slate-400 uppercase">Your insights help us shape the future of TeachMe. Report bugs, suggest features, or just tell us how we're doing.</p>
-</div>
-<input class="hidden" type="file"/>
-</label>
-</div>
+<div class="mb-8 relative"> <label class="relative flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all overflow-hidden">
+        
+        <div id="placeholder-content" class="flex flex-col items-center justify-center pt-5 pb-6">
+            <span class="material-symbols-outlined text-slate-400 mb-2 text-4xl">cloud_upload</span>
+            <p class="text-sm text-slate-500">Click to upload screenshot (Optional)</p>
+        </div>
+
+        <img id="image-preview" src="" alt="Preview" class="hidden absolute inset-0 w-full h-full object-contain bg-white dark:bg-slate-900 p-2" />
+
+        <input type="file" id="attachment-input" name="attachment" class="hidden" accept="image/*" onchange="showPreview(event)" />
+    </label>
+
+    <button type="button" id="remove-btn" onclick="clearImage()" class="hidden absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600 transition-all z-10">
+        <span class="material-symbols-outlined text-sm">close</span>
+    </button>
 </div>
 <!-- Submit Button -->
 <div class="flex items-center justify-end gap-4">
@@ -188,4 +218,79 @@
 <p>©2026 TeachMe Platform. All rights reserved. Version 2.4.0-alpha</p>
 </footer>
 </div>
+<script>
+    // 1. Fungsi untuk Rating Emoji
+    function setRating(val) {
+        document.getElementById('selected_rating').value = val;
+
+        document.querySelectorAll('.rating-btn').forEach(btn => {
+            const icon = btn.querySelector('.material-symbols-outlined');
+            const label = btn.querySelector('span:last-child');
+            
+            icon.classList.remove('text-primary');
+            icon.classList.add('text-slate-300');
+            label.classList.remove('text-primary', 'font-bold');
+            label.classList.add('text-slate-500');
+        });
+
+        const activeBtn = document.querySelector(`[data-rating="${val}"]`);
+        const activeIcon = activeBtn.querySelector('.material-symbols-outlined');
+        const activeLabel = activeBtn.querySelector('span:last-child');
+
+        activeIcon.classList.remove('text-slate-300');
+        activeIcon.classList.add('text-primary');
+        activeLabel.classList.remove('text-slate-500');
+        activeLabel.classList.add('text-primary', 'font-bold');
+    }
+
+    // 2. Fungsi untuk Preview Gambar
+    function showPreview(event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('placeholder-content');
+        const removeBtn = document.getElementById('remove-btn');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                if(removeBtn) removeBtn.classList.remove('hidden'); // Munculkan tombol X
+                console.log("Preview berhasil dimuat!");
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // 3. Fungsi untuk Menghapus Gambar (Clear Image)
+    function clearImage() {
+        const input = document.getElementById('attachment-input');
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('placeholder-content');
+        const removeBtn = document.getElementById('remove-btn');
+
+        // Reset input file
+        if(input) input.value = "";
+        
+        // Sembunyikan preview dan tombol remove
+        if(preview) {
+            preview.src = "";
+            preview.classList.add('hidden');
+        }
+        if(removeBtn) removeBtn.classList.add('hidden');
+        
+        // Tampilkan kembali placeholder awan
+        if(placeholder) placeholder.classList.remove('hidden');
+    }
+
+    // 4. Fungsi untuk Loading saat Submit
+    document.getElementById('feedbackForm').onsubmit = function() {
+        const btn = this.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.innerHTML = 'Sending... <span class="material-symbols-outlined animate-spin text-sm">sync</span>';
+    };
+</script>
 </body></html>

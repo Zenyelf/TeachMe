@@ -7,6 +7,7 @@ use App\Http\Controllers\MentorController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\FeedbackController;
 
 Route::get('/', function () {
     return view('public.home'); #nama page
@@ -62,9 +63,8 @@ Route::get('/settings', function () {
 });
 
 // Feedback
-Route::get('/feedback', function () {
-    return view('feedback'); 
-});
+Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
 
 // Chat
 Route::get('/chat', [MessageController::class, 'index'])->middleware('auth')->name('chat');
