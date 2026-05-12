@@ -43,7 +43,6 @@
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
 <div class="relative flex h-screen w-full flex-col overflow-hidden">
     
-    <!-- Top Navigation Bar -->
     <header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 z-10">
         <div class="flex items-center gap-8">
             <div class="flex items-center gap-2 text-primary">
@@ -77,7 +76,6 @@
     </header>
 
     <main class="flex flex-1 overflow-hidden">
-        <!-- Sidebar Navigation -->
         <aside class="w-20 lg:w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col py-6">
             <div class="flex flex-col gap-2 px-4">
                 <a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
@@ -104,33 +102,62 @@
             
         </aside>
 
-        <!-- Chat Interface Split View -->
         <div class="flex flex-1 overflow-hidden bg-white dark:bg-slate-900">
-            <!-- Conversation List -->
             <div class="w-full md:w-80 lg:w-96 flex flex-col border-r border-slate-200 dark:border-slate-800 h-full">
                 <div class="p-4 space-y-4">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold">Chats</h2>
-                        <button class="p-1.5 rounded-full bg-primary/10 text-primary">
-                            <span class="material-symbols-outlined text-xl">edit_square</span>
-                        </button>
+                        
+                        <div class="flex items-center gap-2">
+                            @if(strtolower(auth()->user()->role) === 'mentor')
+                                <button onclick="document.getElementById('create-group-modal').classList.remove('hidden')" class="p-1.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors" title="Create Group">
+                                    <span class="material-symbols-outlined text-xl">group_add</span>
+                                </button>
+                            @endif
+                            
+                            <button class="p-1.5 rounded-full bg-primary/10 text-primary">
+                                <span class="material-symbols-outlined text-xl">edit_square</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                        <button class="flex-1 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-slate-700 shadow-sm">All</button>
-                        <button class="flex-1 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-400">Mentors</button>
-                        <button class="flex-1 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-400">Groups</button>
+                    
+                    <div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg" id="chat-filters">
+                        <button data-filter="all" class="filter-btn flex-1 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white transition-all">All</button>
+                        <button data-filter="dms" class="filter-btn flex-1 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 transition-all">Direct</button>
+                        <button data-filter="groups" class="filter-btn flex-1 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 transition-all">Groups</button>
                     </div>
+                    
                     <div class="relative">
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">search</span>
                         <input id="chat-search" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm" placeholder="Search conversations..." type="text"/>
                     </div>
                 </div>
                 
-                <!-- DYNAMIC SIDEBAR CONTACTS -->
-                <div class="flex-1 overflow-y-auto custom-scrollbar">
+                <div class="flex-1 overflow-y-auto custom-scrollbar" id="contacts-container">
+                    
+                    @if(isset($groups) && count($groups) > 0)
+                        <div class="group-header px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Groups</div>
+                        @foreach($groups as $group)
+                        <a href="{{ route('chat', ['group_id' => $group->id]) }}" class="chat-item is-group flex items-center gap-4 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800/50">
+                            <div class="relative flex-shrink-0">
+                                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+                                    <span class="material-symbols-outlined">forum</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-col justify-center mb-0.5">
+                                    <h4 class="text-sm font-semibold truncate">{{ $group->name }}</h4>
+                                    <p class="text-xs text-primary truncate mt-0.5">Group Chat</p>
+                                </div>
+                            </div>
+                        </a>
+                        @endforeach
+                        <div class="dm-header px-4 pt-4 pb-2 text-xs font-bold text-slate-400 uppercase tracking-wider">Direct Messages</div>
+                    @endif
+
                     @if(isset($contacts) && count($contacts) > 0)
                         @foreach($contacts as $contact)
-                        <a href="{{ route('chat', ['user_id' => $contact->id]) }}" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800/50 {{ (isset($activeUser) && $activeUser->id == $contact->id) ? 'bg-primary/5 border-r-4 border-primary' : '' }}">
+                        <a href="{{ route('chat', ['user_id' => $contact->id]) }}" class="chat-item is-dm flex items-center gap-4 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800/50 {{ (isset($activeUser) && $activeUser->id == $contact->id) ? 'bg-primary/5 border-r-4 border-primary' : '' }}">
                             <div class="relative flex-shrink-0">
                                 <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-lg">
                                     {{ substr($contact->name, 0, 1) }}
@@ -150,23 +177,49 @@
                 </div>
             </div>
 
-            <!-- Active Chat Area -->
             <div class="hidden md:flex flex-1 flex-col h-full bg-slate-50 dark:bg-slate-950 relative">
-                <!-- Chat Header -->
                 <div class="h-16 flex items-center justify-between px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500">
-                            {{ isset($activeUser) ? substr($activeUser->name, 0, 1) : '?' }}
-                        </div>
-                        <div>
-                            <h3 class="text-sm font-bold leading-none">{{ isset($activeUser) ? $activeUser->name : 'Select a chat' }}</h3>
-                            <div class="flex items-center gap-1.5 mt-1">
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                <span class="text-[10px] font-medium text-slate-500">Active</span>
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        @if(isset($activeGroup))
+                            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                <span class="material-symbols-outlined">forum</span>
                             </div>
-                        </div>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold leading-none truncate">{{ $activeGroup->name }}</h3>
+                                <p class="text-[11px] font-medium text-slate-500 mt-1.5 truncate max-w-md">
+                                    {{ $activeGroup->users->pluck('name')->implode(', ') }}
+                                </p>
+                            </div>
+                        @elseif(isset($activeUser))
+                            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 shrink-0">
+                                {{ substr($activeUser->name, 0, 1) }}
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-bold leading-none truncate">{{ $activeUser->name }}</h3>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                    <span class="text-[10px] font-medium text-slate-500">Active</span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 shrink-0">
+                                <span class="material-symbols-outlined">chat</span>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold leading-none text-slate-500">Select a conversation</h3>
+                            </div>
+                        @endif
                     </div>
-                    <div class="flex items-center gap-4">
+                    
+                    <div class="flex items-center gap-4 shrink-0">
+                        @if(isset($activeGroup))
+                            <button onclick="document.getElementById('add-member-modal').classList.remove('hidden')" class="p-2 text-slate-400 hover:text-primary transition-colors" title="Add User">
+                                <span class="material-symbols-outlined">person_add</span>
+                            </button>
+                            <button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Group Settings">
+                                <span class="material-symbols-outlined">settings</span>
+                            </button>
+                        @endif
                         <button class="p-2 text-slate-400 hover:text-primary transition-colors">
                             <span class="material-symbols-outlined">call</span>
                         </button>
@@ -179,12 +232,10 @@
                     </div>
                 </div>
 
-                <!-- DYNAMIC MESSAGE HISTORY -->
                 <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
                     @if(isset($messages) && count($messages) > 0)
                         @foreach($messages as $msg)
                             @if($msg->sender_id == auth()->id())
-                                <!-- Sent Message (Right Side) -->
                                 <div class="flex flex-row-reverse items-end gap-3 max-w-[80%] ml-auto mt-4">
                                     <div class="space-y-1 text-right">
                                         <div class="bg-primary text-white p-4 rounded-2xl rounded-br-none shadow-md shadow-primary/20 text-sm inline-block text-left">
@@ -197,10 +248,9 @@
                                     </div>
                                 </div>
                             @else
-                                <!-- Received Message (Left Side) -->
                                 <div class="flex items-end gap-3 max-w-[80%] mt-4">
                                     <div class="w-8 h-8 rounded-full flex-shrink-0 bg-slate-200 flex items-center justify-center font-bold text-xs text-slate-500">
-                                        {{ isset($activeUser) ? substr($activeUser->name, 0, 1) : '?' }}
+                                        {{ isset($activeUser) ? substr($activeUser->name, 0, 1) : 'U' }}
                                     </div>
                                     <div class="space-y-1">
                                         <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-none shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 inline-block">
@@ -218,42 +268,97 @@
                     @endif
                 </div>
 
-                <!-- Message Input -->
-<div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
-    <div class="flex items-end gap-3">
-        <button class="p-2.5 text-slate-400 hover:text-primary transition-colors">
-            <span class="material-symbols-outlined">add_circle</span>
-        </button>
-        <button class="p-2.5 text-slate-400 hover:text-primary transition-colors">
-            <span class="material-symbols-outlined">mood</span>
-        </button>
-        <div class="flex-1 relative">
-            
-            <textarea id="message-input" 
-                class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-primary focus:border-primary resize-none h-[48px] max-h-32 disabled:opacity-50 disabled:cursor-not-allowed" 
-                @if(!isset($activeUser))
-                    disabled placeholder="Select a contact to start chatting..."
-                @else
-                    placeholder="Type your message..."
-                @endif
-            ></textarea>
-            
-            <button id="send-button" 
-                class="absolute right-2 bottom-1.5 p-2 bg-primary text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                @if(!isset($activeUser)) disabled @endif>
-                <span class="material-symbols-outlined text-sm">send</span>
-            </button>
-            
-        </div>
-    </div>
-</div>
+                <div class="p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                    <div class="flex items-end gap-3">
+                        <button class="p-2.5 text-slate-400 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">add_circle</span>
+                        </button>
+                        <button class="p-2.5 text-slate-400 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">mood</span>
+                        </button>
+                        <div class="flex-1 relative">
+                            
+                            <textarea id="message-input" 
+                                class="w-full pl-4 pr-12 py-3 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-primary focus:border-primary resize-none h-[48px] max-h-32 disabled:opacity-50 disabled:cursor-not-allowed" 
+                                @if(!isset($activeUser) && !isset($activeGroup))
+                                    disabled placeholder="Select a contact or group to start chatting..."
+                                @else
+                                    placeholder="Type your message..."
+                                @endif
+                            ></textarea>
+                            
+                            <button id="send-button" 
+                                class="absolute right-2 bottom-1.5 p-2 bg-primary text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                                @if(!isset($activeUser) && !isset($activeGroup)) disabled @endif>
+                                <span class="material-symbols-outlined text-sm">send</span>
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </main>
 </div>
 
-<!-- Load Pusher and Echo -->
+@if(strtolower(auth()->user()->role) === 'mentor')
+<div id="create-group-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 w-full max-w-md border border-slate-200 dark:border-slate-800">
+        <h3 class="text-xl font-bold mb-6">Create Group Chat</h3>
+        <form action="{{ route('groups.store') }}" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Group Name</label>
+                <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800" placeholder="e.g. Web Dev Cohort 1">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Select Course</label>
+                <select name="course_id" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                    <option value="">-- Choose a Course --</option>
+                    @if(isset($myCourses))
+                        @foreach($myCourses as $course)
+                            <option value="{{ $course->id }}">{{ $course->title }}</option>
+                        @endforeach
+                    @endif
+                </select>
+                <p class="text-xs text-slate-500 mt-2">All currently enrolled students will be added automatically.</p>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="document.getElementById('create-group-modal').classList.add('hidden')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold">Cancel</button>
+                <button type="submit" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold">Create Group</button>
+            </div>
+        </form>
+    </div>
+</div>
+@endif
+
+@if(isset($activeGroup))
+<div id="add-member-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 w-full max-w-md border border-slate-200 dark:border-slate-800">
+        <h3 class="text-xl font-bold mb-6">Add Member to {{ $activeGroup->name }}</h3>
+        <form action="{{ route('groups.add', $activeGroup->id) }}" method="POST">
+            @csrf
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Select a Contact</label>
+                <select name="user_id" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                    <option value="">-- Choose User --</option>
+                    @if(isset($contacts))
+                        @foreach($contacts as $contact)
+                            <option value="{{ $contact->id }}">{{ $contact->name }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="document.getElementById('add-member-modal').classList.add('hidden')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold">Cancel</button>
+                <button type="submit" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold">Add to Group</button>
+            </div>
+        </form>
+    </div>
+</div>
+@endif
+
 <script src="https://js.pusher.com/8.0/pusher.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.3/dist/echo.iife.js"></script>
 
@@ -266,9 +371,9 @@
         forceTLS: true
     });
 
-    // 2. Safely pass IDs to JavaScript wrapped in strings
     const myUserId = "{{ auth()->id() }}"; 
-    const currentReceiverId = "{{ optional($activeUser)->id }}";
+    const currentReceiverId = "{{ isset($activeUser) ? $activeUser->id : '' }}";
+    const currentGroupId = "{{ isset($activeGroup) ? $activeGroup->id : '' }}"; 
 
     const chatContainer = document.getElementById('chat-messages');
     const messageInput = document.getElementById('message-input');
@@ -285,40 +390,33 @@
         });
     });
 
-    // Scroll to bottom on initial load
     if(chatContainer) {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    // 3. Listen for incoming messages (Only run if user is logged in)
     if (myUserId !== '') {
         window.Echo.private(`chat.${myUserId}`)
-            // ADDED THE DOT HERE (.MessageSentEvent)
             .listen('.MessageSentEvent', (e) => {
-                
-                // Print the event to the browser console so we know it arrived!
-                console.log("BOOM! Event received from Pusher:", e);
-
-                // Changed === to == so it doesn't fail if one is an integer and one is a string
-                if(e.message.sender_id == currentReceiverId) {
+                if(e.message.sender_id == currentReceiverId && !e.message.group_id) {
                     appendMessageToUI(e.message.message, 'received');
-                } else {
-                    console.log("Message received, but it's from someone else. Sender:", e.message.sender_id);
                 }
             });
     }
 
-    // 4. The Core Send Function
+    if (currentGroupId !== '') {
+        window.Echo.private(`chat.group.${currentGroupId}`)
+            .listen('.MessageSentEvent', (e) => {
+                if(e.message.sender_id != myUserId) {
+                    appendMessageToUI(e.message.message, 'received');
+                }
+            });
+    }
+
     async function executeSendMessage() {
         const message = messageInput.value;
-        
-        // Prevent sending empty messages or sending to nobody
-        if (!message.trim() || !currentReceiverId) return;
+        if (!message.trim() || (!currentReceiverId && !currentGroupId)) return;
 
-        // Clear the input box immediately
         messageInput.value = '';
-
-        // Show the message on the screen
         appendMessageToUI(message, 'sent');
 
         try {
@@ -330,7 +428,8 @@
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({
-                    receiver_id: currentReceiverId,
+                    receiver_id: currentReceiverId || null,
+                    group_id: currentGroupId || null,
                     message: message
                 })
             });
@@ -340,35 +439,26 @@
         }
     }
 
-    // 5. Event Listeners for Button Click AND Enter Key
     if (sendButton && messageInput) {
-        // Handle clicking the send button
         sendButton.addEventListener('click', function(e) {
             e.preventDefault();
             executeSendMessage();
         });
 
-        // Handle typing in the textarea
         messageInput.addEventListener('keydown', function (e) {
-            // If they press Enter WITHOUT holding Shift, send the message
             if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault(); // Stop it from making a new line
+                e.preventDefault(); 
                 executeSendMessage();
             }
         });
     }
 
-    // 6. UI Builder Function
     function appendMessageToUI(messageText, type) {
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
-        // Remove the "Start conversation" text if it exists
         const placeholder = chatContainer.querySelector('.flex.justify-center.mt-10');
         if(placeholder) placeholder.remove();
 
-        // Convert newlines in the textarea to HTML break tags
         const formattedMessage = messageText.replace(/\n/g, '<br>');
-
         let html = '';
 
         if (type === 'sent') {
@@ -385,11 +475,11 @@
                 </div>
             </div>`;
         } else {
-            const activeUserInitial = '{{ isset($activeUser) ? substr($activeUser->name, 0, 1) : "?" }}';
+            const avatarLetter = 'U'; 
             html = `
             <div class="flex items-end gap-3 max-w-[80%] mt-4">
                 <div class="w-8 h-8 rounded-full flex-shrink-0 bg-slate-200 flex items-center justify-center font-bold text-xs text-slate-500">
-                    ${activeUserInitial}
+                    ${avatarLetter}
                 </div>
                 <div class="space-y-1">
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-bl-none shadow-sm text-sm border border-slate-100 dark:border-slate-700/50 inline-block">
@@ -404,33 +494,70 @@
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
+    // ==========================================
+    // NEW: CHAT FILTER LOGIC (All / Direct / Groups)
+    // ==========================================
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const chatItems = document.querySelectorAll('.chat-item');
+    const groupHeader = document.querySelector('.group-header');
+    const dmHeader = document.querySelector('.dm-header');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 1. Reset all buttons to inactive styling
+            filterButtons.forEach(b => {
+                b.classList.remove('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'font-semibold', 'text-slate-900', 'dark:text-white');
+                b.classList.add('font-medium', 'text-slate-500', 'dark:text-slate-400');
+            });
+
+            // 2. Add active styling to clicked button
+            btn.classList.remove('font-medium', 'text-slate-500', 'dark:text-slate-400');
+            btn.classList.add('bg-white', 'dark:bg-slate-700', 'shadow-sm', 'font-semibold', 'text-slate-900', 'dark:text-white');
+
+            // 3. Get the filter type
+            const filterType = btn.getAttribute('data-filter');
+
+            // 4. Show/Hide sidebar items
+            chatItems.forEach(item => {
+                if (filterType === 'all') {
+                    item.style.display = 'flex';
+                } else if (filterType === 'groups') {
+                    item.style.display = item.classList.contains('is-group') ? 'flex' : 'none';
+                } else if (filterType === 'dms') {
+                    item.style.display = item.classList.contains('is-dm') ? 'flex' : 'none';
+                }
+            });
+
+            // 5. Show/Hide section headers
+            if(groupHeader) groupHeader.style.display = (filterType === 'all' || filterType === 'groups') ? 'block' : 'none';
+            if(dmHeader) dmHeader.style.display = (filterType === 'all' || filterType === 'dms') ? 'block' : 'none';
+        });
+    });
+
     // Chat Sidebar Search Logic
     const searchInput = document.getElementById('chat-search');
-    const contactsContainer = document.querySelector('.custom-scrollbar'); // The sidebar list
-    const originalContactsHTML = contactsContainer.innerHTML; // Save existing chats
+    const contactsContainer = document.getElementById('contacts-container'); 
+    const originalContactsHTML = contactsContainer ? contactsContainer.innerHTML : ''; 
 
-    if(searchInput) {
+    if(searchInput && contactsContainer) {
         searchInput.addEventListener('input', async function(e) {
             const query = e.target.value;
             
-            // If search is empty, restore recent chats
             if (query.length < 1) {
                 contactsContainer.innerHTML = originalContactsHTML;
                 return;
             }
 
-            // Fetch users from database
             const res = await fetch(`/api/users/search?q=${query}`);
             const users = await res.json();
 
-            // Clear sidebar and populate with search results
             contactsContainer.innerHTML = '';
             if(users.length === 0) {
                 contactsContainer.innerHTML = `<div class="p-4 text-center text-slate-500 text-sm">No users found.</div>`;
             } else {
                 users.forEach(user => {
                     contactsContainer.innerHTML += `
-                        <a href="/chat?user_id=${user.id}" class="flex items-center gap-4 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800/50">
+                        <a href="/chat?user_id=${user.id}" class="chat-item is-dm flex items-center gap-4 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800 border-b border-slate-100 dark:border-slate-800/50">
                             <div class="relative flex-shrink-0">
                                 <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-primary font-bold text-lg">
                                     ${user.name.charAt(0)}

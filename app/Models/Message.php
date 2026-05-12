@@ -11,9 +11,10 @@ class Message extends Model
 
     // 1. Tell Laravel these columns are safe to fill when saving to the database
     protected $fillable = [
+        'group_id', // <-- ADD THIS
         'sender_id',
         'receiver_id',
-        'message',
+        'message'
     ];
 
     // 2. Setup the relationship: A message belongs to a Sender

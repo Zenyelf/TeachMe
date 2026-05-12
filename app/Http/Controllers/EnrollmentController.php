@@ -47,6 +47,7 @@ class EnrollmentController extends Controller
             'course_id'  => $course->id,
             'session_id' => $sessionId,
             'status'     => 'active',
+            'progress_percent' => 0,
             'enrolled_at'=> now(),
         ]);
 

@@ -23,10 +23,16 @@ class MessageSent implements ShouldBroadcastNow
     }
 
     // This determines WHICH channel Pusher sends the message to
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        // We use a Private channel tied to the receiver's ID for security
+        // If it's a group message, broadcast to the Group Channel
+        if ($this->message->group_id) {
+            return new PrivateChannel('chat.group.' . $this->message->group_id);
+        }
+
+        // Otherwise, broadcast to the normal 1-on-1 channels
         return [
+            new PrivateChannel('chat.' . $this->message->sender_id),
             new PrivateChannel('chat.' . $this->message->receiver_id),
         ];
     }
