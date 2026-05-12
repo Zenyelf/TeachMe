@@ -92,6 +92,11 @@
                     <span class="material-symbols-outlined">calendar_month</span>
                     <span>Schedule</span>
                 </a>
+                <a href="{{ route('feedback.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    <span class="material-symbols-outlined">rate_review</span>
+                    <span>Feedback</span>
+                </a>
             </nav>
             <div class="p-4 mt-auto">
                 <div class="bg-primary/5 rounded-2xl p-4 border border-primary/10">

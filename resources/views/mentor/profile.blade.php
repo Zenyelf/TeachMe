@@ -137,16 +137,17 @@
                     <div
                         class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-center gap-8">
                         <div class="relative">
-                            <div
-                                class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
-                                <img class="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-md"
-                                    src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
-                                    alt="Profile picture">
-                            </div> <button
-                                class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
-                                <span class="material-symbols-outlined text-sm">photo_camera</span>
-                            </button>
-                        </div>
+    <div class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
+        <img id="image-preview-mentor" 
+             class="w-32 h-32 rounded-full object-cover"
+             src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
+             alt="Profile picture">
+    </div> 
+    <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
+        class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
+        <span class="material-symbols-outlined text-sm">photo_camera</span>
+    </button>
+</div>
                         <div class="flex-1 text-center md:text-left">
                             <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
                                 <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">
@@ -173,12 +174,12 @@
                         </div>
 
                         <div class="mt-4 md:mt-0">
-                            <label
-                                class="cursor-pointer inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
-                                Upload New Photo
-                                <input type="file" name="avatar" class="hidden">
-                            </label>
-                        </div>
+    <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
+            class="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
+        Upload New Photo
+    </button>
+    <input type="file" name="avatar" id="avatar-input-mentor" class="hidden" accept="image/*" onchange="previewMentorAvatar(event)">
+</div>
                     </div>
                     <!-- Profile Details Form -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -385,6 +386,23 @@
         </div>
     </footer>
     </div>
+    <script>
+    function previewMentorAvatar(event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview-mentor');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Mengganti src dari tag img secara langsung
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </body>
 
 </html>

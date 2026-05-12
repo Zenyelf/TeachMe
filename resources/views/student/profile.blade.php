@@ -60,7 +60,7 @@
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
                             href="{{ route('student.dashboard') }}">Dashboard</a>
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
-                            href="#">Courses</a>
+                            href="{{ route('courses.index') }}">Courses</a>
                         <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Settings</a>
                     </nav>
                     <div class="flex items-center gap-4">
@@ -90,24 +90,26 @@
                                 <div
                                     class="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center">
                                     <div class="relative group">
-                                        <div class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg"
-                                            style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
-                                            data-alt="Large profile picture">
-                                        </div>
-                                        <button
-                                            class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors">
-                                            <span class="material-symbols-outlined text-sm">photo_camera</span>
-                                        </button>
-                                    </div>
-                                    <div class="mt-4 text-center">
-                                        <h3 class="text-lg font-bold">{{ Auth::user()->name }}</h3>
-                                        <p class="text-slate-500 text-sm">Student ID: #{{ Auth::user()->id }}</p>
-                                    </div>
-                                    <button type="button" onclick="document.getElementById('avatar-input').click()"
-                                        class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
-                                        Upload New Photo
-                                    </button>
-                                    <input type="file" name="avatar" id="avatar-input" class="hidden" accept="image/*">
+    <div id="avatar-preview" class="h-32 w-32 rounded-full bg-cover bg-center border-4 border-white dark:border-slate-800 shadow-lg transition-all"
+        style="background-image: url('{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')"
+        data-alt="Large profile picture">
+    </div>
+    <button type="button" onclick="document.getElementById('avatar-input').click()"
+        class="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors">
+        <span class="material-symbols-outlined text-sm">photo_camera</span>
+    </button>
+</div>
+
+<div class="mt-4 text-center">
+    <h3 class="text-lg font-bold">{{ Auth::user()->name }}</h3>
+    <p class="text-slate-500 text-sm">Student ID: #{{ Auth::user()->id }}</p>
+</div>
+
+<button type="button" onclick="document.getElementById('avatar-input').click()"
+    class="mt-6 w-full py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-colors">
+    Upload New Photo
+</button>
+<input type="file" name="avatar" id="avatar-input" class="hidden" accept="image/*" onchange="previewAvatar(event)">
                                     <p class="text-[10px] text-slate-400 mt-3 text-center">JPG, GIF or PNG. Max size
                                         2MB.</p>
                                 </div>
@@ -266,6 +268,23 @@
             </footer>
         </div>
     </div>
+    <script>
+    function previewAvatar(event) {
+        const input = event.target;
+        const preview = document.getElementById('avatar-preview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Mengganti background-image secara instan
+                preview.style.backgroundImage = `url(${e.target.result})`;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 </body>
 
 </html>
