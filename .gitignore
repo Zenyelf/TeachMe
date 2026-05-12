@@ -24,6 +24,7 @@
 /public/hot
 /public/storage/avatars/*
 /public/storage/Thumbnails/*
+public/uploads/feedbacks/*
 
 # Testing & IDEs
 .phpunit.result.cache
