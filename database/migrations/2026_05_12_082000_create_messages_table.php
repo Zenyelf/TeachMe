@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id(); // Creates an auto-incrementing integer ID for the message itself
-            
+            $table->foreignId('group_id')->nullable()->constrained('groups')->onDelete('cascade');
             // We use string() because your user IDs look like 'S202601'
             $table->string('sender_id'); 
-            $table->string('receiver_id');
+            $table->string('receiver_id')->nullable();
             
             // The actual content of the chat message
             $table->text('message');
