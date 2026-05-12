@@ -14,29 +14,25 @@ class GroupController extends Controller
     {
         $mentor = Auth::user();
 
-        // 1. Validate the request (we need a group name and a specific course to pull students from)
+        // 1. Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id'
         ]);
 
         // 2. Security Check: Make sure this mentor actually owns this course
-        $course = Course::where('id', $request->course_id)->where('mentor_id', $mentor->id)->firstOrFail();
+        $course = \App\Models\Course::where('id', $request->course_id)->where('mentor_id', $mentor->id)->firstOrFail();
 
         // 3. Create the Group
-        $group = Group::create([
+        $group = \App\Models\Group::create([
             'name' => $request->name,
             'mentor_id' => $mentor->id
         ]);
 
-        // 4. Get all students enrolled in this specific course
-        $enrolledStudentIds = Enrollment::where('course_id', $course->id)->pluck('user_id')->toArray();
+        // 4. ONLY add the Mentor to the group (No auto-invites for students!)
+        $group->users()->attach([$mentor->id]);
 
-        // 5. Add the Mentor AND all the Students to the group pivot table
-        $allMembers = array_merge([$mentor->id], $enrolledStudentIds);
-        $group->users()->attach($allMembers);
-
-        return redirect()->back()->with('success', 'Group Chat created successfully!');
+        return redirect()->back()->with('success', 'Group Chat created! You can now manually add members.');
     }
 
     public function addMember(Request $request, $id)
