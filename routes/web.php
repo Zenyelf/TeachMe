@@ -71,6 +71,10 @@ Route::get('/chat', [MessageController::class, 'index'])->middleware('auth')->na
 
 Route::get('/api/users/search', [MessageController::class, 'search'])->middleware('auth');
 
+Route::post('/groups/create', [App\Http\Controllers\GroupController::class, 'store'])->name('groups.store')->middleware('auth');
+
+Route::post('/groups/{id}/add', [App\Http\Controllers\GroupController::class, 'addMember'])->name('groups.add')->middleware('auth');
+
 // Protect it with the auth middleware so only logged-in users can chat
 Route::middleware(['auth'])->group(function () {
     Route::post('/api/messages/send', [MessageController::class, 'sendMessage']);

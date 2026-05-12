@@ -453,11 +453,7 @@
     </div>
 
     <script>
-        const pricePerBatch = {
-            {
-                $course - > price
-            }
-        };
+        const pricePerBatch = {{ $course->price }};
         const modal = document.getElementById('enrollModal');
         const backdrop = document.getElementById('modalBackdrop');
         const panel = document.getElementById('modalPanel');
