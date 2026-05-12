@@ -30,6 +30,7 @@ class MentorController extends Controller
             ->take(4);
 
         return view('mentor.dashboard', compact(
+            'mentor',
             'recentMessages',
             'totalStudents',
             'activeCoursesCount',

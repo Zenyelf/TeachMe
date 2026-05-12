@@ -54,6 +54,12 @@ class EnrollmentController extends Controller
         $enrolledBatches[] = $sessionId;
     }
 
+    if (!empty($enrolledBatches)) {
+        $earned = $course->price * count($enrolledBatches);
+
+        \App\Models\Mentor::where('user_id', $course->mentor_id)->increment('revenue', $earned);
+    }
+
     // 3. Build feedback message
     if (empty($enrolledBatches) && !empty($skippedBatches)) {
         return redirect()->back()

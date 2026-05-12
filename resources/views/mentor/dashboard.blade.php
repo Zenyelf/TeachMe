@@ -173,7 +173,7 @@
                         </div>
                     </div>
                     <p class="text-slate-500 text-sm font-medium">Monthly Earnings</p>
-                    <h3 class="text-2xl font-bold">$4,200</h3>
+                    <h3 class="text-2xl font-bold">Rp{{ number_format($mentor->revenue, 2) }}</h3>
                 </div>
                 <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-start mb-4">

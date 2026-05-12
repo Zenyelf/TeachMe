@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('linkedin_url')->nullable();
             $table->string('portfolio_url')->nullable();
             $table->string('twitter_handle')->nullable();
+            $table->decimal('revenue', 12, 2)->default(0);
 
             $table->timestamps();
 
