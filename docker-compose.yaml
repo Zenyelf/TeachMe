@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # 1. The Laravel PHP Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: teachme-app
+    container_name: teachme-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - teachme-network
+
+  # 2. The Nginx Web Server
+  web:
+    image: nginx:alpine
+    container_name: teachme-web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/app.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - teachme-network
+    depends_on:
+      - app
+
+  # 3. The MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: teachme-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: teachme
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_USER: teachme
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - teachme-network
+
+networks:
+  teachme-network:
+    driver: bridge
+
+volumes:
+  dbdata:
