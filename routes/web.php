@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('public.home'); #nama page
@@ -99,3 +100,12 @@ Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'store'])
 // Review Routes (Make sure these are inside your auth middleware group if you have one!)
 Route::get('/courses/{course}/review', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create')->middleware('auth');
 Route::post('/courses/{course}/review', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
+
+//Admin
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // This maps the URL '/admin' to the name 'admin.index'
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    
+    // This maps the URL '/admin/mentors/{id}/toggle-verify' to the name 'admin.toggle-verify'
+    Route::post('/mentors/{id}/toggle-verify', [AdminController::class, 'toggleVerify'])->name('toggle-verify');
+});

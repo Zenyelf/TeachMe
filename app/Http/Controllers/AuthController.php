@@ -121,7 +121,7 @@ class AuthController extends Controller
         }
 
         if ($user->role === 'Admin') {
-            return redirect('/courses'); //ADMIN
+            return redirect()->route('admin.index'); //ADMIN
         }
 
         // fallback if role is unexpected
