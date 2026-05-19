@@ -199,7 +199,7 @@
                             <div class="min-w-0">
                                 <h3 class="text-sm font-bold leading-none truncate">{{ $activeGroup->name }}</h3>
                                 <p class="text-[11px] font-medium text-slate-500 mt-1.5 truncate max-w-md">
-                                    {{ $activeGroup->users->pluck('name')->implode(', ') }}
+                                    {{ $activeGroup->users->pluck('name')->unique()->implode(', ') }}
                                 </p>
                             </div>
                         @elseif(isset($activeUser))

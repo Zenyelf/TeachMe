@@ -31,9 +31,12 @@ class GroupController extends Controller
 
         // 4. AUTO-INVITE: Get all enrolled students + the mentor
         $enrolledStudentIds = \App\Models\Enrollment::where('course_id', $course->id)->pluck('user_id')->toArray();
-        $allMembers = array_merge([$mentor->id], $enrolledStudentIds);
-        
-        $group->users()->attach($allMembers);
+
+// 1. array_unique ensures the mentor isn't duplicated if they somehow enrolled in their own course
+$allMembers = array_unique(array_merge([$mentor->id], $enrolledStudentIds));
+
+// 2. syncWithoutDetaching prevents Laravel from adding duplicate rows in the pivot table
+$group->users()->syncWithoutDetaching($allMembers);
 
         return redirect()->back()->with('success', 'Group created and students invited automatically!');
     }
