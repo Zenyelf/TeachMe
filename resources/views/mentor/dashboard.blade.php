@@ -399,107 +399,113 @@
         }
     }'>
 
-    {{-- Header with Custom Dropdowns --}}
-    <div class="flex justify-between items-center mb-5">
-        <div class="flex items-center gap-4">
-            
-            <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open" type="button"
-                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
-                    <span x-text="['January','February','March','April','May','June','July','August','September','October','November','December'][month]"></span>
-                    <span class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
-                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
-                </button>
+                    {{-- Header with Custom Dropdowns --}}
+                    <div class="flex justify-between items-center mb-5">
+                        <div class="flex items-center gap-4">
 
-                <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="absolute left-0 mt-1 w-40 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
-                    style="display: none;">
-                    <template x-for="(m, idx) in ['January','February','March','April','May','June','July','August','September','October','November','December']" :key="idx">
-                        <button @click="month = idx; updateDate(); open = false" type="button"
-                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
-                            :class="month == idx ? 'bg-primary/5 text-primary font-semibold' : ''"
-                            x-text="m">
-                        </button>
-                    </template>
-                </div>
-            </div>
+                            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                                <button @click="open = !open" type="button"
+                                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
+                                    <span
+                                        x-text="['January','February','March','April','May','June','July','August','September','October','November','December'][month]"></span>
+                                    <span
+                                        class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
+                                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
+                                </button>
 
-            <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open" type="button"
-                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
-                    <span x-text="year"></span>
-                    <span class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
-                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
-                </button>
+                                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    class="absolute left-0 mt-1 w-40 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
+                                    style="display: none;">
+                                    <template
+                                        x-for="(m, idx) in ['January','February','March','April','May','June','July','August','September','October','November','December']"
+                                        :key="idx">
+                                        <button @click="month = idx; updateDate(); open = false" type="button"
+                                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
+                                            :class="month == idx ? 'bg-primary/5 text-primary font-semibold' : ''"
+                                            x-text="m">
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
 
-                <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="absolute left-0 mt-1 w-28 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
-                    style="display: none;">
-                    <template x-for="y in yearOptions" :key="y">
-                        <button @click="year = y; updateDate(); open = false" type="button"
-                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
-                            :class="year == y ? 'bg-primary/5 text-primary font-semibold' : ''"
-                            x-text="y">
-                        </button>
-                    </template>
-                </div>
-            </div>
-        </div>
+                            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                                <button @click="open = !open" type="button"
+                                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
+                                    <span x-text="year"></span>
+                                    <span
+                                        class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
+                                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
+                                </button>
 
-        {{-- Navigation Arrows --}}
-        <div class="flex gap-1">
-            <button @click="prev()" type="button"
-                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
-                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
-            </button>
-            <button @click="next()" type="button"
-                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
-                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
-            </button>
-        </div>
-    </div>
+                                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                                    x-transition:enter-start="opacity-0 scale-95"
+                                    x-transition:enter-end="opacity-100 scale-100"
+                                    class="absolute left-0 mt-1 w-28 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
+                                    style="display: none;">
+                                    <template x-for="y in yearOptions" :key="y">
+                                        <button @click="year = y; updateDate(); open = false" type="button"
+                                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
+                                            :class="year == y ? 'bg-primary/5 text-primary font-semibold' : ''"
+                                            x-text="y">
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
 
-    {{-- Day headers --}}
-    <div class="grid grid-cols-7 text-center text-[10px] font-bold text-slate-400 mb-2">
-        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
-    </div>
+                        {{-- Navigation Arrows --}}
+                        <div class="flex gap-1">
+                            <button @click="prev()" type="button"
+                                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
+                                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                            </button>
+                            <button @click="next()" type="button"
+                                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
+                                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
 
-    {{-- Day cells --}}
-    <div class="grid grid-cols-7 gap-y-1 text-center text-xs font-medium">
-        <template x-for="day in days" :key="day.d.getTime()">
-            <div class="relative flex flex-col items-center justify-center p-1.5 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
-                :class="{
+                    {{-- Day headers --}}
+                    <div class="grid grid-cols-7 text-center text-[10px] font-bold text-slate-400 mb-2">
+                        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                    </div>
+
+                    {{-- Day cells --}}
+                    <div class="grid grid-cols-7 gap-y-1 text-center text-xs font-medium">
+                        <template x-for="day in days" :key="day.d.getTime()">
+                            <div class="relative flex flex-col items-center justify-center p-1.5 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
+                                :class="{
                     'bg-primary text-white font-bold hover:bg-primary/90': isToday(day.d),
                     'bg-primary/10 text-primary font-semibold hover:bg-primary/20': isClass(day.d) && !isToday(day.d) && day.cur,
                     'text-slate-300': !day.cur && !isToday(day.d),
                     'text-slate-700': day.cur && !isToday(day.d) && !isClass(day.d),
                 }">
-                <span x-text="day.d.getDate()"></span>
+                                <span x-text="day.d.getDate()"></span>
 
-                {{-- Dot Indicator --}}
-                <span x-show="isClass(day.d)" class="absolute bottom-0.5 w-1 h-1 rounded-full"
-                    :class="isToday(day.d) ? 'bg-white' : 'bg-primary'">
-                </span>
-            </div>
-        </template>
-    </div>
+                                {{-- Dot Indicator --}}
+                                <span x-show="isClass(day.d)" class="absolute bottom-0.5 w-1 h-1 rounded-full"
+                                    :class="isToday(day.d) ? 'bg-white' : 'bg-primary'">
+                                </span>
+                            </div>
+                        </template>
+                    </div>
 
-    {{-- Legend --}}
-    <div class="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
-        <div class="flex items-center gap-1.5">
-            <div class="w-2.5 h-2.5 rounded bg-primary"></div>
-            <span>Today</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-            <div class="w-2.5 h-2.5 rounded bg-primary/10 border border-primary/20"></div>
-            <span>Class day</span>
-        </div>
-    </div>
-</div>
+                    {{-- Legend --}}
+                    <div
+                        class="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded bg-primary"></div>
+                            <span>Today</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-2.5 h-2.5 rounded bg-primary/10 border border-primary/20"></div>
+                            <span>Class day</span>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </main>
