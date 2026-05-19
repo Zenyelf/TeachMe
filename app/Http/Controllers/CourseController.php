@@ -94,6 +94,10 @@ class CourseController extends Controller
         if (!$mentor) {
             return redirect()->back()->with('error', 'Mentor profile not found.');
         }
+
+        if ($mentor->verify !== '1') {
+            return redirect()->route('mentor.dashboard')->with('error', 'Your mentor account is pending approval. You cannot publish courses yet.');
+        }
         //dd($request->all());    
         // 1. Validate the input
         $request->validate([

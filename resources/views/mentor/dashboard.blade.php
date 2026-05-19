@@ -172,21 +172,40 @@
                             <span class="material-symbols-outlined">monetization_on</span>
                         </div>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">Monthly Earnings</p>
+                    <p class="text-slate-500 text-sm font-medium">Total Earnings</p>
                     <h3 class="text-2xl font-bold">Rp{{ number_format($mentor->revenue, 2) }}</h3>
                 </div>
+                @if(auth()->user()->mentor && auth()->user()->mentor->verify === '1')
+                {{-- VERIFIED STATE --}}
                 <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                        <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
                             <span class="material-symbols-outlined">verified_user</span>
                         </div>
                         <span
-                            class="bg-amber-100 text-amber-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase">Pending
-                            Review</span>
+                            class="bg-emerald-100 text-emerald-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                            Active
+                        </span>
                     </div>
                     <p class="text-slate-500 text-sm font-medium">Verification Status</p>
-                    <h3 class="text-2xl font-bold text-amber-600 italic">Advanced Tier</h3>
+                    <h3 class="text-2xl font-bold text-emerald-600">Verified</h3>
                 </div>
+                @else
+                {{-- PENDING STATE ('0') --}}
+                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                            <span class="material-symbols-outlined">pending_actions</span>
+                        </div>
+                        <span
+                            class="bg-amber-100 text-amber-700 text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                            Pending Review
+                        </span>
+                    </div>
+                    <p class="text-slate-500 text-sm font-medium">Verification Status</p>
+                    <h3 class="text-2xl font-bold text-amber-600 italic">Pending</h3>
+                </div>
+                @endif
             </div>
             <!-- Content Grid -->
             <div class="grid grid-cols-3 gap-8">
