@@ -96,4 +96,6 @@ Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'store'])
     ->name('courses.enroll')
     ->middleware('auth'); // Only logged-in users can hit this
 
-   
+// Review Routes (Make sure these are inside your auth middleware group if you have one!)
+Route::get('/courses/{course}/review', [App\Http\Controllers\ReviewController::class, 'create'])->name('reviews.create')->middleware('auth');
+Route::post('/courses/{course}/review', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');

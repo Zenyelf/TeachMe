@@ -20,7 +20,8 @@ class Course extends Model
         'type',
         'language',
         'slots',
-        'lessons'
+        'lessons',
+        'rating'
     ];
 
     public function sessions() {
@@ -42,5 +43,9 @@ class Course extends Model
 
     public function enrollments(){
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function reviews() {
+        return $this->hasMany(Review::class);
     }
 }

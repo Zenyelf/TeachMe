@@ -25,6 +25,7 @@ class Mentor extends Model
         'linkedin_url',
         'portfolio_url',
         'twitter_handle',
+        'revenue',
     ];
 
     // Konversi otomatis JSON/  

@@ -190,9 +190,9 @@
                                 <span class="text-sm">{{ $course->lessons }} Day </span>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="material-symbols-outlined text-sm text-yellow-400">star</span>
-                                <span class="text-sm font-semibold">4.9 (1.2k Reviews)</span>
-                            </div>
+    <span class="material-symbols-outlined text-sm text-yellow-400" style="font-variation-settings: 'FILL' 1;">star</span>
+    <span class="text-sm font-semibold">{{ number_format($course->rating, 1) }} ({{ $course->reviews()->count() }} Reviews)</span>
+</div>
                         </div>
                     </div>
                 </div>
