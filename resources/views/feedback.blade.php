@@ -45,10 +45,9 @@
 <div class="hidden md:flex items-center gap-9">
 @auth
     @php
-        // Cek apakah user punya mentor_id atau student_id (sesuaikan logic role kamu)
         $isMentor = auth()->user()->mentor !== null; 
     @endphp
-
+    
     @if($isMentor)
         <a class="{{ request()->routeIs('mentor.dashboard') ? 'text-primary font-bold' : 'text-slate-600 dark:text-slate-300' }} text-sm font-medium hover:text-primary transition-colors" 
            href="{{ route('mentor.dashboard') }}">Dashboard</a>

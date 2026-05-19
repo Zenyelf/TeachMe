@@ -58,9 +58,9 @@
         </div>
         <div class="flex items-center gap-6">
             <nav class="hidden lg:flex items-center gap-6">
-                <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+                
                 <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
-                <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Mentors</a>
+                
                 <a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Messages</a>
             </nav>
             <div class="flex items-center gap-3">
@@ -77,29 +77,48 @@
 
     <main class="flex flex-1 overflow-hidden">
         <aside class="w-20 lg:w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col py-6">
+            @php
+                // 1. Tentukan fallback route default jika tidak terdeteksi
+                $dashboardRoute = 'student.dashboard'; 
+                
+                // 2. Cek role user yang sedang login secara realtime
+                if (Auth::check()) {
+                    if (strtolower(Auth::user()->role) === 'mentor') {
+                        $dashboardRoute = 'mentor.dashboard';
+                    } else {
+                        $dashboardRoute = 'student.dashboard';
+                    }
+                }
+            @endphp
+
             <div class="flex flex-col gap-2 px-4">
-                <a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+                <a class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs($dashboardRoute) ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800' }}" 
+                   href="{{ route($dashboardRoute) }}">
                     <span class="material-symbols-outlined">grid_view</span>
-                    <span class="hidden lg:block font-medium">Overview</span>
+                    <span class="hidden lg:block font-medium">Dashboard</span>
                 </a>
-                <a class="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-primary transition-colors" href="#">
+
+                <a class="flex items-center gap-3 px-3 py-3 rounded-xl {{ request()->routeIs('chat') ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800' }} transition-colors" 
+                   href="{{ route('chat') }}">
                     <span class="material-symbols-outlined">chat_bubble</span>
                     <span class="hidden lg:block font-medium">Messages</span>
                 </a>
+
                 <a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
                     <span class="material-symbols-outlined">group</span>
                     <span class="hidden lg:block font-medium">Community</span>
                 </a>
+                
                 <a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
                     <span class="material-symbols-outlined">auto_stories</span>
                     <span class="hidden lg:block font-medium">Resources</span>
                 </a>
+                
                 <a class="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
                     <span class="material-symbols-outlined">calendar_today</span>
                     <span class="hidden lg:block font-medium">Schedule</span>
                 </a>
             </div>
-            
         </aside>
 
         <div class="flex flex-1 overflow-hidden bg-white dark:bg-slate-900">
