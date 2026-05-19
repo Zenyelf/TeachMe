@@ -111,11 +111,10 @@
 <!-- Top Navigation -->
 <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm docked full-width top-0 sticky z-50">
 <div class="flex justify-between items-center h-20 px-8 max-w-[1280px] mx-auto">
-<div class="text-2xl font-black tracking-tighter text-blue-600 dark:text-white font-headline-lg">TeachMe</div>
+<a href="{{ url('/') }}" class="text-2xl font-black tracking-tighter text-blue-600 dark:text-white font-headline-lg hover:opacity-80 transition-opacity">TeachMe</a>
 <div class="hidden md:flex items-center gap-8 font-lexend text-sm font-medium">
 <a class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Courses</a>
 <a class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Mentors</a>
-<a class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Pricing</a>
 <a class="text-blue-600 dark:text-blue-400 font-bold border-b-2 border-blue-600 transition-all duration-200 hover:scale-105" href="#">Blog</a>
 </div>
 <div class="flex items-center gap-4">

@@ -54,10 +54,6 @@
                         href="{{ url('/courses') }}">Courses</a>
                     <a class="text-sm font-medium hover:text-primary transition-colors"
                         href="{{ url('/register') }}">Mentors</a>
-                    <a class="text-sm font-medium hover:text-primary transition-colors"
-                        href="{{ url('/pricing') }}">Pricing</a>
-                    <a class="text-sm font-medium hover:text-primary transition-colors"
-                        href="{{ url('/blog') }}">Blog</a>
                 </nav>
                 <div class="flex flex-1 justify-end items-center gap-4">
                     <form action="{{ route('courses.index') }}" method="GET"

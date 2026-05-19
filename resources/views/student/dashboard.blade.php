@@ -68,7 +68,7 @@
                 <a href="{{ url('/chat') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                     <span class="material-symbols-outlined">chat</span>
-                    Chat
+                    Messages
                 </a>
                 <a href="{{ route('student.profile') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
