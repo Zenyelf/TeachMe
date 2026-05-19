@@ -20,7 +20,7 @@ class GroupController extends Controller
             'course_id' => 'required|exists:courses,id'
         ]);
 
-        // 2. Security Check: Make sure this mentor actually owns this course
+        // 2. Security Check
         $course = \App\Models\Course::where('id', $request->course_id)->where('mentor_id', $mentor->id)->firstOrFail();
 
         // 3. Create the Group
@@ -29,10 +29,13 @@ class GroupController extends Controller
             'mentor_id' => $mentor->id
         ]);
 
-        // 4. ONLY add the Mentor to the group (No auto-invites for students!)
-        $group->users()->attach([$mentor->id]);
+        // 4. AUTO-INVITE: Get all enrolled students + the mentor
+        $enrolledStudentIds = \App\Models\Enrollment::where('course_id', $course->id)->pluck('user_id')->toArray();
+        $allMembers = array_merge([$mentor->id], $enrolledStudentIds);
+        
+        $group->users()->attach($allMembers);
 
-        return redirect()->back()->with('success', 'Group Chat created! You can now manually add members.');
+        return redirect()->back()->with('success', 'Group created and students invited automatically!');
     }
 
     public function addMember(Request $request, $id)

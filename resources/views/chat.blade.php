@@ -166,7 +166,19 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex flex-col justify-center mb-0.5">
                             <h4 class="text-sm font-semibold truncate">{{ $contact->name }}</h4>
-                            <p class="text-xs text-primary truncate mt-0.5">{{ $contact->shared_course ?? 'Connected via Course' }}</p>
+                            @php
+    // Find the overlapping course where one is the mentor and the other is enrolled
+    $sharedCourse = \App\Models\Course::where(function($q) use ($contact) {
+        $q->whereHas('enrollments', function($sq) { $sq->where('user_id', auth()->id()); })
+          ->whereHas('mentor', function($sq) use ($contact) { $sq->where('user_id', $contact->id); });
+    })->orWhere(function($q) use ($contact) {
+        $q->whereHas('enrollments', function($sq) use ($contact) { $sq->where('user_id', $contact->id); })
+          ->whereHas('mentor', function($sq) { $sq->where('user_id', auth()->id()); });
+    })->first();
+    
+    $courseName = $sharedCourse ? $sharedCourse->title : 'Direct Connection';
+@endphp
+<p class="text-xs text-primary truncate mt-0.5">{{ $courseName }}</p>
                                 </div>
                             </div>
                         </a>
@@ -213,9 +225,6 @@
                     
                     <div class="flex items-center gap-4 shrink-0">
                         @if(isset($activeGroup))
-                            <button onclick="document.getElementById('add-member-modal').classList.remove('hidden')" class="p-2 text-slate-400 hover:text-primary transition-colors" title="Add User">
-                                <span class="material-symbols-outlined">person_add</span>
-                            </button>
                             <button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Group Settings">
                                 <span class="material-symbols-outlined">settings</span>
                             </button>
@@ -327,32 +336,6 @@
             <div class="flex gap-3">
                 <button type="button" onclick="document.getElementById('create-group-modal').classList.add('hidden')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold">Cancel</button>
                 <button type="submit" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold">Create Group</button>
-            </div>
-        </form>
-    </div>
-</div>
-@endif
-
-@if(isset($activeGroup))
-<div id="add-member-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 w-full max-w-md border border-slate-200 dark:border-slate-800">
-        <h3 class="text-xl font-bold mb-6">Add Member to {{ $activeGroup->name }}</h3>
-        <form action="{{ route('groups.add', $activeGroup->id) }}" method="POST">
-            @csrf
-            <div class="mb-6">
-                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Select a Contact</label>
-                <select name="user_id" required class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                    <option value="">-- Choose User --</option>
-                    @if(isset($contacts))
-                        @foreach($contacts as $contact)
-                            <option value="{{ $contact->id }}">{{ $contact->name }}</option>
-                        @endforeach
-                    @endif
-                </select>
-            </div>
-            <div class="flex gap-3">
-                <button type="button" onclick="document.getElementById('add-member-modal').classList.add('hidden')" class="flex-1 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-bold">Cancel</button>
-                <button type="submit" class="flex-1 py-3 bg-primary text-white rounded-xl font-bold">Add to Group</button>
             </div>
         </form>
     </div>
