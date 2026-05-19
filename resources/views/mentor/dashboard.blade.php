@@ -256,85 +256,251 @@
                             <h2 class="text-xl font-bold">Upcoming Live Sessions</h2>
                             <span class="material-symbols-outlined text-slate-400">more_horiz</span>
                         </div>
+
                         <div class="space-y-4">
-                            <div
-                                class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer">
+                            @forelse($upcomingSessions as $session)
+                            @php
+                            $isToday = $session->next_class_date->isToday();
+                            $enrollCount = $session->enrollments->count();
+                            $startTime = $session->start_time
+                            ? \Carbon\Carbon::parse($session->start_time)->format('H:i')
+                            : null;
+
+                            // "Starts in X minutes" if today and start_time is set
+                            $startsIn = null;
+                            if ($isToday && $session->start_time) {
+                            $minutesLeft = (int) now()->diffInMinutes(
+                            \Carbon\Carbon::parse($session->start_time), false
+                            );
+                            if ($minutesLeft > 0) {
+                            $startsIn = $minutesLeft < 60 ? "Starts in {$minutesLeft} minutes" : 'Starts at ' .
+                                $startTime; } elseif ($minutesLeft>= -60) {
+                                $startsIn = 'Live now';
+                                }
+                                }
+                                @endphp
+
                                 <div
-                                    class="w-12 h-12 rounded-xl accent-gradient text-white flex flex-col items-center justify-center font-bold">
-                                    <span class="text-xs uppercase">Oct</span>
-                                    <span class="text-lg leading-none">24</span>
+                                    class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors">
+                                    {{-- Date Box --}}
+                                    <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center font-bold shrink-0
+                {{ $isToday ? 'accent-gradient text-white' : 'bg-slate-100 text-slate-500' }}">
+                                        <span
+                                            class="text-[10px] uppercase">{{ $session->next_class_date->format('M') }}</span>
+                                        <span
+                                            class="text-lg leading-none">{{ $session->next_class_date->format('d') }}</span>
+                                    </div>
+
+                                    {{-- Info --}}
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-bold text-slate-900 truncate">{{ $session->course->title }}</p>
+                                        <p class="text-xs text-slate-500">
+                                            @if($startsIn)
+                                            <span
+                                                class="{{ $startsIn === 'Live now' ? 'text-green-500 font-semibold' : '' }}">
+                                                {{ $startsIn }}
+                                            </span>
+                                            •
+                                            @elseif($startTime)
+                                            {{ $startTime }} •
+                                            @endif
+                                            {{ $enrollCount }} enrolled
+                                            • Batch {{ $session->batch_number }}
+                                        </p>
+                                    </div>
+
+                                    {{-- Action Button --}}
+                                    @if($session->meeting_link)
+                                    <a href="{{ $session->meeting_link }}" target="_blank" class="px-4 py-2 text-xs font-bold rounded-lg shrink-0
+                        {{ $isToday
+                            ? 'border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors'
+                            : 'border-2 border-slate-200 text-slate-400 hover:border-slate-300 transition-colors' }}">
+                                        {{ $isToday ? 'Join Class' : 'View Link' }}
+                                    </a>
+                                    @else
+                                    <span
+                                        class="px-4 py-2 border-2 border-slate-200 text-slate-300 text-xs font-bold rounded-lg cursor-not-allowed">
+                                        No Link
+                                    </span>
+                                    @endif
                                 </div>
-                                <div class="flex-1">
-                                    <p class="font-bold text-slate-900">Q&amp;A Session: React Performance</p>
-                                    <p class="text-xs text-slate-500">Starts in 45 minutes • 120 enrolled</p>
+
+                                @empty
+                                <div class="text-center py-8">
+                                    <span class="material-symbols-outlined text-4xl text-slate-300">event_busy</span>
+                                    <p class="text-slate-400 text-sm mt-2">No upcoming sessions</p>
                                 </div>
-                                <a href="{{ route('mentor.live') }}"
-                                    class="px-4 py-2 border-2 border-primary text-primary text-xs font-bold rounded-lg hover:bg-primary hover:text-white transition-colors">Join
-                                    Class</a>
-                            </div>
-                            <div
-                                class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer">
-                                <div
-                                    class="w-12 h-12 rounded-xl bg-slate-100 text-slate-400 flex flex-col items-center justify-center font-bold">
-                                    <span class="text-xs uppercase">Oct</span>
-                                    <span class="text-lg leading-none">26</span>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-bold text-slate-900">Python for Data Scientists Intro</p>
-                                    <p class="text-xs text-slate-500">Scheduled 10:00 AM • 45 enrolled</p>
-                                </div>
-                                <button
-                                    class="px-4 py-2 border-2 border-slate-200 text-slate-400 text-xs font-bold rounded-lg cursor-not-allowed">Waitlist</button>
-                            </div>
+                                @endforelse
                         </div>
                     </div>
                 </div>
                 <!-- Right Sidebar / Calendar Mini -->
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold">October 2023</h3>
-                            <div class="flex gap-2">
-                                <span
-                                    class="material-symbols-outlined text-slate-400 cursor-pointer">chevron_left</span>
-                                <span
-                                    class="material-symbols-outlined text-slate-400 cursor-pointer">chevron_right</span>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-7 gap-2 text-center text-[10px] font-bold text-slate-400 mb-2">
-                            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
-                        </div>
-                        <div class="grid grid-cols-7 gap-2 text-center text-xs font-medium">
-                            <span class="p-2 text-slate-300">25</span><span class="p-2 text-slate-300">26</span><span
-                                class="p-2">1</span><span class="p-2">2</span><span class="p-2">3</span><span
-                                class="p-2">4</span><span class="p-2">5</span>
-                            <span class="p-2">6</span><span class="p-2">7</span><span class="p-2">8</span><span
-                                class="p-2">9</span><span class="p-2">10</span><span class="p-2">11</span><span
-                                class="p-2">12</span>
-                            <span class="p-2">13</span><span class="p-2">14</span><span class="p-2">15</span><span
-                                class="p-2">16</span><span class="p-2">17</span><span class="p-2">18</span><span
-                                class="p-2">19</span>
-                            <span class="p-2">20</span><span class="p-2">21</span><span class="p-2">22</span><span
-                                class="p-2">23</span><span class="p-2 bg-primary text-white rounded-lg">24</span><span
-                                class="p-2">25</span><span class="p-2 border border-primary/20 rounded-lg">26</span>
-                        </div>
-                    </div>
-                    <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="font-bold mb-4">Enrollment Pulse</h3>
-                        <div class="flex items-end gap-2 h-32 mb-4">
-                            <div class="flex-1 bg-primary/10 rounded-t-lg h-2/3"></div>
-                            <div class="flex-1 bg-primary/20 rounded-t-lg h-1/2"></div>
-                            <div class="flex-1 bg-primary/30 rounded-t-lg h-3/4"></div>
-                            <div class="flex-1 bg-primary/40 rounded-t-lg h-2/5"></div>
-                            <div class="flex-1 bg-primary/50 rounded-t-lg h-4/5"></div>
-                            <div class="flex-1 bg-primary rounded-t-lg h-full"></div>
-                        </div>
-                        <div class="flex justify-between text-[10px] text-slate-400 font-bold">
-                            <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-                        </div>
-                    </div>
+                <div class="bg-white px-6 pt-6 pb-5 rounded-2xl border border-slate-100 shadow-sm" x-data='{
+        current: new Date(),
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+        
+        // Ensure your dates come from Laravel in YYYY-MM-DD format
+        classDates: @json($classDates ?? []),
 
+        get yearOptions() {
+            const currentYear = new Date().getFullYear();
+            return Array.from({length: 8}, (_, i) => currentYear - 2 + i); 
+        },
+        updateDate() {
+            this.current = new Date(this.year, parseInt(this.month), 1);
+        },
+        syncSelects() {
+            this.month = this.current.getMonth();
+            this.year = this.current.getFullYear();
+        },
+        prev() {
+            this.current = new Date(this.current.getFullYear(), this.current.getMonth() - 1, 1);
+            this.syncSelects();
+        },
+        next() {
+            this.current = new Date(this.current.getFullYear(), this.current.getMonth() + 1, 1);
+            this.syncSelects();
+        },
+        get days() {
+            const y = this.current.getFullYear(), m = this.current.getMonth();
+            const firstDay = new Date(y, m, 1);
+            const lastDay  = new Date(y, m + 1, 0);
+
+            let startDow = firstDay.getDay();
+            startDow = startDow === 0 ? 6 : startDow - 1; 
+
+            const all = [];
+
+            for (let i = startDow; i > 0; i--) {
+                all.push({ d: new Date(y, m, 1 - i), cur: false });
+            }
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                all.push({ d: new Date(y, m, i), cur: true });
+            }
+            const total = all.length <= 35 ? 35 : 42;
+            let nx = 1;
+            while (all.length < total) {
+                all.push({ d: new Date(y, m + 1, nx++), cur: false });
+            }
+            return all;
+        },
+        isToday(d) {
+            const t = new Date();
+            return d.getDate()   === t.getDate()
+                && d.getMonth()  === t.getMonth()
+                && d.getFullYear() === t.getFullYear();
+        },
+        isClass(d) {
+            const s = d.getFullYear() + "-"
+                + String(d.getMonth() + 1).padStart(2, "0") + "-"
+                + String(d.getDate()).padStart(2, "0");
+            return this.classDates.includes(s);
+        }
+    }'>
+
+    {{-- Header with Custom Dropdowns --}}
+    <div class="flex justify-between items-center mb-5">
+        <div class="flex items-center gap-4">
+            
+            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                <button @click="open = !open" type="button"
+                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
+                    <span x-text="['January','February','March','April','May','June','July','August','September','October','November','December'][month]"></span>
+                    <span class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
+                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
+                </button>
+
+                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="absolute left-0 mt-1 w-40 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
+                    style="display: none;">
+                    <template x-for="(m, idx) in ['January','February','March','April','May','June','July','August','September','October','November','December']" :key="idx">
+                        <button @click="month = idx; updateDate(); open = false" type="button"
+                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
+                            :class="month == idx ? 'bg-primary/5 text-primary font-semibold' : ''"
+                            x-text="m">
+                        </button>
+                    </template>
                 </div>
+            </div>
+
+            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                <button @click="open = !open" type="button"
+                    class="flex items-center gap-1 font-bold text-lg text-slate-950 hover:text-primary transition-colors focus:outline-none group">
+                    <span x-text="year"></span>
+                    <span class="material-symbols-outlined text-slate-400 text-[20px] transition-transform duration-200 group-hover:text-primary"
+                        :class="open ? 'rotate-180 text-primary' : ''">expand_more</span>
+                </button>
+
+                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    class="absolute left-0 mt-1 w-28 bg-white border border-slate-100 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto p-1 text-sm font-medium text-slate-600"
+                    style="display: none;">
+                    <template x-for="y in yearOptions" :key="y">
+                        <button @click="year = y; updateDate(); open = false" type="button"
+                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 hover:text-primary transition-colors"
+                            :class="year == y ? 'bg-primary/5 text-primary font-semibold' : ''"
+                            x-text="y">
+                        </button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        {{-- Navigation Arrows --}}
+        <div class="flex gap-1">
+            <button @click="prev()" type="button"
+                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
+                <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <button @click="next()" type="button"
+                class="p-1 rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-primary">
+                <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+        </div>
+    </div>
+
+    {{-- Day headers --}}
+    <div class="grid grid-cols-7 text-center text-[10px] font-bold text-slate-400 mb-2">
+        <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+    </div>
+
+    {{-- Day cells --}}
+    <div class="grid grid-cols-7 gap-y-1 text-center text-xs font-medium">
+        <template x-for="day in days" :key="day.d.getTime()">
+            <div class="relative flex flex-col items-center justify-center p-1.5 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
+                :class="{
+                    'bg-primary text-white font-bold hover:bg-primary/90': isToday(day.d),
+                    'bg-primary/10 text-primary font-semibold hover:bg-primary/20': isClass(day.d) && !isToday(day.d) && day.cur,
+                    'text-slate-300': !day.cur && !isToday(day.d),
+                    'text-slate-700': day.cur && !isToday(day.d) && !isClass(day.d),
+                }">
+                <span x-text="day.d.getDate()"></span>
+
+                {{-- Dot Indicator --}}
+                <span x-show="isClass(day.d)" class="absolute bottom-0.5 w-1 h-1 rounded-full"
+                    :class="isToday(day.d) ? 'bg-white' : 'bg-primary'">
+                </span>
+            </div>
+        </template>
+    </div>
+
+    {{-- Legend --}}
+    <div class="flex items-center gap-4 mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
+        <div class="flex items-center gap-1.5">
+            <div class="w-2.5 h-2.5 rounded bg-primary"></div>
+            <span>Today</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+            <div class="w-2.5 h-2.5 rounded bg-primary/10 border border-primary/20"></div>
+            <span>Class day</span>
+        </div>
+    </div>
+</div>
+
             </div>
         </main>
     </div>

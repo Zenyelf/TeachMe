@@ -55,4 +55,36 @@ class CourseSession extends Model
 
         return (int) round(($passedDays / $totalDays) * 100);
     }
+
+    public function course()
+    {
+        return $this->belongsTo(\App\Models\Course::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(\App\Models\Enrollment::class, 'session_id');
+    }
+
+    public function getNextClassDate(): ?Carbon
+    {
+        if (!$this->schedule_days) {
+            // No schedule — use start_date if it's upcoming
+            $start = Carbon::parse($this->start_date);
+            return $start->gte(Carbon::today()) ? $start : null;
+        }
+
+        $scheduledDays = array_map('trim', explode(',', $this->schedule_days));
+        $cursor        = Carbon::today();
+        $endDate       = Carbon::parse($this->end_date);
+
+        while ($cursor->lte($endDate)) {
+            if (in_array($cursor->format('D'), $scheduledDays)) {
+                return $cursor;
+            }
+            $cursor->addDay();
+        }
+
+        return null; // batch is over
+    }
 }

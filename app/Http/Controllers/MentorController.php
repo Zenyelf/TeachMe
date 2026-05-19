@@ -29,12 +29,53 @@ class MentorController extends Controller
             ->unique('sender_id')
             ->take(4);
 
+        $upcomingSessions = \App\Models\CourseSession::whereHas('course', function ($q) use ($mentor) {
+            $q->where('mentor_id', $mentor->id);
+            })
+            ->where('end_date', '>=', today())
+            ->with(['course', 'enrollments'])
+            ->get()
+            ->map(function ($session) {
+                $session->next_class_date = $session->getNextClassDate();
+                return $session;
+            })
+            ->filter(fn($s) => $s->next_class_date !== null)
+            ->sortBy(fn($s) => $s->next_class_date)
+            ->take(5)
+            ->values();
+
+        $classDates = \App\Models\CourseSession::whereHas('course', function ($q) use ($mentor) {
+                $q->where('mentor_id', $mentor->id);
+            })
+            ->get()
+            ->flatMap(function ($session) {
+                if (!$session->schedule_days) return [];
+        
+                $days   = array_map('trim', explode(',', $session->schedule_days));
+                $cursor = \Carbon\Carbon::parse($session->start_date);
+                $end    = \Carbon\Carbon::parse($session->end_date);
+                $dates  = [];
+        
+                while ($cursor->lte($end)) {
+                    if (in_array($cursor->format('D'), $days)) {
+                        $dates[] = $cursor->format('Y-m-d');
+                    }
+                    $cursor->addDay();
+                }
+                return $dates;
+            })
+            ->unique()
+            ->values()
+            ->toArray();  
+            
         return view('mentor.dashboard', compact(
             'mentor',
             'recentMessages',
             'totalStudents',
             'activeCoursesCount',
-            'myCourses'
+            'myCourses',
+            'upcomingSessions',
+            'classDates'
         ));
     }
 
