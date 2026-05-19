@@ -263,13 +263,11 @@
                                     style="background-image: url('{{ $thumbUrl }}')">
                                 </div>
 
-                                {{-- Rating (Hardcoded as 5.0 or dynamic if you have a reviews table) --}}
-                                <div
-                                    class="absolute top-2 right-2 px-2 py-1 bg-white/90 dark:bg-slate-900/90 rounded-lg backdrop-blur flex items-center gap-1">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[16px] fill-[1]">star</span>
-                                    <span class="text-xs font-bold">5.0</span>
-                                </div>
+                                {{-- Dynamic Rating --}}
+<div class="absolute top-2 right-2 px-2 py-1 bg-white/90 dark:bg-slate-900/90 rounded-lg backdrop-blur flex items-center gap-1">
+    <span class="material-symbols-outlined text-yellow-500 text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+    <span class="text-xs font-bold">{{ number_format($rec->rating, 1) }}</span>
+</div>
 
                                 {{-- Category Label --}}
                                 <div

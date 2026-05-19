@@ -326,12 +326,12 @@
                             </p>
 
                             <div class="flex items-center gap-2 mb-4 mt-auto">
-                                <div class="flex items-center text-yellow-500">
-                                    <span class="material-symbols-outlined text-sm fill-1">star</span>
-                                    <span class="text-sm font-bold ml-1">0.0</span>
-                                </div>
-                                <span class="text-xs text-slate-400">(0 reviews)</span>
-                            </div>
+    <div class="flex items-center text-yellow-500">
+        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+        <span class="text-sm font-bold ml-1">{{ number_format($course->rating, 1) }}</span>
+    </div>
+    <span class="text-xs text-slate-400">({{ $course->reviews()->count() }} reviews)</span>
+</div>
 
                             <div class="flex items-center justify-between">
                                 <span class="text-xl font-bold text-slate-900 dark:text-white">

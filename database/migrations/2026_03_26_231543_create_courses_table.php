@@ -20,6 +20,10 @@ return new class extends Migration
             $table->integer('slots');      
             $table->integer('lessons');    
             $table->integer('price')->default(0);
+            
+            // The new rating column
+            $table->decimal('rating', 3, 2)->default(0.00); 
+            
             $table->timestamps();
 
             $table->foreign('mentor_id')->references('id')->on('mentors')->onDelete('cascade');

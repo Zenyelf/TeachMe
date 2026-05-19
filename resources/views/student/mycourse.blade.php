@@ -291,11 +291,25 @@
                                     <span class="material-symbols-outlined text-[16px]">workspace_premium</span>
                                     Certificate
                                 </button>
-                                <button
-                                    class="py-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors flex items-center justify-center gap-1">
-                                    <span class="material-symbols-outlined text-[16px]">rate_review</span>
-                                    Review
-                                </button>
+
+                                @php
+    $hasReviewed = \App\Models\Review::where('user_id', Auth::id())
+                                     ->where('course_id', $enrollment->id)
+                                     ->exists();
+@endphp
+
+@if(!$hasReviewed)
+                                <a href="{{ route('reviews.create', $enrollment->id) }}"
+    class="py-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-200 transition-colors flex items-center justify-center gap-1">
+    <span class="material-symbols-outlined text-[16px]">rate_review</span>
+    Review
+</a>
+@else
+<button disabled class="py-2.5 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1 cursor-not-allowed">
+        <span class="material-symbols-outlined text-[16px]">check_circle</span>
+        Reviewed
+    </button>
+@endif
                             </div>
                         </div>
                     </div>
