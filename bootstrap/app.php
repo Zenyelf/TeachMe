@@ -12,8 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
-    })
+    // This allows Laravel to understand that it is behind an HTTPS-terminating proxy (Ngrok)
+    $middleware->trustProxies(at: '*');
+})
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
