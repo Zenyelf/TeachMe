@@ -67,9 +67,9 @@ class AuthController extends Controller
 
         if ($request->role === 'Mentor') {
             return redirect()->route('mentor.dashboard')->with('success', 'Welcome to the Mentor Dashboard!');
+        } else if ($request->role === 'Student'){
+            return redirect()->route('student.dashboard')->with('success', 'Welcome to the Student Dashboard!');
         }
-
-        return redirect()->route('student.dashboard')->with('success', 'Welcome to the Student Dashboard!');
     }
     
 
@@ -118,6 +118,10 @@ class AuthController extends Controller
         if ($user->role === 'Mentor') {
             return redirect()->route('mentor.dashboard'); //harusnya begini, lihat di web.php
             
+        }
+
+        if ($user->role === 'Admin') {
+            return redirect('/courses'); //ADMIN
         }
 
         // fallback if role is unexpected

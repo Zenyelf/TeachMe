@@ -42,6 +42,15 @@ class CategorySeeder extends Seeder
 
         DB::table('users')->insert([
             [
+                'id' => 'ADMIN', 
+                'name' => 'ADMIN', 
+                'email' => 'ADMIN@ADMIN.ADMIN',
+                'password' => '$2y$12$FHz1pO57650lqriwsDk.8ekIv0qGxBopOZON6ia9UxmVyqA4QVBOW',
+                'role' => 'Admin',
+                'created_at' => '2026-05-19 15:33:44',
+                'updated_at' => '2026-05-19 15:33:44'
+            ],
+            [
                 'id' => 'M202601', 
                 'name' => 'Dosen Linear Algebra', 
                 'email' => 'zenyelf@gmail.com',

@@ -55,11 +55,11 @@
                     </div>
                     <nav class="hidden md:flex items-center gap-8">
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
-                            href="#">Dashboard</a>
+                            href="{{ url('/student/dashboard') }}">Dashboard</a>
                         <a class="text-primary border-b-2 border-primary pb-1 text-sm font-semibold" href="#">My
                             Courses</a>
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
-                            href="#">Feedback</a>
+                            href="{{ url('/feedback') }}">Feedback</a>
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
                             href="#">Settings</a>
                     </nav>
