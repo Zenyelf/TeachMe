@@ -97,7 +97,10 @@
                         <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
                         <p class="text-xs text-slate-500 truncate">{{ Auth::user()->role }}</p>
                     </div>
+
                 </a>
+                <a href="{{ url('/logout') }}"
+                        class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary transition-colors">Logout</a>
             </div>
         </aside>
         <!-- Main Content -->

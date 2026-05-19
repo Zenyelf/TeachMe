@@ -109,10 +109,20 @@
                         </div>
                         <div>
                             <p class="text-sm font-bold">{{ Auth::user()->name }}</p>
+                            @if($mentor->verify === '1')
+                            {{-- Display Verified Badge --}}
                             <div class="flex items-center gap-1">
                                 <span class="material-symbols-outlined text-[12px] text-primary fill-1">verified</span>
                                 <span class="text-[10px] uppercase font-bold text-primary">Verified Mentor</span>
                             </div>
+                            @else
+                            {{-- Display Pending Badge --}}
+                            <div class="flex items-center gap-1">
+                                <span
+                                    class="material-symbols-outlined text-[12px] text-amber-600 animate-pulse">pending</span>
+                                <span class="text-[10px] uppercase font-bold text-amber-600">Pending Review</span>
+                            </div>
+                            @endif
                         </div>
                     </div>
                     <a href="{{ url('/logout') }}"
