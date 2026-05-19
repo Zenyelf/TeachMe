@@ -8,9 +8,28 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
+    private function syncProgress($user): void
+    {
+        $allEnrolled = $user->student->enrollments()
+            ->orderByPivot('enrolled_at', 'desc')
+            ->get();
+
+        $allEnrolled->each(function ($course) use ($user) {
+            $session = \App\Models\CourseSession::find($course->pivot->session_id);
+            if ($session) {
+                $progress = $session->calculateProgress();
+                \App\Models\Enrollment::where('id', $course->pivot->id)
+                    ->update([
+                        'progress_percent' => $progress,
+                        'status'           => $progress >= 100 ? 'completed' : 'active',
+                    ]);
+            }
+        });
+    }
+
     public function dashboard(){
         $user = auth()->user();
-
+        $this->syncProgress($user);
         // 1. Get IDs of courses the student is already in
         $enrolledIds = $user->student->enrollments()->pluck('courses.id');
 
@@ -73,21 +92,34 @@ class StudentController extends Controller
 
     public function myCourse(){
         $user = auth()->user();
-    
-        // Fetch all courses the student is enrolled in
-        $enrolledCourses = $user->student->enrollments()
+        $this->syncProgress($user);
+        
+        $allEnrolled = $user->student->enrollments()
             ->with(['mentor.user', 'category'])
-            ->where('progress_percent', '<', 100)
-            ->latest('enrolled_at')
+            ->orderByPivot('enrolled_at', 'desc') 
             ->get();
     
-        $completedCourses = $user->student->enrollments()  
-            ->with(['mentor.user', 'category'])
-            ->where('progress_percent', 100)
-            ->latest('enrolled_at')
-            ->get();
-    
-        return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
+        $allEnrolled->each(function ($course) use ($user) {
+            $session = \App\Models\CourseSession::find($course->pivot->session_id);
+            if ($session) {
+                $progress = $session->calculateProgress();
 
+                // 1. Update in memory → for the view rendered this request
+                $course->pivot->progress_percent = $progress;
+
+                // 2. Persist to DB → so it's saved for next time
+                $affected = \App\Models\Enrollment::where('id', $course->pivot->id)
+                    ->update([
+                        'progress_percent' => $progress,
+                        'status'=> $progress >= 100 ? 'completed' : 'active',
+                        ]);
+            }
+        });
+
+        // Split AFTER calculating, not in the DB query
+        $enrolledCourses  = $allEnrolled->filter(fn($c) => $c->pivot->progress_percent < 100)->values();
+        $completedCourses = $allEnrolled->filter(fn($c) => $c->pivot->progress_percent >= 100)->values();
+
+        return view('student.mycourse', compact('enrolledCourses', 'completedCourses'));
     }
 }

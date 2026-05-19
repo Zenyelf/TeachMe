@@ -21,7 +21,7 @@ class Student extends Model
     }
 
     public function enrollments()
-{
+    {
  
     return $this->belongsToMany(
         Course::class, 
@@ -31,9 +31,9 @@ class Student extends Model
         'id',        // The Student's 'id' (S202602)
         'id'         // The Course's 'id'
     )
-    ->withPivot('status', 'progress_percent', 'enrolled_at', 'session_id')
+    ->withPivot('status', 'progress_percent', 'enrolled_at', 'session_id', 'id')
     ->withTimestamps();
-}
+    }
 
     // --- Method asli kamu tetap di bawah ini --- //
 
