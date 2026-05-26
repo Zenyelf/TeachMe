@@ -55,7 +55,7 @@ class EnrollmentController extends Controller
     }
 
     if (!empty($enrolledBatches)) {
-        $earned = $course->price * count($enrolledBatches);
+        $earned = ($course->price * count($enrolledBatches)) * 0.8;
 
         \App\Models\Mentor::where('user_id', $course->mentor_id)->increment('revenue', $earned);
     }

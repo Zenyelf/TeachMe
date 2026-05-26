@@ -201,7 +201,7 @@
                     <div
                         class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <p class="text-slate-500 dark:text-slate-400 text-xs uppercase font-bold">Students</p>
-                        <p class="text-xl font-bold mt-1">15,400+</p>
+                        <p class="text-xl font-bold mt-1">{{ number_format($totalStudents) }}</p>
                     </div>
                     <div
                         class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -215,8 +215,8 @@
                     </div>
                     <div
                         class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 ring-2 ring-primary/20">
-                        <p class="text-primary text-xs uppercase font-bold"> Slots</p>
-                        <p class="text-xl font-bold mt-1 text-primary">{{ $course->lessons }} Left</p>
+                        <p class="text-primary text-xs uppercase font-bold"> Total Slots</p>
+                        <p class="text-xl font-bold mt-1 text-primary">{{ $course->slots }}</p>
                     </div>
                 </div>
                 <!-- Description -->
@@ -294,19 +294,8 @@
                         </div>
                         <div class="text-center sm:text-left">
                             <h4 class="text-xl font-bold">{{ $course->mentor->user->name }}</h4>
-                            <p class="text-primary font-medium">Senior Product Lead at TechGiant</p>
-                            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Ph.D. in Human-Computer
-                                Interaction, Stanford</p>
-                            <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
-                                <span
-                                    class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium">Product
-                                    Strategy</span>
-                                <span
-                                    class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium">UX
-                                    Research</span>
-                                <span
-                                    class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-xs font-medium">Leadership</span>
-                            </div>
+                            <p class="text-primary font-medium">{{ $course->mentor->title }}</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">{{ $course->mentor->academic_degree }}</p>
                         </div>
                     </div>
                 </section>
@@ -364,7 +353,7 @@
                                 class="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800 flex items-center gap-3">
                                 <span class="material-symbols-outlined text-primary">event_seat</span>
                                 <div class="text-xs text-blue-900 dark:text-blue-200">
-                                    <span class="font-bold">{{ $course->slots }} slots remaining</span> at this
+                                    <span class="font-bold">{{ ($course->slots)-(number_format($totalStudents)) }} slots remaining</span> at this
                                     location. <br />
                                     Capacity is strictly limited for quality.
                                 </div>
@@ -411,7 +400,7 @@
                                                 </div>
                                                 @endif
 
-                                                <p class="text-xs text-primary font-medium mt-0.5">{{ $session->slots }}
+                                                <p class="text-xs text-primary font-medium mt-0.5">{{ ($session->slots)-(number_format($totalStudents)) }}
                                                     slots available</p>
                                             </div>
                                         </label>

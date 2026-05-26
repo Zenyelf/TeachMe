@@ -131,7 +131,7 @@
 </div>
 <div>
 <p class="text-sm font-bold">Alex Rivera</p>
-<p class="text-xs text-white/70">CTO at TechFlow</p>
+<p class="text-xs text-white/70">CTO at TeachMe</p>
 </div>
 </div>
 </div>

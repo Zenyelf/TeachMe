@@ -71,7 +71,7 @@ class StudentController extends Controller
 
     if ($request->hasFile('avatar')) {
         $file = $request->file('avatar');
-        $fileName = 'PP_' . $user->id . '.' . $file->getClientOriginalExtension();
+        $fileName = 'PP_' . $user->id . '.' . jpg;
         $file->move(storage_path('app/public/avatars'), $fileName);
         $user->avatar = $fileName;
     }

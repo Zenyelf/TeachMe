@@ -87,6 +87,7 @@ class CategorySeeder extends Seeder
                 'academic_degree' => 'KOSONG',
                 'bio' => 'KOSONG',
                 'preferred_learning' => 'Offline Classroom',
+                'verify' => '1',
                 'created_at' => '2026-05-01 21:10:58',
                 'updated_at' => '2026-05-01 21:10:58',
             ],

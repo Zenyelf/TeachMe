@@ -53,7 +53,8 @@ class CourseController extends Controller
     public function show(\App\Models\Course $course){
         // Load relationships to avoid "N+1" issues in the view
         $course->load(['mentor.user', 'category', 'sessions']);
-        return view('courses.detail', compact('course'));
+        $totalStudents = $course->enrollments()->distinct('user_id')->count('user_id');
+        return view('courses.detail', compact('course', 'totalStudents'));
     }
 
     public function create(){

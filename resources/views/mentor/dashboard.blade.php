@@ -264,7 +264,7 @@
                                         {{ number_format($course->enrollments_count ?? 0) }} Students
                                     </span>
                                     <span class="bg-blue-50 text-primary px-2 py-0.5 rounded font-bold">
-                                        ${{ number_format($course->price, 2) }}
+                                        Rp{{ number_format($course->price, 2) }}
                                     </span>
                                 </div>
                             </div>

@@ -290,7 +290,7 @@
 
                             <div class="flex items-center justify-between mt-3">
                                 <span class="font-bold text-primary">
-                                    {{ $rec->price == 0 ? 'Free' : '$' . number_format($rec->price, 2) }}
+                                    {{ $rec->price == 0 ? 'Free' : 'Rp' . number_format($rec->price, 2) }}
                                 </span>
                                 <span class="text-[10px] text-slate-400">
                                     {{ $rec->lessons }} Lessons

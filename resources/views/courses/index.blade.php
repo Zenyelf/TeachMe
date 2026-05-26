@@ -335,7 +335,7 @@
 
                             <div class="flex items-center justify-between">
                                 <span class="text-xl font-bold text-slate-900 dark:text-white">
-                                    Rp {{ number_format($course->price, 0, ',', '.') }}
+                                    Rp{{ number_format($course->price, 0, ',', '.') }}
                                 </span>
 
                                 <!-- Keep this button separate for "Add to Cart" logic -->
