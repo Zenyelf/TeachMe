@@ -135,12 +135,7 @@
         <!-- Top Navigation -->
         <header
             class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-4 sticky top-0 z-50">
-            <div class="flex items-center gap-4 text-primary">
-                <div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary">auto_stories</span>
-                </div>
-                <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">TeachMe</h2>
-            </div>
+            <x-teachme-logo size="sm" />
             <div class="flex gap-3">
                 <button
                     class="flex items-center justify-center rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 w-10">
@@ -427,15 +422,12 @@
         <!-- Footer -->
         <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8">
             <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">auto_stories</span>
-                    <span class="font-bold">TeachMe</span>
-                </div>
+                <x-teachme-logo size="sm" />
                 <p class="text-slate-500 text-sm">©2026 TeachMe Learning Platform. All rights reserved.</p>
                 <div class="flex gap-6">
-                    <a class="text-sm text-slate-500 hover:text-primary" href="#">Support</a>
-                    <a class="text-sm text-slate-500 hover:text-primary" href="#">Privacy</a>
-                    <a class="text-sm text-slate-500 hover:text-primary" href="#">Terms</a>
+                    <a class="text-sm text-slate-500 hover:text-primary" href="{{ route('feedback.index') }}">Support</a>
+                    <a class="text-sm text-slate-500 hover:text-primary" href="{{ url('/') }}">Privacy</a>
+                    <a class="text-sm text-slate-500 hover:text-primary" href="{{ url('/') }}">Terms</a>
                 </div>
             </div>
         </footer>

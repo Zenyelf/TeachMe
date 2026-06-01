@@ -57,7 +57,7 @@
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <div class="h-6 w-px bg-outline-variant hidden md:block"></div>
-            <div class="text-xl font-bold text-primary tracking-tighter hidden md:block">TeachMe</div>
+            <x-teachme-logo size="sm" class="hidden md:inline-flex" />
         </div>
         <div class="flex items-center gap-3">
             <!-- Submit button linked to form ID -->

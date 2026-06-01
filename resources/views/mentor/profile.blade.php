@@ -54,21 +54,13 @@
         <!-- Top Navigation Bar -->
         <header
             class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
-            <div class="flex items-center gap-4 text-primary">
-                <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
-                    <a href="{{ route('mentor.dashboard') }}">
-                        <span class="material-symbols-outlined text-primary">school</span>
-                    </a>
-                </div>
-                <h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">TeachMe
-                </h2>
-            </div>
+            <x-teachme-logo size="sm" />
             <div class="flex flex-1 justify-end gap-6 items-center">
                 <nav class="hidden md:flex items-center gap-8">
                     <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
                         href="{{ route('mentor.dashboard') }}">Dashboard</a>
                     <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors"
-                        href="#">Mentors</a>
+                        href="{{ route('courses.index') }}">Courses</a>
                     <a class="text-primary text-sm font-semibold border-b-2 border-primary py-1" href="#">Settings</a>
                 </nav>
                 <div class="flex items-center gap-4">
@@ -374,14 +366,11 @@
     <!-- Footer for quick access -->
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-6 mt-12">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2 opacity-60">
-                <span class="material-symbols-outlined text-primary">school</span>
-                <span class="font-bold">TeachMe Mentor Network</span>
-            </div>
+            <x-teachme-logo size="sm" subtitle="Mentor Network" class="opacity-70" />
             <p class="text-sm text-slate-500">©2026 TeachMe Technologies Inc. All rights reserved.</p>
             <div class="flex gap-6">
-                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="#">Privacy Policy</a>
-                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="#">Help Center</a>
+                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="{{ url('/') }}">Privacy Policy</a>
+                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="{{ route('feedback.index') }}">Help Center</a>
             </div>
         </div>
     </footer>

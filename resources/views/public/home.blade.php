@@ -45,10 +45,7 @@
         class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between gap-8">
-                <div class="flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-3xl font-bold">school</span>
-                    <h2 class="text-xl font-extrabold tracking-tight">TeachMe</h2>
-                </div>
+                <x-teachme-logo />
                 <nav class="hidden md:flex items-center gap-8">
                     <a class="text-sm font-medium hover:text-primary transition-colors"
                         href="{{ url('/courses') }}">Courses</a>
@@ -67,11 +64,11 @@
                     </form>
 
                     <div class="flex items-center gap-3">
-                        <button onclick="window.location.href='/login'"
-                            class="hidden sm:block text-sm font-bold px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Login</button>
-                        <button onclick="window.location.href='/register'"
-                            class="bg-primary text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all shadow-md shadow-primary/20">Sign
-                            Up</button>
+                        <a href="{{ url('/login') }}"
+                            class="hidden sm:block text-sm font-bold px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all">Login</a>
+                        <a href="{{ url('/register') }}"
+                            class="bg-primary text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-blue-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all shadow-md shadow-primary/20">Sign
+                            Up</a>
                     </div>
 
                 </div>
@@ -99,12 +96,12 @@
                             dual-sided marketplace for knowledge exchange.
                         </p>
                         <div class="flex flex-wrap gap-4">
-                            <button onclick="window.location.href='/register'"
-                                class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-xl shadow-primary/25">Get
-                                Started</button>
-                            <button onclick="window.location.href='/register?role=Mentor'"
-                                class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition-colors shadow-sm">Become
-                                a Mentor</button>
+                            <a href="{{ url('/register') }}"
+                                class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all shadow-xl shadow-primary/25">Get
+                                Started</a>
+                            <a href="{{ url('/register?role=Mentor') }}"
+                                class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all shadow-sm">Become
+                                a Mentor</a>
                         </div>
                         <div class="flex items-center gap-4 pt-4">
                             <div class="flex -space-x-2">
@@ -254,11 +251,11 @@
                                 </div>
                             </div>
                         </div>
-                        <button onclick="window.location.href='/register?role=Mentor'"
-                            class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all flex items-center gap-2">
+                        <a href="{{ url('/register?role=Mentor') }}"
+                            class="mt-10 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all inline-flex items-center gap-2">
                             Apply to Mentor
                             <span class="material-symbols-outlined">arrow_forward</span>
-                        </button>
+                        </a>
 
                     </div>
                 </div>
@@ -278,13 +275,13 @@
                             most versatile learning platform. Whether you want to teach or learn, your journey starts
                             here.</p>
                         <div class="flex flex-col sm:flex-row justify-center gap-4">
-                            <button onclick="window.location.href='/register'"
-                                class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 transition-colors">
+                            <a href="{{ url('/register') }}"
+                                class="bg-white text-primary px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-50 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white transition-all">
                                 Join as Student
-                            </button>
-                            <button onclick="window.location.href='/register?role=Mentor'"
-                                class="bg-blue-600 text-white border border-blue-400/50 px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-700 transition-colors">Join
-                                as Mentor</button>
+                            </a>
+                            <a href="{{ url('/register?role=Mentor') }}"
+                                class="bg-blue-600 text-white border border-blue-400/50 px-8 py-4 rounded-xl font-extrabold text-lg hover:bg-blue-700 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white transition-all">Join
+                                as Mentor</a>
                         </div>
                     </div>
                 </div>
@@ -296,10 +293,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
                 <div class="col-span-2">
-                    <div class="flex items-center gap-2 text-primary mb-6">
-                        <span class="material-symbols-outlined text-3xl font-bold">school</span>
-                        <h2 class="text-xl font-extrabold tracking-tight">TeachMe</h2>
-                    </div>
+                    <x-teachme-logo class="mb-6" />
                     <p class="text-slate-500 max-w-xs mb-6">The world's leading marketplace for skills and knowledge.
                         Empowering learners and mentors since2026.</p>
                     <div class="flex gap-4">
@@ -320,28 +314,28 @@
                 <div>
                     <h5 class="font-bold mb-4">Platform</h5>
                     <ul class="space-y-3 text-sm text-slate-500">
-                        <li><a class="hover:text-primary transition-colors" href="#">Courses</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Mentors</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">How it works</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Enterprise</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ route('courses.index') }}">Courses</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/register?role=Mentor') }}">Mentors</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">How it works</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/pricing') }}">Enterprise</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5 class="font-bold mb-4">Company</h5>
                     <ul class="space-y-3 text-sm text-slate-500">
-                        <li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Press</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">About Us</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">Careers</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">Press</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/blog') }}">Blog</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5 class="font-bold mb-4">Support</h5>
                     <ul class="space-y-3 text-sm text-slate-500">
-                        <li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Privacy</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Terms</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ route('feedback.index') }}">Help Center</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ route('feedback.index') }}">Contact</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">Privacy</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="{{ url('/') }}">Terms</a></li>
                     </ul>
                 </div>
             </div>

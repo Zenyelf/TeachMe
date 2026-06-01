@@ -109,10 +109,10 @@
 <!-- TopAppBar -->
 <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm docked full-width top-0 sticky z-50">
 <div class="flex justify-between items-center h-20 px-8 max-w-[1280px] mx-auto">
-<div class="text-2xl font-black tracking-tighter text-blue-600 dark:text-white">TeachMe</div>
+<x-teachme-logo />
 <nav class="hidden md:flex items-center gap-8">
-<a class="font-lexend text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Courses</a>
-<a class="font-lexend text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Mentors</a>
+<a class="font-lexend text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="{{ route('courses.index') }}">Courses</a>
+<a class="font-lexend text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="{{ url('/register?role=Mentor') }}">Mentors</a>
 <a class="font-lexend text-sm font-medium text-blue-600 dark:text-blue-400 font-bold border-b-2 border-blue-600 transition-all duration-200 hover:scale-105" href="#">Pricing</a>
 <a class="font-lexend text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Blog</a>
 </nav>
@@ -289,7 +289,7 @@
 <footer class="bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 py-24">
 <div class="max-w-[1280px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
 <div>
-<div class="text-xl font-black text-blue-600 dark:text-white mb-6">TeachMe</div>
+<x-teachme-logo size="sm" class="mb-6" />
 <p class="font-lexend text-sm text-gray-500 dark:text-gray-400">Empowering the next generation of digital masters through high-impact education.</p>
 </div>
 <div>

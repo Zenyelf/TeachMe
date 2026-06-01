@@ -143,14 +143,12 @@
     <header
         class="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-surface-variant px-6 h-16 flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <button onclick="window.location.href='/mentor/dashboard'" aria-label="Close and return to dashboard"
+            <a href="{{ route('mentor.dashboard') }}" aria-label="Close and return to dashboard"
                 class="w-10 h-10 rounded-full hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant transition-colors">
                 <span class="material-symbols-outlined">close</span>
-            </button>
+            </a>
             <div class="h-6 w-px bg-outline-variant hidden md:block"></div>
-            <div class="text-headline-lg font-headline-lg text-primary tracking-tighter hidden md:block">
-                TeachMe
-            </div>
+            <x-teachme-logo size="sm" class="hidden md:inline-flex" />
         </div>
 
         <div class="flex items-center gap-3">
@@ -171,7 +169,7 @@
                     <!-- Step 1 (Active) -->
                     <li class="relative min-w-max">
                         <a class="flex items-center gap-3 p-3 rounded-xl bg-primary-fixed text-on-primary-fixed"
-                            href="#">
+                            href="{{ route('mentor.newcourse') }}">
                             <div
                                 class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-bold font-label-bold shadow-sm">
                                 1
@@ -182,7 +180,7 @@
                     <!-- Step 2 -->
                     <li class="relative min-w-max">
                         <a class="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors group"
-                            href="#">
+                            href="{{ route('courses.step2.get') }}">
                             <div
                                 class="w-8 h-8 rounded-full border-2 border-outline-variant flex items-center justify-center text-label-bold font-label-bold group-hover:border-on-surface-variant transition-colors">
                                 2

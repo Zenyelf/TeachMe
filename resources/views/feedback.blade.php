@@ -35,12 +35,7 @@
 <div class="layout-container flex h-full grow flex-col">
 <!-- Header -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 lg:px-40">
-<div class="flex items-center gap-4 text-primary">
-<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
-<span class="material-symbols-outlined text-primary">school</span>
-</div>
-<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">TeachMe</h2>
-</div>
+<x-teachme-logo size="sm" />
 <div class="flex flex-1 justify-end gap-8">
 <div class="hidden md:flex items-center gap-9">
 @auth

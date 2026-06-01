@@ -35,15 +35,7 @@
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
 <!-- Top Navigation Bar -->
 <header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shrink-0">
-<div class="flex items-center gap-3">
-<div class="bg-primary p-1.5 rounded-lg text-white">
-<span class="material-symbols-outlined text-2xl">school</span>
-</div>
-<div class="flex flex-col">
-<h2 class="text-primary text-xl font-bold leading-none tracking-tight">TeachMe</h2>
-<span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Classroom</span>
-</div>
-</div>
+<x-teachme-logo size="sm" subtitle="Live Classroom" />
 <div class="hidden md:flex items-center gap-6">
 <div class="flex items-center gap-2 px-3 py-1 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-full border border-red-100 dark:border-red-800/30">
 <span class="relative flex h-2 w-2">

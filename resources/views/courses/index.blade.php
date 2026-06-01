@@ -46,15 +46,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 gap-8">
                 <!-- Logo -->
-                <div class="flex items-center gap-2 shrink-0">
-                    <div
-                        class="size-8 bg-gradient-to-br from-primary to-blue-400 rounded-lg flex items-center justify-center text-white">
-                        <span class="material-symbols-outlined text-xl">school</span>
-                    </div>
-                    <h1
-                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-                        TeachMe</h1>
-                </div>
+                <x-teachme-logo size="sm" class="shrink-0" />
                 <!-- Search Bar -->
 
                 <div class="flex-1 max-w-2xl">
@@ -361,12 +353,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
                 <div class="col-span-2">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="size-6 bg-primary rounded flex items-center justify-center text-white">
-                            <span class="material-symbols-outlined text-xs">school</span>
-                        </div>
-                        <h2 class="font-bold text-slate-900 dark:text-white">TeachMe</h2>
-                    </div>
+                    <x-teachme-logo size="sm" class="mb-4" />
                     <p class="text-sm text-slate-500 max-w-xs mb-6">Empowering learners worldwide with the best online
                         courses from top mentors. Start your journey today.</p>
                     <div class="flex gap-4">
@@ -381,19 +368,19 @@
                 <div>
                     <h5 class="font-bold text-slate-900 dark:text-white mb-4">Explore</h5>
                     <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a class="hover:text-primary" href="#">Courses</a></li>
-                        <li><a class="hover:text-primary" href="#">Mentors</a></li>
-                        <li><a class="hover:text-primary" href="#">Blog</a></li>
-                        <li><a class="hover:text-primary" href="#">Webinars</a></li>
+                        <li><a class="hover:text-primary" href="{{ route('courses.index') }}">Courses</a></li>
+                        <li><a class="hover:text-primary" href="{{ url('/register?role=Mentor') }}">Mentors</a></li>
+                        <li><a class="hover:text-primary" href="{{ url('/blog') }}">Blog</a></li>
+                        <li><a class="hover:text-primary" href="{{ route('courses.index') }}">Webinars</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5 class="font-bold text-slate-900 dark:text-white mb-4">Support</h5>
                     <ul class="space-y-2 text-sm text-slate-500">
-                        <li><a class="hover:text-primary" href="#">Help Center</a></li>
-                        <li><a class="hover:text-primary" href="#">Contact Us</a></li>
-                        <li><a class="hover:text-primary" href="#">Terms of Service</a></li>
-                        <li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+                        <li><a class="hover:text-primary" href="{{ route('feedback.index') }}">Help Center</a></li>
+                        <li><a class="hover:text-primary" href="{{ route('feedback.index') }}">Contact Us</a></li>
+                        <li><a class="hover:text-primary" href="{{ url('/') }}">Terms of Service</a></li>
+                        <li><a class="hover:text-primary" href="{{ url('/') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>

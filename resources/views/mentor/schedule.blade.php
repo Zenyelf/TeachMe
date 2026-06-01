@@ -124,9 +124,7 @@
 <body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen">
 <!-- TopAppBar -->
 <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 z-50">
-<div class="flex items-center gap-stack-gap-md">
-<span class="text-xl font-black text-blue-600 dark:text-blue-500 tracking-tighter">TeachMe Mastery</span>
-</div>
+<x-teachme-logo size="sm" subtitle="Mastery" />
 <div class="flex items-center gap-stack-gap-md">
 <!-- Search Bar on_right logic (placeholder for spacing) -->
 <div class="hidden md:flex items-center bg-surface-variant rounded-full px-4 py-2">
@@ -155,12 +153,12 @@
 <!-- Header Subtext -->
 <div class="mb-8 px-4">
 <h2 class="font-label-bold text-label-bold text-on-surface">Instructor Portal</h2>
-<p class="font-caption-xs text-caption-xs text-on-surface-variant mt-1">TeachMe Mastery</p>
+<p class="font-caption-xs text-caption-xs text-on-surface-variant mt-1">TeachMe</p>
 </div>
 <!-- Main Navigation -->
 <ul class="flex flex-col gap-2 flex-grow font-['Lexend']">
 <li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all" href="#">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all" href="{{ route('mentor.dashboard') }}">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>

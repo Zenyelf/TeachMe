@@ -116,9 +116,7 @@
 <body class="bg-background text-on-background font-body-md antialiased">
 <!-- TopAppBar -->
 <header class="fixed top-0 left-0 w-full flex justify-between items-center px-6 h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md font-['Lexend'] font-medium docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 shadow-sm">
-<div class="flex items-center gap-4">
-<span class="text-xl font-black text-blue-600 dark:text-blue-500 tracking-tighter">TeachMe Mastery</span>
-</div>
+<x-teachme-logo size="sm" subtitle="Mastery" />
 <!-- Right Actions -->
 <div class="flex items-center gap-4">
 <!-- Search Bar placeholder (on_right) -->
@@ -149,7 +147,7 @@
 </div>
 <div class="flex flex-col">
 <span class="font-bold text-slate-900 text-sm">Instructor Portal</span>
-<span class="text-xs text-slate-500">TeachMe Mastery</span>
+<span class="text-xs text-slate-500">TeachMe</span>
 </div>
 </div>
 <!-- Main Tabs -->
