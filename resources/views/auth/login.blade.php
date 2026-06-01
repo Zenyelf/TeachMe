@@ -30,15 +30,10 @@
 <div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-gradient-to-br from-white via-primary/5 to-primary/10 dark:from-background-dark dark:via-background-dark dark:to-primary/20">
 <!-- Navigation Header -->
 <header class="absolute top-0 flex w-full items-center justify-between px-6 py-5 md:px-10">
-<div class="flex items-center gap-2 text-primary">
-<div class="size-8 bg-primary text-white rounded-lg flex items-center justify-center">
-<span class="material-symbols-outlined !text-xl">school</span>
-</div>
-<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em]">TeachMe</h2>
-</div>
+<x-teachme-logo size="sm" />
 <div class="hidden md:flex gap-4">
-<button class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors">Help Center</button>
-<button class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors">Contact</button>
+<a href="{{ route('feedback.index') }}" class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors">Help Center</a>
+<a href="{{ route('feedback.index') }}" class="text-slate-600 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors">Contact</a>
 </div>
 </header>
 <!-- Main Login Card Container -->

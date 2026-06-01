@@ -37,63 +37,43 @@
         },
     }
     </script>
-    <style>
-    body {
-        font-family: 'Lexend', sans-serif;
-    }
-
-    .sidebar-gradient {
-        background: linear-gradient(180deg, #ffffff 0%, #f0f4ff 100%);
-    }
-
-    .card-gradient {
-        background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-    }
-
-    .accent-gradient {
-        background: linear-gradient(135deg, #135bec 0%, #4785ff 100%);
-    }
-    </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
     <div class="flex min-h-screen">
         <!-- Side Navigation -->
-        <aside class="w-64 sidebar-gradient border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full">
-            <div class="p-6 flex items-center gap-3">
-                <div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white">
-                    <span class="material-symbols-outlined">auto_stories</span>
-                </div>
-                <h2 class="text-xl font-bold tracking-tight text-primary">TeachMe</h2>
+        <aside class="hidden lg:flex w-64 bg-gradient-to-b from-white to-blue-50 dark:from-slate-950 dark:to-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col fixed h-full">
+            <div class="p-6">
+                <x-teachme-logo />
             </div>
             <nav class="flex-1 px-4 space-y-2 mt-4">
                 <a href="{{ route('mentor.dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-medium">
+                    class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl font-semibold shadow-sm shadow-primary/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span>Dashboard</span>
                 </a>
                 <a href="{{ url('/chat') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white rounded-xl font-medium active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">chat_bubble</span>
                     <span>Chat</span>
                 </a>
                 <a href="{{ route('mentor.profile') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white rounded-xl font-medium active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">person</span>
                     <span>Profile</span>
                 </a>
                 <a href="{{ route('mentor.earnings') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white rounded-xl font-medium active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">payments</span>
                     <span>Earnings</span>
                 </a>
                 <a href="{{ route('mentor.schedule') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white rounded-xl font-medium active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">calendar_month</span>
                     <span>Schedule</span>
                 </a>
                 <a href="{{ route('feedback.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl font-medium transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white rounded-xl font-medium active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">rate_review</span>
                     <span>Feedback</span>
                 </a>
@@ -126,39 +106,42 @@
                         </div>
                     </div>
                     <a href="{{ url('/logout') }}"
-                        class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary transition-colors">Logout</a>
+                        class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-colors">Logout</a>
                 </div>
             </div>
         </aside>
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8">
+        <main class="flex-1 min-w-0 lg:ml-64 p-4 sm:p-6 lg:p-8">
             <!-- Header -->
-            <header class="flex justify-between items-center mb-8">
+            <header class="flex flex-col gap-5 lg:flex-row lg:justify-between lg:items-center mb-8">
                 <div>
+                    <div class="mb-5 lg:hidden">
+                        <x-teachme-logo size="sm" />
+                    </div>
                     <h1 class="text-3xl font-extrabold tracking-tight">Mentor Dashboard</h1>
                     <p class="text-slate-500">Welcome back, {{ Str::before(Auth::user()->name, ' ') }}!</p>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <div class="relative">
                         <form action="{{ route('courses.index') }}" method="GET"
-                            class="hidden lg:flex relative max-w-xs w-full">
+                            class="relative max-w-xs w-full">
                             <span
                                 class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                             <input name="search" value="{{ request('search') }}"
-                                class="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none w-64"
+                                class="pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none w-full sm:w-64 transition-all"
                                 placeholder="Search courses" type="text" />
                         </form>
                     </div>
                     <a href="{{ route('mentor.newcourse') }}"
-                        class="accent-gradient text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+                        class="bg-gradient-to-br from-primary to-blue-500 text-white px-5 sm:px-6 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950">
                         <span class="material-symbols-outlined">add</span>
                         Create New Course
                     </a>
                 </div>
             </header>
             <!-- Stats Grid -->
-            <div class="grid grid-cols-4 gap-6 mb-8">
-                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-8">
+                <div class="bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-blue-50 text-primary rounded-lg">
                             <span class="material-symbols-outlined">group</span>
@@ -167,7 +150,7 @@
                     <p class="text-slate-500 text-sm font-medium">Total Students</p>
                     <h3 class="text-2xl font-bold">{{ number_format($totalStudents) }}</h3>
                 </div>
-                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
                             <span class="material-symbols-outlined">menu_book</span>
@@ -176,7 +159,7 @@
                     <p class="text-slate-500 text-sm font-medium">Active Courses</p>
                     <h3 class="text-2xl font-bold">{{ number_format($activeCoursesCount) }}</h3>
                 </div>
-                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
                             <span class="material-symbols-outlined">monetization_on</span>
@@ -187,7 +170,7 @@
                 </div>
                 @if(auth()->user()->mentor && auth()->user()->mentor->verify === '1')
                 {{-- VERIFIED STATE --}}
-                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
                             <span class="material-symbols-outlined">verified_user</span>
@@ -202,7 +185,7 @@
                 </div>
                 @else
                 {{-- PENDING STATE ('0') --}}
-                <div class="card-gradient p-6 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="bg-gradient-to-br from-white to-blue-50/60 dark:from-slate-900 dark:to-slate-800 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                     <div class="flex justify-between items-start mb-4">
                         <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
                             <span class="material-symbols-outlined">pending_actions</span>
@@ -218,14 +201,14 @@
                 @endif
             </div>
             <!-- Content Grid -->
-            <div class="grid grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
                 <!-- My Courses List -->
                 <!-- Left Column: Courses & Schedule -->
-                <div class="col-span-2 space-y-6">
+                <div class="xl:col-span-2 space-y-6">
 
                     <!-- My Courses Header -->
                     <!-- Wrap the section in an Alpine component -->
-                    <div class="col-span-2 space-y-6" x-data="{ expanded: false }">
+                    <div class="space-y-6" x-data="{ expanded: false }">
                         <div class="flex justify-between items-center">
                             <h2 class="text-xl font-bold">My Courses</h2>
                             <!-- The Toggle Button -->
@@ -236,9 +219,9 @@
                             </button>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             @forelse($myCourses as $index => $course)
-                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-primary/30 transition-all group"
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:border-primary/30 hover:-translate-y-0.5 transition-all group"
                                 {{-- Hide items after index 1 (the first 2) if not expanded --}}
                                 x-show="expanded || {{ $index }} < 2"
                                 x-transition:enter="transition ease-out duration-300"
@@ -270,7 +253,7 @@
                             </div>
                             @empty
                             <div
-                                class="col-span-2 bg-slate-50 p-6 rounded-2xl text-center border border-dashed border-slate-200">
+                                class="sm:col-span-2 bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl text-center border border-dashed border-slate-200 dark:border-slate-700">
                                 <p class="text-slate-500 mb-2">You haven't created any courses yet.</p>
                                 <a href="{{ route('mentor.newcourse') }}"
                                     class="text-primary font-bold hover:underline">Create your first course</a>
@@ -280,7 +263,7 @@
                     </div>
 
                     <!-- Upcoming Schedule (Restored & Untouched) -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-bold">Upcoming Live Sessions</h2>
                             <span class="material-symbols-outlined text-slate-400">more_horiz</span>
@@ -310,10 +293,10 @@
                                 @endphp
 
                                 <div
-                                    class="flex items-center gap-4 p-4 rounded-xl border border-slate-50 hover:bg-slate-50 transition-colors">
+                                    class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
                                     {{-- Date Box --}}
                                     <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center font-bold shrink-0
-                {{ $isToday ? 'accent-gradient text-white' : 'bg-slate-100 text-slate-500' }}">
+                {{ $isToday ? 'bg-gradient-to-br from-primary to-blue-500 text-white' : 'bg-slate-100 text-slate-500' }}">
                                         <span
                                             class="text-[10px] uppercase">{{ $session->next_class_date->format('M') }}</span>
                                         <span
@@ -364,7 +347,7 @@
                     </div>
                 </div>
                 <!-- Right Sidebar / Calendar Mini -->
-                <div class="bg-white px-6 pt-6 pb-5 rounded-2xl border border-slate-100 shadow-sm" x-data='{
+                <div class="bg-white dark:bg-slate-900 px-6 pt-6 pb-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm" x-data='{
         current: new Date(),
         month: new Date().getMonth(),
         year: new Date().getFullYear(),

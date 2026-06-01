@@ -68,12 +68,7 @@
         {{-- Sidebar Panel Layout --}}
         <aside class="w-64 sidebar-gradient border-r border-slate-200/60 hidden md:flex flex-col justify-between p-6">
             <div class="flex flex-col gap-8">
-                <div class="flex items-center gap-2.5 px-2">
-                    <div class="w-9 h-9 rounded-xl accent-gradient flex items-center justify-center text-white shadow-md shadow-primary/20">
-                        <span class="material-symbols-outlined text-[20px] font-bold">school</span>
-                    </div>
-                    <span class="text-xl font-extrabold text-slate-900 tracking-tight">Teach<span class="text-primary">Me</span></span>
-                </div>
+                <x-teachme-logo size="sm" />
 
                 <nav class="flex flex-col gap-1">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Management</span>

@@ -111,7 +111,7 @@
 <!-- Top Navigation -->
 <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm docked full-width top-0 sticky z-50">
 <div class="flex justify-between items-center h-20 px-8 max-w-[1280px] mx-auto">
-<a href="{{ url('/') }}" class="text-2xl font-black tracking-tighter text-blue-600 dark:text-white font-headline-lg hover:opacity-80 transition-opacity">TeachMe</a>
+<x-teachme-logo />
 <div class="hidden md:flex items-center gap-8 font-lexend text-sm font-medium">
 <a class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Courses</a>
 <a class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-all duration-200 hover:scale-105" href="#">Mentors</a>
@@ -308,7 +308,7 @@
 <footer class="bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 full-width py-24 mt-24">
 <div class="max-w-[1280px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 font-lexend text-sm">
 <div class="flex flex-col gap-6">
-<div class="text-xl font-black text-blue-600 dark:text-white">TeachMe</div>
+<x-teachme-logo size="sm" />
 <p class="text-gray-500 dark:text-gray-400">Revolutionizing education through expert-led mentorship and adaptive learning technology.</p>
 <div class="flex gap-4">
 <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors" href="#">

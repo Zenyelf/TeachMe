@@ -150,7 +150,7 @@
     <nav
         class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md docked full-width top-0 sticky z-50 border-b border-gray-100 dark:border-gray-800 shadow-sm">
         <div class="flex justify-between items-center h-20 px-8 max-w-[1280px] mx-auto">
-            <div class="text-2xl font-black tracking-tighter text-blue-600 dark:text-white">TeachMe</div>
+            <x-teachme-logo />
             <div class="hidden md:flex items-center gap-8">
                 <a class="font-lexend text-sm font-bold border-b-2 border-blue-600 text-blue-600 dark:text-blue-400 transition-all duration-200 hover:scale-105"
                     href="#">Courses</a>
@@ -491,7 +491,7 @@
     <footer class="bg-gray-50 dark:bg-gray-950 full-width py-24 border-t border-gray-200 dark:border-gray-800">
         <div class="max-w-[1280px] mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div class="col-span-1 md:col-span-1">
-                <div class="text-xl font-black text-blue-600 dark:text-white mb-6">TeachMe</div>
+                <x-teachme-logo size="sm" class="mb-6" />
                 <p class="font-lexend text-sm text-gray-500 dark:text-gray-400 mb-6">Empowering minds through elite
                     mentorship and results-oriented education across sports and academics.</p>
                 <div class="flex gap-4">

@@ -47,12 +47,7 @@
             <header
                 class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-20 py-3">
                 <div class="max-w-[1200px] mx-auto flex items-center justify-between">
-                    <div class="flex items-center gap-3 text-primary">
-                        <div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
-                            <span class="material-symbols-outlined">school</span>
-                        </div>
-                        <h2 class="text-xl font-bold leading-tight tracking-tight">TeachMe</h2>
-                    </div>
+                    <x-teachme-logo size="sm" />
                     <nav class="hidden md:flex items-center gap-8">
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
                             href="{{ url('/student/dashboard') }}">Dashboard</a>
@@ -61,7 +56,7 @@
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
                             href="{{ url('/feedback') }}">Feedback</a>
                         <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium"
-                            href="#">Settings</a>
+                            href="{{ url('/settings') }}">Settings</a>
                     </nav>
                     <div class="flex items-center gap-4">
                         <button

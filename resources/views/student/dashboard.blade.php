@@ -37,58 +37,46 @@
         },
     }
     </script>
-    <style>
-    body {
-        font-family: 'Lexend', sans-serif;
-    }
-
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL'0, 'wght'400, 'GRAD'0, 'opsz'24;
-    }
-    </style>
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <aside
-            class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shrink-0">
-            <div class="p-6 flex items-center gap-3">
-                <div class="bg-primary p-2 rounded-lg text-white">
-                    <span class="material-symbols-outlined block">school</span>
-                </div>
-                <h1 class="text-xl font-bold tracking-tight text-primary">TeachMe</h1>
+            class="hidden lg:flex w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex-col shrink-0">
+            <div class="p-6">
+                <x-teachme-logo />
             </div>
             <nav class="flex-1 px-4 space-y-2 py-4">
                 <a href="{{ route('student.dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-medium">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-semibold shadow-sm shadow-primary/5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">dashboard</span>
                     Dashboard
                 </a>
                 <a href="{{ url('/chat') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">chat</span>
                     Messages
                 </a>
                 <a href="{{ route('student.profile') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">person</span>
                     Profile
                 </a>
                 <a href="{{ url('/feedback') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">feedback</span>
                     Feedbacks
                 </a>
                 <a href="{{ url('/settings') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-950 dark:hover:bg-slate-800 dark:hover:text-white active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <span class="material-symbols-outlined">settings</span>
                     Settings
                 </a>
             </nav>
             <div class="p-4 border-t border-slate-200 dark:border-slate-800">
                 <a href="{{ route('student.profile') }}"
-                    class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
+                    class="flex items-center gap-3 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                     <div class="size-10 rounded-full bg-primary/20 bg-center bg-cover flex-shrink-0"
                         data-alt="User avatar"
                         style="background-image: url('{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}')">
@@ -100,15 +88,19 @@
 
                 </a>
                 <a href="{{ url('/logout') }}"
-                        class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary transition-colors">Logout</a>
+                        class="block w-full py-2 text-center text-xs font-bold text-slate-500 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-colors">Logout</a>
             </div>
         </aside>
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto bg-slate-50/50 dark:bg-background-dark/50">
+        <main class="flex-1 min-w-0 overflow-y-auto bg-slate-50/50 dark:bg-background-dark/50">
             <!-- Header/Top Nav -->
             <header
-                class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-8 py-4">
-                <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+                class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 lg:px-8 py-4">
+                <div class="max-w-6xl mx-auto flex flex-col gap-4">
+                    <div class="lg:hidden">
+                        <x-teachme-logo size="sm" />
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <form action="{{ route('courses.index') }}" method="GET" class="relative flex-1 max-w-xl">
                         <span
                             class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
@@ -116,41 +108,42 @@
                             class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                             placeholder="Search courses, instructors, skills..." type="text" />
                     </form>
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 sm:gap-4">
                         <button
-                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 relative">
+                            class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                             <span class="material-symbols-outlined">notifications</span>
                             <span
                                 class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></span>
                         </button>
-                        <button onclick="window.location.href='/courses'"
-                            class="bg-primary text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+                        <a href="{{ route('courses.index') }}"
+                            class="bg-primary text-white px-4 sm:px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900">
                             <span class="material-symbols-outlined text-[20px]">add</span>
                             Explore More
-                        </button>
+                        </a>
+                    </div>
                     </div>
                 </div>
                 <!-- Filters -->
                 <div class="max-w-6xl mx-auto flex flex-wrap gap-3 mt-4">
                     <button
-                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary transition-colors">
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all">
                         Ratings <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                     </button>
                     <button
-                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary transition-colors">
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all">
                         Specialty <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                     </button>
                     <button
-                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary transition-colors">
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-medium hover:border-primary hover:text-primary active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all">
                         Interest <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
                     </button>
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-2 hidden md:block"></div>
-                    <button class="text-sm text-primary font-semibold flex items-center gap-1">
+                    <a href="{{ route('student.dashboard') }}" class="text-sm text-primary font-semibold flex items-center gap-1 rounded-full px-3 py-1.5 hover:bg-primary/10 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-all">
                         Clear all filters
-                    </button>
+                    </a>
                 </div>
             </header>
-            <div class="max-w-6xl mx-auto p-8">
+            <div class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
                 <!-- Welcome Banner -->
                 <section
                     class="mb-10 rounded-2xl bg-gradient-to-r from-primary to-blue-400 p-8 text-white relative overflow-hidden">

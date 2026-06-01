@@ -44,24 +44,14 @@
         <div class="layout-container flex h-full grow flex-col">
             <header
                 class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
-                <div class="flex items-center gap-3 text-primary">
-                    <div class="size-8">
-                        <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path clip-rule="evenodd"
-                                d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
-                                fill-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">TeachMe
-                    </h2>
-                </div>
+                <x-teachme-logo size="sm" />
                 <div class="flex flex-1 justify-end gap-6 items-center">
                     <nav class="hidden md:flex items-center gap-8">
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
                             href="{{ route('student.dashboard') }}">Dashboard</a>
                         <a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors"
                             href="{{ route('courses.index') }}">Courses</a>
-                        <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Settings</a>
+                        <a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="{{ route('student.profile') }}">Settings</a>
                     </nav>
                     <div class="flex items-center gap-4">
                         <button
@@ -249,20 +239,11 @@
             </form>
             <footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-6 px-10">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-4 max-w-[1000px] mx-auto">
-                    <div class="flex items-center gap-2 text-primary opacity-60">
-                        <div class="size-6">
-                            <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                <path clip-rule="evenodd"
-                                    d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
-                                    fill-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                        <span class="text-sm font-bold">TeachMe ©2026</span>
-                    </div>
+                    <x-teachme-logo size="sm" class="opacity-70" />
                     <div class="flex gap-6">
-                        <a class="text-xs text-slate-500 hover:text-primary" href="#">Help Center</a>
-                        <a class="text-xs text-slate-500 hover:text-primary" href="#">Privacy Policy</a>
-                        <a class="text-xs text-slate-500 hover:text-primary" href="#">Terms of Service</a>
+                        <a class="text-xs text-slate-500 hover:text-primary" href="{{ route('feedback.index') }}">Help Center</a>
+                        <a class="text-xs text-slate-500 hover:text-primary" href="{{ url('/') }}">Privacy Policy</a>
+                        <a class="text-xs text-slate-500 hover:text-primary" href="{{ url('/') }}">Terms of Service</a>
                     </div>
                 </div>
             </footer>

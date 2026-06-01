@@ -38,11 +38,8 @@
 <div class="absolute inset-0 z-0 bg-gradient-to-br from-primary/10 via-white to-primary/5 dark:from-primary/20 dark:via-background-dark dark:to-background-dark pointer-events-none"></div>
 <!-- Top Navigation -->
 <header class="relative z-10 flex items-center justify-between px-6 lg:px-20 py-4 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-<div class="flex items-center gap-2 text-primary">
-<span class="material-symbols-outlined text-3xl font-bold">school</span>
-<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">TeachMe</h2>
-</div>
-<a class="text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="#">
+<x-teachme-logo size="sm" />
+<a class="text-sm font-semibold text-primary hover:text-primary/80 transition-colors" href="{{ route('feedback.index') }}">
                 Support
             </a>
 </header>
