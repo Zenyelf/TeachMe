@@ -1,3 +1,4 @@
+{{-- resources/views/components/teachme-logo.blade.php --}}
 @props([
     'subtitle' => null,
     'size' => 'md',
@@ -7,9 +8,10 @@
 
 @php
     $user = auth()->user();
-    $href = url('/');
+    $href = url('/'); // Default route for guests or users without a role
 
-    if ($user) {
+    // Only check roles if the user exists AND actually has a role assigned
+    if ($user && !empty($user->role)) {
         $role = strtolower($user->role);
 
         if ($role === 'mentor') {
@@ -23,20 +25,23 @@
 
     $sizes = [
         'sm' => [
-            'mark' => 'size-8 rounded-lg text-[11px]',
-            'text' => 'text-lg',
+            'icon_wrapper' => 'size-8 rounded-lg',
+            'icon' => '!text-xl',
+            'text' => 'text-xl',
             'subtitle' => 'text-[10px]',
             'gap' => 'gap-2',
         ],
         'md' => [
-            'mark' => 'size-9 rounded-xl text-xs',
-            'text' => 'text-xl',
+            'icon_wrapper' => 'size-9 rounded-xl',
+            'icon' => '!text-2xl',
+            'text' => 'text-2xl',
             'subtitle' => 'text-[10px]',
             'gap' => 'gap-2.5',
         ],
         'lg' => [
-            'mark' => 'size-10 rounded-xl text-sm',
-            'text' => 'text-2xl',
+            'icon_wrapper' => 'size-10 rounded-xl',
+            'icon' => '!text-3xl',
+            'text' => 'text-3xl',
             'subtitle' => 'text-xs',
             'gap' => 'gap-3',
         ],
@@ -54,9 +59,11 @@
 <a href="{{ $href }}"
     aria-label="Go to TeachMe dashboard"
     {{ $attributes->merge(['class' => 'group inline-flex items-center ' . $activeSize['gap'] . ' rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ' . $class]) }}>
-    <span class="{{ $activeSize['mark'] }} inline-flex shrink-0 items-center justify-center bg-primary text-white font-black tracking-tight shadow-sm shadow-primary/20 transition-transform duration-200 group-hover:-translate-y-0.5 group-active:translate-y-0">
-        TM
+    
+    <span class="{{ $activeSize['icon_wrapper'] }} inline-flex shrink-0 items-center justify-center bg-primary text-white shadow-sm shadow-primary/20 transition-transform duration-200 group-hover:-translate-y-0.5 group-active:translate-y-0">
+        <span class="material-symbols-outlined {{ $activeSize['icon'] }}">school</span>
     </span>
+    
     <span class="flex min-w-0 flex-col leading-none">
         <span class="{{ $activeSize['text'] }} font-extrabold tracking-tight {{ $textClass }}">
             Teach<span class="text-primary">Me</span>
