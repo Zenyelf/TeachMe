@@ -23,6 +23,9 @@ return new class extends Migration
             
             // The new rating column
             $table->decimal('rating', 3, 2)->default(0.00); 
+            $table->enum('status', ['pending', 'approved', 'rejected'])
+                  ->default('pending')
+                  ->after('thumbnail');
             
             $table->timestamps();
 

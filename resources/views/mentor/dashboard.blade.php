@@ -240,6 +240,18 @@
                                 </div>
 
                                 <h4 class="font-bold text-lg mb-1 truncate">{{ $course->title }}</h4>
+                                
+                                @if($course->status === 'pending')
+                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-lg w-max mb-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                        Pending Review
+                                    </span>
+                                @elseif($course->status === 'rejected')
+                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200/60 px-2 py-0.5 rounded-lg w-max mb-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                        Rejected
+                                    </span>
+                                @endif
 
                                 <div class="flex justify-between items-center text-sm text-slate-500">
                                     <span class="flex items-center gap-1">

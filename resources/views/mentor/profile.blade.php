@@ -129,25 +129,34 @@
                     <div
                         class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-center gap-8">
                         <div class="relative">
-    <div class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
-        <img id="image-preview-mentor" 
-             class="w-32 h-32 rounded-full object-cover"
-             src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
-             alt="Profile picture">
-    </div> 
-    <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
-        class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
-        <span class="material-symbols-outlined text-sm">photo_camera</span>
-    </button>
-</div>
+                            <div
+                                class="size-32 rounded-full overflow-hidden border-4 border-slate-50 dark:border-slate-800 shadow-md">
+                                <img id="image-preview-mentor" class="w-32 h-32 rounded-full object-cover"
+                                    src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
+                                    alt="Profile picture">
+                            </div>
+                            <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
+                                class="absolute bottom-0 right-0 size-10 bg-primary text-white rounded-full flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-lg">
+                                <span class="material-symbols-outlined text-sm">photo_camera</span>
+                            </button>
+                        </div>
                         <div class="flex-1 text-center md:text-left">
                             <div class="flex items-center justify-center md:justify-start gap-2 mb-1">
                                 <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">
                                     {{ auth()->user()->name }}</h2>
+                                @if(auth()->user()->mentor && auth()->user()->mentor->verify === '1')
+                                {{-- VERIFIED STATE --}}
                                 <span
-                                    class="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-primary text-[10px] font-bold uppercase tracking-wider border border-primary/20">
+                                    class="flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider border border-emerald-500/20">
                                     <span class="material-symbols-outlined text-sm">verified</span> Verified
                                 </span>
+                                @else
+                                {{-- PENDING STATE --}}
+                                <span
+                                    class="flex items-center gap-1 px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-[10px] font-bold uppercase tracking-wider border border-amber-500/20">
+                                    <span class="material-symbols-outlined text-sm">pending_actions</span> Pending
+                                </span>
+                                @endif
                             </div>
                             <p class="text-slate-500 font-medium mb-4">
                                 {{ auth()->user()->mentor->title ?? 'Professional Mentor' }}</p>
@@ -166,12 +175,13 @@
                         </div>
 
                         <div class="mt-4 md:mt-0">
-    <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
-            class="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
-        Upload New Photo
-    </button>
-    <input type="file" name="avatar" id="avatar-input-mentor" class="hidden" accept="image/*" onchange="previewMentorAvatar(event)">
-</div>
+                            <button type="button" onclick="document.getElementById('avatar-input-mentor').click()"
+                                class="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-lg font-bold text-sm hover:bg-primary/20 transition-all">
+                                Upload New Photo
+                            </button>
+                            <input type="file" name="avatar" id="avatar-input-mentor" class="hidden" accept="image/*"
+                                onchange="previewMentorAvatar(event)">
+                        </div>
                     </div>
                     <!-- Profile Details Form -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -369,8 +379,10 @@
             <x-teachme-logo size="sm" subtitle="Mentor Network" class="opacity-70" />
             <p class="text-sm text-slate-500">©2026 TeachMe Technologies Inc. All rights reserved.</p>
             <div class="flex gap-6">
-                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="{{ url('/') }}">Privacy Policy</a>
-                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="{{ route('feedback.index') }}">Help Center</a>
+                <a class="text-sm text-slate-500 hover:text-primary transition-colors" href="{{ url('/') }}">Privacy
+                    Policy</a>
+                <a class="text-sm text-slate-500 hover:text-primary transition-colors"
+                    href="{{ route('feedback.index') }}">Help Center</a>
             </div>
         </div>
     </footer>
@@ -391,7 +403,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-</script>
+    </script>
 </body>
 
 </html>

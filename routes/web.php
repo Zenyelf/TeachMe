@@ -105,7 +105,11 @@ Route::post('/courses/{course}/review', [App\Http\Controllers\ReviewController::
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     // This maps the URL '/admin' to the name 'admin.index'
     Route::get('/', [AdminController::class, 'index'])->name('index');
-    
-    // This maps the URL '/admin/mentors/{id}/toggle-verify' to the name 'admin.toggle-verify'
     Route::post('/mentors/{id}/toggle-verify', [AdminController::class, 'toggleVerify'])->name('toggle-verify');
+
+    Route::get('/courses', [AdminController::class, 'courses'])->name('courses');
+    Route::post('/courses/{id}/status', [AdminController::class, 'updateCourseStatus'])->name('courses.update-status');
+
+    Route::get('/feedbacks', [AdminController::class, 'feedbacks'])->name('feedbacks');
 });
+
