@@ -270,22 +270,21 @@
                     @endif
                 </section>
                 <!-- Mentor Profile -->
-                <section
-                    class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800">
+                <section class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800">
                     <h3 class="text-xl font-bold mb-6">Your Mentor</h3>
                     <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                         <div class="relative">
-                            @if($course->mentor->profile_photo)
-                            <img class="size-24 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-lg"
-                                src="{{ asset('storage/' . $course->mentor->profile_photo) }}"
-                                alt="{{ $course->mentor->user->name }}" />
+                            
+                            @if($course->mentor->user->avatar)
+                                <img class="size-24 rounded-full object-cover border-4 border-white dark:border-slate-800 shadow-lg"
+                                    src="{{ asset('storage/avatars/' . $course->mentor->user->avatar) }}"
+                                    alt="{{ $course->mentor->user->name }}" />
                             @else
-                            <!-- Fallback Initials Avatar -->
-                            <div
-                                class="size-24 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
-                                {{ strtoupper(substr($course->mentor->user->name, 0, 1)) }}
-                            </div>
+                                <div class="size-24 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-bold border-4 border-white dark:border-slate-800 shadow-lg">
+                                    {{ strtoupper(substr($course->mentor->user->name, 0, 1)) }}
+                                </div>
                             @endif
+                
                         </div>
                         <div class="text-center sm:text-left">
                             <h4 class="text-xl font-bold">{{ $course->mentor->user->name }}</h4>

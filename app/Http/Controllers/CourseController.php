@@ -9,7 +9,7 @@ class CourseController extends Controller
     public function index(Request $request){
         # show all courses
         // Start the query
-        $query = \App\Models\Course::query();
+        $query = \App\Models\Course::where('status', 'approved');
 
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;

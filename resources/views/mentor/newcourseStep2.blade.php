@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="bg-surface-container-lowest p-5 rounded-xl border border-surface-variant shadow-sm">
-                        <label class="font-bold text-sm block mb-2">Price ($)</label>
+                        <label class="font-bold text-sm block mb-2">Price (Rp)</label>
                         <div class="flex items-center gap-3">
                             <span class="material-symbols-outlined text-primary">payments</span>
                             <input type="number" name="price" step="0.01" placeholder="99.00"

@@ -48,4 +48,13 @@ class Course extends Model
     public function reviews() {
         return $this->hasMany(Review::class);
     }
+
+    public function scopeApproved($query) {
+        return $query->where('status', 'approved');
+    }
+ 
+    /** Courses awaiting admin review */
+    public function scopePending($query) {
+        return $query->where('status', 'pending');
+    }
 }
