@@ -47,6 +47,21 @@ services:
     networks:
       - teachme-network
 
+  # 4. Ngrok Tunnel (Aligned perfectly as a separate service)
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: teachme-ngrok
+    restart: unless-stopped
+    ports:
+      - "4040:4040"
+    environment:
+      NGROK_AUTHTOKEN: "391tRDVjU0YAGWlDFfyNrT7b5b3_Cch5NucSHBfbwXGYsHCU"
+    command: "http web:80"
+    networks:
+      - teachme-network
+    depends_on:
+      - web
+
 networks:
   teachme-network:
     driver: bridge
