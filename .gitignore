@@ -19,7 +19,7 @@
 # (In case you ever export your DB to a file, don't upload the data)
 *.sql
 
-# Vite / Frontend Build
+# Vite / Frontend Build | DON'T IGNORE ME!!!!
 /public/build
 /public/hot
 /public/storage
